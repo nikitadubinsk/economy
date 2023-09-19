@@ -1,0 +1,88 @@
+@import '../styles/tables/_colors.less';
+
+* {
+    box-sizing: border-box;
+    outline: none;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    min-height: 100%;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+html,
+body {
+    -webkit-overflow-scrolling: touch;
+}
+
+ul,
+ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    border: 1px solid #dddfe0;
+}
+
+thead,
+th {
+    background-color: @gray-light;
+}
+
+input,
+button,
+select,
+textarea {
+    font-family: inherit;
+    color: inherit;
+}
+
+::-ms-clear {
+    display: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+input,
+textarea {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    font-size: 16px; // Disable page zoom mobile safari and chrome
+}
+
+pre {
+    white-space: normal;
+    font-family: inherit;
+    font-size: inherit;
+    margin: 0;
+}
+
+.max-width {
+    width: 100%;
+}
+
+.width {
+    &_50 {
+        width: 50%;
+    }
+}

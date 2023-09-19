@@ -1,0 +1,27 @@
+<div class="account_section">
+    <h4 class="tui-text_h3">Авторизоваться в системе</h4>
+    <form [formGroup]="authForm" class="tui-space_top-12">
+        <div class="tui-form__row">
+            <tui-input formControlName="login" tuiTextfieldCleaner="true">
+                Логин<span class="tui-required"></span>
+            </tui-input>
+            <tui-error formControlName="login"></tui-error>
+        </div>
+        <div class="tui-form__row">
+            <tui-input-password formControlName="password" tuiTextfieldCleaner="true">
+                Пароль<span class="tui-required"></span>
+            </tui-input-password>
+            <tui-error formControlName="password"></tui-error>
+        </div>
+        <div class="tui-form__row">
+            <button class="max-width" type="submit" tuiButton [disabled]="authForm.invalid" 
+             automation-id="save-button" (click)="onSubmit()">
+                Авторизоваться
+            </button>
+        </div>
+        <br>
+        <a tuiLink routerLink="/registration" class="tui-space_top-4">Еще не зарегистрированы? Пора это исправить! →</a>
+        <br>
+        <a tuiLink routerLink="/reset" class="tui-space_top-2">Забыли пароль? Его можно восставновить</a>
+    </form>
+</div>

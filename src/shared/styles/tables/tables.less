@@ -1,0 +1,54 @@
+@import '~@taiga-ui/core/styles/taiga-ui-local';
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    border-bottom: none;
+
+    &__td,
+    &__th {
+        border-color: transparent;
+        border-bottom-color: var(--tui-base-04);
+    }
+
+    &__tr {
+        &:first-child th {
+            background: var(--tui-base-02);
+        }
+
+        &:hover {
+            cursor: pointer;
+
+            & td {
+                background: var(--tui-base-02);
+                .transition('background');
+            }
+        }
+
+        &.active-row td {
+            background-color: var(--tui-base-03);
+        }
+    }
+
+    &__td {
+        padding-top: 12px;
+        padding-bottom: 12px;
+
+        &_text-m-bold {
+            font: var(--tui-font-text-m);
+            font-weight: bold;
+        }
+    }
+}
+
+td {
+    position: relative;
+        height: var(--tui-height-m);
+        font: var(--tui-font-text-s);
+        text-align: left;
+        padding: 0 0.75rem;
+        background: var(--tui-base-01);
+        border: 1px solid var(--tui-base-04);
+        border-top: none;
+}
