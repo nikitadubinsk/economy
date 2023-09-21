@@ -1,0 +1,9 @@
+{
+  "development": {
+    "username": "nikitadub5",
+    "password": "Onboarding2022",
+    "database": "nikitadub5",
+    "host": "pg2.sweb.ru",
+    "dialect": "postgres"
+  }
+}

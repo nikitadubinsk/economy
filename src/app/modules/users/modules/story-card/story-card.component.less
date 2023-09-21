@@ -1,0 +1,63 @@
+@import "@taiga-ui/core/styles/taiga-ui-local.less";
+@import "@taiga-ui/styles/taiga-ui-global";
+
+:host {
+  display: block;
+  min-height: 80vh;
+  margin: -2rem;
+  overflow: hidden;
+  border-radius: var(--tui-radius-xl);
+  position: relative;
+  background: var(--tui-base-01);
+}
+
+.story {
+  &_progress {
+    position: absolute;
+    left: 1rem;
+    top: 0.5rem;
+    width: calc(100% - 2rem);
+    height: 100%;
+  }
+
+  &_chapter {
+    min-height: 80vh;
+    overflow: hidden;
+
+    &_text {
+      padding: 2rem;
+      display: flex;
+      align-items: flex-end;
+      min-height: calc(80vh - 4rem);
+
+      &_body {
+        max-height: calc(40vh - 4rem);
+        overflow: scroll;
+        color: black;
+      }
+    }
+  }
+}
+
+.loader {
+    margin-top: 40vh;
+    transform: translate(0, -50%);
+}
+
+.manage_chapter {
+  position: relative;
+  &-left {
+    height: 80vh;
+    width: 25%;
+    position: absolute;
+    left: 0;
+    z-index: 100;
+  }
+  &-right {
+    height: 80vh;
+    width: 25%;
+    position: absolute;
+    right: 0;
+    z-index: 100;
+  }
+}

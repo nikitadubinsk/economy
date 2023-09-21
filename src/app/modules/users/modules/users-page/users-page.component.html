@@ -1,0 +1,150 @@
+<div class="page-content tui-container_adaptive">
+  <div
+    class="selections__content"
+    *tuiLet="storiesLoader$ | async as storiesLoader"
+  >
+    <div class="stories tui-space_bottom-5" *ngIf="storiesLoader; else stories">
+      <div class="story-skeleton story" *tuiRepeatTimes="let index of 10"></div>
+    </div>
+    <ng-template #stories>
+      <div class="stories tui-space_bottom-5">
+        <div
+          class="story"
+          (click)="showStory(story.id)"
+          *ngFor="let story of stories$ | async"
+          [ngStyle]="{ background: convertImg(story?.img || '') }"
+        >
+          <p class="story-title tui-text_body-s-2">{{ story.title }}</p>
+        </div>
+      </div>
+    </ng-template>
+
+    <div
+      class="users_page"
+      *tuiLet="userStatisticLoader$ | async as userStatisticLoader"
+    >
+      <div *tuiLet="userStatistic$ | async as userStatistic">
+        <tui-loader
+          [showLoader]="userStatisticLoader || false"
+          size="xxl"
+          [overlay]="true"
+          [inheritColor]="true"
+        ></tui-loader>
+        <div *ngIf="!userStatisticLoader">
+          <tui-island [hoverable]="true" class="tui-space_bottom-5">
+            <h3 class="tui-space_bottom-3">Использование бюджета</h3>
+            <progress
+              tuiProgressBar
+              [value]="userStatistic?.budget?.fact"
+              [max]="userStatistic?.budget?.plan"
+            ></progress>
+            <p>
+              Уже использовано {{ userStatistic?.budget?.fact }} из
+              {{ userStatistic?.budget?.plan }}
+            </p>
+          </tui-island>
+          <tui-island [hoverable]="true" class="tui-space_bottom-5">
+            <div class="ring_chart-wrapper">
+              <tui-ring-chart
+                size="l"
+                class="chart tui-space_right-5"
+                [value]="getCategories(userStatistic?.categories || [])"
+              >
+                <tui-money
+                  [singleColor]="true"
+                  [value]="getSum(userStatistic?.categories || [])"
+                ></tui-money>
+                <div>Всего</div></tui-ring-chart
+              >
+              <div class="legend">
+                <tui-legend-item
+                  *ngFor="
+                    let label of userCategories(
+                      userStatistic?.categories || []
+                    );
+                    let index = index
+                  "
+                  #item
+                  class="item tui-space_right-5"
+                  [color]="getColor(index)"
+                  [disabled]="!isEnabled(index)"
+                  [text]="label"
+                  (click)="onClick(index)"
+                  (keydown.delete)="toggle(index)"
+                >
+                  <tui-primitive-checkbox
+                    [value]="!item.disabled"
+                  ></tui-primitive-checkbox>
+                  <tui-money
+                    [singleColor]="true"
+                    [value]="categories(userStatistic?.categories || [])[index]"
+                  ></tui-money>
+                </tui-legend-item>
+              </div>
+            </div>
+          </tui-island>
+          <tui-island class="tui-space_bottom-5" [hoverable]="true">
+            <form [formGroup]="rangeForm" class="tui-space_top-2">
+              <p class="tui-space_bottom-5">
+                <tui-input-date-range
+                  [maxLength]="maxLength"
+                  formControlName="range"
+                >
+                  Диапазон
+                </tui-input-date-range>
+              </p>
+            </form>
+            <tui-axes
+              *ngIf="computeLabels$(range) | async as labels"
+              class="axes"
+              [axisXLabels]="labels"
+              [horizontalLines]="6"
+              [verticalLines]="labels.length"
+            >
+              <tui-line-days-chart
+                class="chart fullsize"
+                [height]="getMax(userStatistic?.days || [])"
+                [value]="convertValueLineDaysChart(userStatistic?.days || [])"
+                [xStringify]="xStringify$ | async"
+                [yStringify]="yStringify"
+              ></tui-line-days-chart>
+            </tui-axes>
+          </tui-island>
+        </div>
+      </div>
+      <div>
+        <tui-island [hoverable]="true" class="tui-space_bottom-5">
+          <h3 class="tui-island__title">Фамилия Имя Отчество</h3>
+          <form [formGroup]="themeForm" class="tui-space_top-2">
+            <tui-toggle formControlName="theme" size="l"> </tui-toggle>
+          </form>
+        </tui-island>
+        <button
+          appearance="secondary"
+          tuiButton
+          type="button"
+          class="max-width tui-space_bottom-5"
+          (click)="createNewTransaction()"
+        >
+          Добавить новую трату
+        </button>
+        <tui-island [hoverable]="true" class="tui-space_bottom-5">
+          <h3>Последние траты</h3>
+          <!-- <ng-container
+                        *ngTemplateOutlet="rowTransaction; context: {name: 'Название слота', value: slot.name.trim()}"
+                    ></ng-container> -->
+        </tui-island>
+        <tui-island [hoverable]="true" class="tui-space_bottom-5">
+          <h3>Добавленные дети</h3>
+        </tui-island>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #rowTransaction let-name="name" let-value="value">
+  <div class="transaction">
+      <div class="transaction__name tui-space_right-3">{{ name }}</div>
+      <div class="transaction__value" #copy>{{ value }}</div>
+  </div>
+</ng-template>

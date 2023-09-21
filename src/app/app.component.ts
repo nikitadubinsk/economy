@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Store, select } from '@ngrx/store';
+import { isDarkMode } from './store';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.less']
 })
 export class AppComponent {
-  title = 'economy';
+  isDarkMode$ = this.store$.pipe(select(isDarkMode));
+
+  constructor(private readonly store$: Store) {}
 }

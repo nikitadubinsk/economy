@@ -18,6 +18,14 @@ import {AppComponent} from './app.component';
                         path: 'auth',
                         loadChildren: () => import('./modules/auth-page/auth-page.module').then(m => m.AuthPageModule),
                     },
+                    {
+                        path: 'reset',
+                        loadChildren: () => import('./modules/reset-password/reset-password.module').then(m => m.ResetPasswordModule),
+                    },
+                    {
+                        path: 'users',
+                        loadChildren: () => import('./modules/users/users.module').then(m => m.UsersModule),
+                    },
                 ],
             },
         ]),

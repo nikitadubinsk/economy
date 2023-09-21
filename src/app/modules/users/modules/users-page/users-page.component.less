@@ -1,0 +1,97 @@
+@import "@taiga-ui/core/styles/taiga-ui-local.less";
+@import "@taiga-ui/styles/taiga-ui-global";
+
+:host {
+  display: block;
+  background: var(--tui-primary);
+  min-height: 100vh;
+  padding: 2rem 0;
+}
+
+.axes {
+  height: 12.5rem;
+  color: var(--tui-primary);
+}
+
+.stories {
+  overflow: scroll;
+  display: grid;
+  grid-template-columns: repeat(100, 1fr);
+  grid-column-gap: 1rem;
+
+  .story {
+    width: 8vw;
+    height: 8vw;
+    background: var(--tui-base-01);
+    box-shadow: 0 0.25rem 1.5rem rgba(0, 0, 0, 0.12);
+    cursor: pointer;
+    border-radius: var(--tui-radius-xl);
+    display: flex;
+    align-items: flex-end;
+    color: white;
+    overflow: hidden;
+
+    &-title {
+      padding: 1rem;
+      background: rgb(0, 0, 0);
+      background: linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(0, 0, 0, 1) 100%
+      );
+    }
+
+    &-skeleton {
+      position: relative;
+      pointer-events: none;
+      -webkit-user-select: none;
+      user-select: none;
+      animation: tuiSkeletonVibe ease-in-out 1s infinite alternate;
+    }
+  }
+}
+
+.users_page {
+  display: grid;
+  grid-template-columns: 70% 30%;
+  grid-column-gap: 1rem;
+  grid-row-gap: 1em;
+}
+
+.ring_chart-wrapper {
+  display: flex;
+  align-items: center;
+
+  .legend {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 1rem;
+    grid-row-gap: 0.5em;
+
+    @media @tui-mobile {
+      margin: 2rem 0 0;
+    }
+  }
+}
+
+.page-content {
+  @media screen and (max-width: 800px) {
+    padding: 1% 2%;
+  }
+
+  @media screen and (min-width: 1100px) {
+    width: 1090px;
+  }
+
+  @media screen and (min-width: 1300px) {
+    width: 1200px;
+  }
+
+  @media screen and (min-width: 1560px) {
+    width: 1400px;
+  }
+
+  @media screen and (min-width: 1900px) {
+    width: 1700px;
+  }
+}

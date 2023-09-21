@@ -1,9 +1,7 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, Observable, of} from 'rxjs';
-import {delay, map, pluck} from 'rxjs/operators';
-import {mockUserRates} from '../mocks/user-rates.mock';
-import {IUserRate} from '../models';
-import {IAuthResponse, ILoginForm, IRegisrtation} from '../models/auth.model';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
+import {IAuthResponse, ILoginForm} from '../models/auth.model';
 
 import {ApiService} from './api.service';
 
@@ -27,14 +25,6 @@ export class ApiAuthService extends ApiService {
 
     logout(): Observable<IAuthResponse> {
         return this.post<IAuthResponse, void>(this.endpoints.logout).pipe(map(d => d.data));
-    }
-
-    getRates(): Observable<IUserRate[]> {
-        return this.get<IUserRate[]>(this.endpoints.rates).pipe(map(d => d.data));
-    }
-
-    registrate(info: IRegisrtation): Observable<{token: string}> {
-        return this.post<{token: string}, IRegisrtation>(this.endpoints.registration, info).pipe(map(d => d.data));
     }
 
     updateUserInfo(

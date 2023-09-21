@@ -18,6 +18,9 @@
     "@angular/platform-browser": "13.4.0",
     "@angular/platform-browser-dynamic": "13.4.0",
     "@angular/router": "13.4.0",
+    "@ngrx/core": "1.2.0",
+    "@ngrx/effects": "13.2.0",
+    "@ngrx/store": "13.2.0",
     "@taiga-ui/addon-charts": "3.43.0",
     "@taiga-ui/addon-commerce": "3.43.0",
     "@taiga-ui/addon-mobile": "3.43.0",
@@ -29,6 +32,7 @@
     "@taiga-ui/icons": "3.43.0",
     "@taiga-ui/kit": "3.43.0",
     "@taiga-ui/layout": "3.43.0",
+    "@taiga-ui/styles": "^3.45.0",
     "rxjs": "6.6.0",
     "tslib": "2.1.0",
     "zone.js": "0.11.4"
