@@ -1,6 +1,7 @@
-import { IStory, IStoryInfo } from "src/app/models";
+import { ISimpleItem, IStory, IStoryInfo } from "src/app/models";
 import { IUserStatistics } from "../models/statistics.model";
-import { ITransactionInfo } from "../models/transaction.model";
+import { ITransaction, ITransactionFilter } from "../models/transaction.model";
+import { IMoneyBox } from "../models/moneyBox.model";
 
 export interface UsersState {
     stories: IStoryInfo[];
@@ -9,7 +10,17 @@ export interface UsersState {
     storiesLoader: boolean;
     userStatisticLoader: boolean;
     userStatistic: IUserStatistics | null;
-    transaction: ITransactionInfo[]
+    categoriesLoader: boolean;
+    transactionsInfo: {
+        transactions: ITransaction[];
+        page: number;
+        filter: Partial<ITransactionFilter>;
+        loader: boolean;
+    }
+    categories: ISimpleItem[];
+    moneyBoxes: IMoneyBox[];
+    moneyBoxesLoader: boolean;
+    name: string | null;
 }
 
 export const initialState: UsersState = {
@@ -18,6 +29,16 @@ export const initialState: UsersState = {
     storyLoader: false,
     storiesLoader: false,
     userStatisticLoader: false,
+    categoriesLoader: false,
     userStatistic: null,
-    transaction: []
+    transactionsInfo: {
+        transactions: [],
+        page: 0,
+        filter: {},
+        loader: false,
+    },
+    categories: [],
+    moneyBoxes: [],
+    moneyBoxesLoader: false,
+    name: null,
 };

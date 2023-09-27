@@ -19,18 +19,27 @@ import {
 import { TUI_MONTHS } from '@taiga-ui/core';
 import { Observable, Subject } from 'rxjs';
 import { filter, map, startWith, take, takeUntil } from 'rxjs/operators';
-import { isDarkMode, switchTheme } from 'src/app/store';
+import { isDarkMode, navigateTo, switchTheme } from 'src/app/store';
 import {
+  deleteMoneyBox,
+  editMoneyBox,
+  loadMoneyBoxes,
   loadStories,
+  loadTransactions,
   loadUserStatistic,
-  openCreateNewTransactionPopup,
+  moneyBoxes,
+  moneyBoxesLoader,
   openStory,
   stories,
   storiesLoader,
+  transactions,
+  transactionsLoader,
   userStatistic,
   userStatisticLoader,
 } from '../../store';
 import { ICategory } from '../../models/statistics.model';
+import { IMoneyBox } from '../../models/moneyBox.model';
+import { ACTIONS } from '../../consts/action.const';
 
 @Component({
   selector: 'app-users-page',
@@ -40,6 +49,8 @@ import { ICategory } from '../../models/statistics.model';
 })
 export class UsersPageComponent implements OnInit {
   stories$ = this.store$.pipe(select(stories));
+  transactions$ = this.store$.pipe(select(transactions));
+  transactionsLoader$ = this.store$.pipe(select(transactionsLoader));
   storiesLoader$ = this.store$.pipe(select(storiesLoader));
   userStatisticLoader$ = this.store$.pipe(select(userStatisticLoader));
   userStatistic$ = this.store$.pipe(
@@ -47,8 +58,11 @@ export class UsersPageComponent implements OnInit {
     filter(tuiIsPresent)
   );
   isDarkMode$ = this.store$.pipe(select(isDarkMode), take(1));
+  moneyBoxes$ = this.store$.pipe(select(moneyBoxes));
+  moneyBoxesLoader$ = this.store$.pipe(select(moneyBoxesLoader));
 
   private destroy$ = new Subject<void>();
+  ACTIONS = ACTIONS
 
   themeForm = this.fb.group({
     theme: [false],
@@ -68,9 +82,12 @@ export class UsersPageComponent implements OnInit {
     return this.rangeForm.value.range;
   }
 
+  readonly value = [40, 30];
+  activeItemIndex = NaN;
+  activeMoneyBoxesItemIndex = new Array(100).fill(NaN);
   private enabled = new Array(100).fill(true);
-
   readonly maxLength: TuiDayLike = { month: 2 };
+  moneyBoxLabels = ['Собрано', 'Осталось дней: '];
 
   readonly xStringify$: Observable<TuiStringHandler<TuiDay>> =
     this.months$.pipe(
@@ -117,6 +134,8 @@ export class UsersPageComponent implements OnInit {
     );
 
     this.store$.dispatch(loadStories());
+    this.store$.dispatch(loadMoneyBoxes());
+    this.store$.dispatch(loadTransactions({filter: {}}))
   }
 
   categories(categories: ICategory[]): readonly number[] {
@@ -161,10 +180,10 @@ export class UsersPageComponent implements OnInit {
   }
 
   readonly yStringify: TuiStringHandler<number> = (y) => {
-    console.log("AAAA")
-    return `${(10 * y).toLocaleString('en-US', { maximumFractionDigits: 0 })} $`;
-  }
-    
+    return `${(10 * y).toLocaleString('en-US', {
+      maximumFractionDigits: 0,
+    })} $`;
+  };
 
   isEnabled(index: number): boolean {
     return this.enabled[index];
@@ -197,10 +216,53 @@ export class UsersPageComponent implements OnInit {
   }
 
   createNewTransaction() {
-    this.store$.dispatch(openCreateNewTransactionPopup());
+    this.store$.dispatch(navigateTo({ payload: { path: ['users/add'] } }));
   }
 
   convertImg(img: string) {
     return `url(${img}) no-repeat center top / cover`;
+  }
+
+  convertMoneyBoxProgress(moneyBox: IMoneyBox): number[] {
+    const res = [];
+    res.push((moneyBox.sum.fact * 100) / moneyBox.sum.plan);
+
+    if (moneyBox.date) {
+      res.push(
+        (TuiDay.lengthBetween(
+          TuiDay.fromLocalNativeDate(new Date(moneyBox.date.dateStart)),
+          TuiDay.currentLocal()
+        ) *
+          100) /
+          TuiDay.lengthBetween(
+            TuiDay.fromLocalNativeDate(new Date(moneyBox.date.dateStart)),
+            TuiDay.fromLocalNativeDate(new Date(moneyBox.date.dateEnd))
+          )
+      );
+    }
+
+    return res;
+  }
+
+  isMoneyBoxItemActive(idx: number, index: number): boolean {
+    return this.activeMoneyBoxesItemIndex[idx] === index;
+  }
+
+  convertLegendMoneyBoxesLabel(idx: number, moneyBox: IMoneyBox): string {
+    if (idx == 0) {
+      return `${moneyBox.sum.fact}₽ из ${moneyBox.sum.plan}₽`
+    } else if (moneyBox.date) {
+      return TuiDay.lengthBetween(TuiDay.currentLocal(), TuiDay.fromLocalNativeDate(new Date(moneyBox.date.dateEnd))).toString()
+    } else {
+      return ''
+    }
+  }
+
+  deleteMoneyBox(id: number) {
+    this.store$.dispatch(deleteMoneyBox({id}))
+  }
+
+  editMoneyBox(action: ACTIONS, id: number) {
+    this.store$.dispatch(editMoneyBox({id, action}))
   }
 }

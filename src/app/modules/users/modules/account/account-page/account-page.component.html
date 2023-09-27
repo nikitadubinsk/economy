@@ -1,0 +1,22 @@
+<div class="account_section">
+  <div class="account_section-menu">
+    <tui-tabs class="tabs">
+      <ng-container *ngFor="let item of items">
+        <a
+          tuiTab
+          [routerLink]="item.route"
+          routerLinkActive
+          [routerLinkActiveOptions]="{ exact: true }"
+          >{{ item.name }}</a
+        >
+      </ng-container>
+    </tui-tabs>
+  </div>
+  <div class="account_section-section">
+    <router-outlet></router-outlet>
+  </div>
+</div>
+
+<ng-template #more>
+  <!-- <tui-svg src="tuiIconMoreHorLarge"></tui-svg> -->
+</ng-template>

@@ -15,6 +15,13 @@ const routes: Routes = [
                         m => m.UsersPageModule
                     ),
             },
+            {
+                path: 'add',
+                loadChildren: () =>
+                    import('./modules/create-transaction/create-transaction.module').then(
+                        m => m.CreateTransactionModule
+                    ),
+            },
             // {
             //     path: 'section/:chapterId',
             //     loadChildren: () =>
@@ -29,13 +36,13 @@ const routes: Routes = [
             //             m => m.ArticlePageModule
             //         ),
             // },
-            // {
-            //     path: 'account',
-            //     loadChildren: () =>
-            //         import('./modules/account/account-page/account-page.module').then(
-            //             m => m.AccountPageModule
-            //         ),
-            // },
+            {
+                path: 'account',
+                loadChildren: () =>
+                    import('./modules/account/account-page/account-page.module').then(
+                        m => m.AccountPageModule
+                    ),
+            },
         ],
     },
     {

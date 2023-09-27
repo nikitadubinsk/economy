@@ -110,6 +110,75 @@
               ></tui-line-days-chart>
             </tui-axes>
           </tui-island>
+          <tui-loader
+            [showLoader]="(moneyBoxesLoader$ | async) || false"
+            size="xxl"
+            [overlay]="true"
+            [inheritColor]="true"
+          ></tui-loader>
+          <div class="money_box" *ngIf="!(moneyBoxesLoader$ | async) || false">
+            <tui-island
+              class="tui-space_bottom-5"
+              [hoverable]="true"
+              *ngFor="let moneyBox of moneyBoxes$ | async; let idx = index"
+            >
+              <h3 class="tui-island__title">Копилка "{{ moneyBox.name }}"</h3>
+              <div class="money_box-chart">
+                <tui-arc-chart
+                  size="m"
+                  class="tui-space_right-4"
+                  [value]="convertMoneyBoxProgress(moneyBox)"
+                  [(activeItemIndex)]="activeItemIndex"
+                >
+                </tui-arc-chart>
+                <div class="money_box-chart-legend">
+                  <tui-legend-item
+                    *ngFor="let label of moneyBoxLabels; let index = index"
+                    size="s"
+                    class="tui-space_bottom-2"
+                    [active]="isMoneyBoxItemActive(idx, index)"
+                    [color]="getColor(index)"
+                    [text]="label"
+                    >{{ convertLegendMoneyBoxesLabel(index, moneyBox) }}
+                  </tui-legend-item>
+                </div>
+              </div>
+              <div class="tui-island__footer-button">
+                <div tuiGroup class="group" [collapsed]="true">
+                  <button
+                    tuiButton
+                    type="button"
+                    appearance="flat"
+                    size="s"
+                    class="width_50"
+                    (click)="editMoneyBox(ACTIONS.ADD, moneyBox.id)"
+                  >
+                    Пополнить
+                  </button>
+                  <button
+                    tuiButton
+                    type="button"
+                    appearance="flat"
+                    size="s"
+                    class="width_50"
+                    (click)="editMoneyBox(ACTIONS.DELETE, moneyBox.id)"
+                  >
+                    Взять
+                  </button>
+                  <button
+                    tuiButton
+                    type="button"
+                    appearance="flat"
+                    size="s"
+                    class="width_50"
+                    (click)="deleteMoneyBox(moneyBox.id)"
+                  >
+                    Удалить копилку
+                  </button>
+                </div>
+              </div>
+            </tui-island>
+          </div>
         </div>
       </div>
       <div>
@@ -118,21 +187,70 @@
           <form [formGroup]="themeForm" class="tui-space_top-2">
             <tui-toggle formControlName="theme" size="l"> </tui-toggle>
           </form>
+          <p class="tui-island__paragraph tui-island__paragraph_link">
+            <a tuiLink routerLink="/users/account">
+              Перейти в личный кабинет →</a
+            >
+          </p>
+          <div class="tui-island__footer-button">
+            <div tuiGroup class="group" [collapsed]="true">
+              <button
+                tuiButton
+                type="button"
+                appearance="flat"
+                size="m"
+                class="width_50"
+                (click)="createNewTransaction()"
+              >
+                Добавить трату
+              </button>
+              <button
+                tuiButton
+                type="button"
+                appearance="flat"
+                size="m"
+                class="width_50"
+                (click)="createNewTransaction()"
+              >
+                Создать копилку
+              </button>
+            </div>
+          </div>
         </tui-island>
-        <button
-          appearance="secondary"
-          tuiButton
-          type="button"
-          class="max-width tui-space_bottom-5"
-          (click)="createNewTransaction()"
+        <tui-island
+          [hoverable]="true"
+          class="tui-space_bottom-5"
+          *tuiLet="transactionsLoader$ | async as loader"
         >
-          Добавить новую трату
-        </button>
-        <tui-island [hoverable]="true" class="tui-space_bottom-5">
-          <h3>Последние траты</h3>
-          <!-- <ng-container
-                        *ngTemplateOutlet="rowTransaction; context: {name: 'Название слота', value: slot.name.trim()}"
-                    ></ng-container> -->
+          <h3 class="tui-space_bottom-3">Последние траты</h3>
+          <div *ngIf="loader">
+            <div class="transaction tui-space_bottom-1" *tuiRepeatTimes="let index of 10">
+              <p class="transaction__name tui-space_right-3 tui-skeleton">
+                Test
+              </p>
+              <p class="transaction__name tui-space_right-3 tui-skeleton">
+                Test
+              </p>
+              <p class="transaction__sum tui-skeleton">Test</p>
+            </div>
+          </div>
+          <div
+            class="transaction tui-space_bottom-1"
+            *ngFor="let transaction of transactions$ | async"
+          >
+            <p class="transaction__name tui-space_right-3">
+              {{ transaction.name }}
+            </p>
+            <p class="transaction__name tui-space_right-3">
+              {{ transaction.date | date : "dd.MM.yyyy" }}
+            </p>
+            <p class="transaction__sum">{{ transaction.sum }}₽</p>
+          </div>
+          <p class="tui-island__paragraph tui-island__paragraph_link">
+            <a tuiLink routerLink="/users/account/transactions">
+              Просмотреть все траты →</a
+            >
+          </p>
         </tui-island>
         <tui-island [hoverable]="true" class="tui-space_bottom-5">
           <h3>Добавленные дети</h3>
@@ -142,9 +260,9 @@
   </div>
 </div>
 
-<ng-template #rowTransaction let-name="name" let-value="value">
+<ng-template #rowTransaction let-name="name" let-value="sum">
   <div class="transaction">
-      <div class="transaction__name tui-space_right-3">{{ name }}</div>
-      <div class="transaction__value" #copy>{{ value }}</div>
+    <div class="transaction__name tui-space_right-3">{{ name }}</div>
+    <div class="transaction__value">{{ value }}</div>
   </div>
 </ng-template>

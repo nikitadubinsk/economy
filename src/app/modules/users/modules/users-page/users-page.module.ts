@@ -14,6 +14,7 @@ import {
 } from '@taiga-ui/kit';
 import {
   TuiButtonModule,
+  TuiGroupModule,
   TuiLinkModule,
   TuiLoaderModule,
   TuiPrimitiveCheckboxModule,
@@ -22,6 +23,7 @@ import {
 import { TuiLetModule, TuiRepeatTimesModule } from '@taiga-ui/cdk';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
+  TuiArcChartModule,
   TuiAxesModule,
   TuiLegendItemModule,
   TuiLineChartModule,
@@ -34,6 +36,9 @@ import { EffectsModule } from '@ngrx/effects';
 import { UsersEffects, usersFeatureKey, usersReducer } from '../../store';
 import { StoryCardModule } from '../story-card/story-card.module';
 import { CreateTransactionModule } from '../create-transaction/create-transaction.module';
+import { EditMoneyBoxModule } from '../edit-money-box/edit-money-box.module';
+import { UserInfoModule } from '../account/user-info/user-info.module';
+import { UserTransactionsModule } from '../account/user-transactions/user-transactions.module';
 
 export const TUI_MODULES = [
   TuiActionModule,
@@ -56,6 +61,8 @@ export const TUI_MODULES = [
   TuiInputDateRangeModule,
   TuiLineDaysChartModule,
   TuiRepeatTimesModule,
+  TuiGroupModule,
+  TuiArcChartModule
 ];
 
 @NgModule({
@@ -67,6 +74,9 @@ export const TUI_MODULES = [
     ReactiveFormsModule,
     StoryCardModule,
     CreateTransactionModule,
+    EditMoneyBoxModule,
+    UserInfoModule,
+    UserTransactionsModule,
     ...TUI_MODULES,
     StoreModule.forFeature(usersFeatureKey, usersReducer),
     EffectsModule.forFeature([UsersEffects]),

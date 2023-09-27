@@ -20,9 +20,21 @@
     min-height: 90vh;
     width: 80vw;
     background: var(--tui-base-01);
-    padding: 2rem;
     .shadow(3);
-    box-sizing: border-box;
+    &-menu {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid var(--tui-info-bg-hover);
+        width: 100%;
+        padding: 0 1rem;
+        .tabs {
+            width: 100%;
+        }
+    }
+    &-section {
+        padding: 1rem;
+    }
 
     @media screen and (max-width: 800px) {
         width: 96vw;
@@ -36,17 +48,5 @@
 
     .tui-text_body-xl {
         font: var(--tui-font-text-m);
-    }
-}
-
-.loader {
-    flex: 1;
-}
- 
-.more {
-    color: var(--tui-link);
- 
-    &:focus {
-        color: var(--tui-link-hover);
     }
 }

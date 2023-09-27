@@ -14,7 +14,6 @@ import {
   TuiTextareaModule,
 } from '@taiga-ui/kit';
 import { TuiLetModule } from '@taiga-ui/cdk';
-import { CreateTransactionComponent } from './create-transaction.component';
 import {
   TuiButtonModule,
   TuiDataListModule,
@@ -23,8 +22,8 @@ import {
   TuiLoaderModule,
   TuiTextfieldControllerModule,
 } from '@taiga-ui/core';
-import { CreateTractionRoutingModule } from './create-transaction.router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { EditMoneyBoxComponent } from './edit-money-box.component';
 
 export const TUI_MODULES = [
   TuiProgressModule,
@@ -44,10 +43,9 @@ export const TUI_MODULES = [
 ];
 
 @NgModule({
-  declarations: [CreateTransactionComponent],
+  declarations: [EditMoneyBoxComponent],
   imports: [
     CommonModule,
-    CreateTractionRoutingModule,
     FormsModule,
     ReactiveFormsModule,
     ...TUI_MODULES,
@@ -55,4 +53,4 @@ export const TUI_MODULES = [
     EffectsModule.forFeature([UsersEffects]),
   ],
 })
-export class CreateTransactionModule {}
+export class EditMoneyBoxModule {}

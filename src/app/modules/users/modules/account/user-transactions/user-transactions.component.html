@@ -1,0 +1,62 @@
+<form [formGroup]="filterForm">
+  <div class="tui-row">
+    <div class="tui-col_12">
+      <h3 class="tui-form__header tui-form__header_margin-top_none">
+        Мои траты
+      </h3>
+      <div class="tui-form__row tui-form__row_multi-fields">
+        <div class="tui-form__multi-field">
+          <tui-input formControlName="name">Название</tui-input>
+        </div>
+        <div class="tui-form__multi-field">
+          <tui-input-date-range formControlName="date"
+            >Дата траты</tui-input-date-range
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<div
+  *ngIf="transactionsLoader$ | async; else transactions"
+  class="tui-space_top-10"
+>
+  <div class="transaction tui-space_bottom-1" *tuiRepeatTimes="let index of 10">
+    <p class="tui-text_body-l tui-space_right-3 tui-skeleton">Test</p>
+    <p class="tui-text_body-l tui-space_right-3 tui-skeleton">Test</p>
+    <p class="tui-text_body-l tui-space_right-3 tui-skeleton">Test</p>
+    <p class="tui-text_body-l tui-space_right-3 tui-skeleton">Test</p>
+    <p class="tui-text_body-l tui-skeleton">Test</p>
+  </div>
+</div>
+
+<ng-template #transactions>
+  <div class="tui-space_top-10">
+    <div
+      class="transaction tui-space_bottom-3"
+      *ngFor="let transaction of transactions$ | async"
+    >
+      <p class="transaction__name tui-space_right-3 tui-text_body-l">
+        {{ transaction.name }}
+      </p>
+      <p class="transaction__name tui-space_right-3 tui-text_body-l">
+        {{ transaction.description }}
+      </p>
+      <p class="transaction__name tui-space_right-3 tui-text_body-l">
+        {{ transaction.category }}
+      </p>
+      <p class="transaction__name tui-space_right-3 tui-text_body-l">
+        {{ transaction.date | date : "dd.MM.yyyy" }}
+      </p>
+      <p class="transaction__sum tui-text_body-l">{{ transaction.sum }}₽</p>
+    </div>
+
+    <tui-pagination
+      class="tui-space_top-5"
+      [length]="10"
+      [index]="0"
+      (indexChange)="goToPage($event)"
+    ></tui-pagination>
+  </div>
+</ng-template>
