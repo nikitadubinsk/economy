@@ -18,38 +18,55 @@
   </div>
 </form>
 
-<div
-  *ngIf="transactionsLoader$ | async; else transactions"
-  class="tui-space_top-10"
->
-  <div class="transaction tui-space_bottom-1" *tuiRepeatTimes="let index of 10">
-    <p class="tui-text_body-l tui-space_right-3 tui-skeleton">Test</p>
-    <p class="tui-text_body-l tui-space_right-3 tui-skeleton">Test</p>
-    <p class="tui-text_body-l tui-space_right-3 tui-skeleton">Test</p>
-    <p class="tui-text_body-l tui-space_right-3 tui-skeleton">Test</p>
-    <p class="tui-text_body-l tui-skeleton">Test</p>
+<div class="tui-space_top-10">
+  <div *ngIf="transactionsLoader$ | async; else transactions">
+    <div class="operation tui-space_bottom-1" *tuiRepeatTimes="let index of 10">
+      <div class="operation-date tui-skeleton">
+        Test
+        <div class="operation-month tui-skeleton">Test</div>
+      </div>
+      <div class="operation-date tui-skeleton tui-skeleton_rounded">
+        Test
+      </div>
+      <div class="operation-title tui-skeleton">Test</div>
+      <div class="operation-title tui-skeleton">Test</div>
+      <div class="operation-info tui-skeleton">Test</div>
+    </div>
   </div>
-</div>
 
-<ng-template #transactions>
-  <div class="tui-space_top-10">
+  <ng-template #transactions>
     <div
-      class="transaction tui-space_bottom-3"
+      class="operation tui-space_bottom-1"
       *ngFor="let transaction of transactions$ | async"
     >
-      <p class="transaction__name tui-space_right-3 tui-text_body-l">
-        {{ transaction.name }}
-      </p>
-      <p class="transaction__name tui-space_right-3 tui-text_body-l">
+      <div class="operation-date">
+        {{ transaction.date | date : "dd" }}
+        <div class="operation-month">
+          {{ transaction.date | date : "MMMM" : "" : "ru" }}
+        </div>
+      </div>
+      <div class="operation-pic">
+        <tui-svg class="operation-icon" src="tuiIconDollarSignLarge"></tui-svg>
+      </div>
+      <div class="operation-title">
+        <p class="operation-text">{{ transaction.name }}</p>
+        <p class="operation-category">{{ transaction.category }}</p>
+      </div>
+      <div class="operation-title">
         {{ transaction.description }}
-      </p>
-      <p class="transaction__name tui-space_right-3 tui-text_body-l">
-        {{ transaction.category }}
-      </p>
-      <p class="transaction__name tui-space_right-3 tui-text_body-l">
-        {{ transaction.date | date : "dd.MM.yyyy" }}
-      </p>
-      <p class="transaction__sum tui-text_body-l">{{ transaction.sum }}₽</p>
+      </div>
+      <div
+        class="operation-info"
+        [ngClass]="{
+          'operation-status_success': transaction.sum > 0,
+          'operation-status_error': transaction.sum < 0
+        }"
+      >
+        <tui-money
+          class="operation-amount"
+          [value]="transaction.sum"
+        ></tui-money>
+      </div>
     </div>
 
     <tui-pagination
@@ -58,5 +75,5 @@
       [index]="0"
       (indexChange)="goToPage($event)"
     ></tui-pagination>
-  </div>
-</ng-template>
+  </ng-template>
+</div>

@@ -6,7 +6,7 @@ export interface ITransactionInfo {
 }
 
 export interface ITransaction extends ITransactionInfo {
-    category: string;
+    category?: string;
 }
 
 export interface ITransactionForm extends ITransactionInfo {

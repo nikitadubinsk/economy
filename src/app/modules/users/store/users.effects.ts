@@ -3,14 +3,18 @@ import { Store } from '@ngrx/store';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { TuiDialogService } from '@taiga-ui/core';
 import {
+  addReceipt,
+  createMoneyBox,
   createTransaction,
   deleteMoneyBox,
   editMoneyBox,
+  loadChildrens,
   loadMoneyBoxes,
   loadStories,
   loadStoryById,
   loadTransactionCategories,
   loadUserStatistic,
+  loadedChildrens,
   loadedMoneyBoxes,
   loadedStories,
   loadedStoryById,
@@ -31,6 +35,7 @@ import { EMPTY, forkJoin, of } from 'rxjs';
 import { EditMoneyBoxComponent } from '../modules/edit-money-box/edit-money-box.component';
 import { ACTIONS } from '../consts/action.const';
 import { loadTransactions } from './users.actions';
+import { CreateMoneyBoxComponent } from '../modules/create-money-box/create-money-box.component';
 
 @Injectable()
 export class UsersEffects {
@@ -49,7 +54,7 @@ export class UsersEffects {
   loadTransactions$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadTransactions),
-      switchMap(({filter}) =>
+      switchMap(({ filter }) =>
         this.apiUsersService.getTransaction(filter).pipe(
           map((transactions) => loadedTransactions({ transactions })),
           catchError(() => [loadedTransactions({ transactions: [] })])
@@ -77,8 +82,7 @@ export class UsersEffects {
           this.dialogService.open<void>(
             new PolymorpheusComponent(StoryCardComponent, this.injector)
           )
-        ),
-        tap(() => console.log('AAAA'))
+        )
       ),
     { dispatch: false }
   );
@@ -169,29 +173,95 @@ export class UsersEffects {
     )
   );
 
-  editMoneyBox$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(editMoneyBox),
-        tap(() => console.log("123")),
-        switchMap(({ id, action }) =>
-          this.dialogService.open<{action: ACTIONS, id: number, sum: number}>(
-            new PolymorpheusComponent(EditMoneyBoxComponent, this.injector),
-            {
-              data: {
-                id,
-                action,
-              },
-            }
-          )
-        ),
-        switchMap(({ action, id, sum}) => this.apiUsersService.editMoneyBox(action, id, sum).pipe(
-          switchMap(() => [
-            loadMoneyBoxes(),
-            showSuccessMessage({ message: `Вы успешно ${action === ACTIONS.ADD ? 'положили' : 'взяли'} ${sum}₽` }),
-          ])
-        ))
+  editMoneyBox$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(editMoneyBox),
+      switchMap(({ id, action }) =>
+        this.dialogService.open<{ action: ACTIONS; id: number; sum: number }>(
+          new PolymorpheusComponent(EditMoneyBoxComponent, this.injector),
+          {
+            data: {
+              id,
+              action,
+            },
+          }
+        )
       ),
+      switchMap(({ action, id, sum }) =>
+        this.apiUsersService
+          .editMoneyBox(action, id, sum)
+          .pipe(
+            switchMap(() => [
+              loadMoneyBoxes(),
+              showSuccessMessage({
+                message: `Вы успешно ${
+                  action === ACTIONS.ADD ? 'положили' : 'взяли'
+                } ${sum}₽`,
+              }),
+            ])
+          )
+      )
+    )
+  );
+
+  addReceipt$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(addReceipt),
+      switchMap(() =>
+        this.dialogService.open<{ sum: number }>(
+          new PolymorpheusComponent(EditMoneyBoxComponent, this.injector),
+          {}
+        )
+      ),
+      switchMap(({ sum }) =>
+        this.apiUsersService
+          .addReceipt(sum)
+          .pipe(
+            switchMap(() => [
+              loadTransactions({ filter: {} }),
+              loadUserStatistic({}),
+              showSuccessMessage({ message: `Вы успешно добавили ${sum}₽` }),
+            ])
+          )
+      )
+    )
+  );
+
+  createMoneyBox$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(createMoneyBox),
+      switchMap(() =>
+        this.dialogService.open<{ action: ACTIONS; id: number; sum: number }>(
+          new PolymorpheusComponent(CreateMoneyBoxComponent, this.injector)
+        )
+      ),
+      switchMap(({ action, id, sum }) =>
+        this.apiUsersService
+          .editMoneyBox(action, id, sum)
+          .pipe(
+            switchMap(() => [
+              loadMoneyBoxes(),
+              showSuccessMessage({
+                message: `Вы успешно ${
+                  action === ACTIONS.ADD ? 'положили' : 'взяли'
+                } ${sum}₽`,
+              }),
+            ])
+          )
+      )
+    )
+  );
+
+  loadChildrens$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadChildrens),
+      switchMap(() =>
+        this.apiUsersService.getChildrens().pipe(
+          map((childrens) => loadedChildrens({ childrens })),
+          catchError(() => [loadedChildrens({ childrens: [] })])
+        )
+      )
+    )
   );
 
   constructor(

@@ -19,7 +19,11 @@ export class EditMoneyBoxComponent {
   });
 
   get title() {
-    return this.context.data.action === ACTIONS.ADD ? 'Пополнить копилку' : "Взять деньги из копилки"
+    if (this.context.data) {
+      return this.context.data.action === ACTIONS.ADD ? 'Пополнить копилку' : "Взять деньги из копилки"
+    } else {
+      return  "Добавить поступление"
+    }
   }
 
   editMoneyBox() {

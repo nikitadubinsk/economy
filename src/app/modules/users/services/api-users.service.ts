@@ -11,6 +11,8 @@ import { mockCategories } from '../mocks/categories.mock';
 import { IMoneyBox } from '../models/moneyBox.model';
 import { mockMoneyBox } from '../mocks/moneyBox.mock';
 import { ACTIONS } from '../consts/action.const';
+import { IChildren } from '../models/children.model';
+import { mockChildren } from '../mocks/children.mock';
 
 @Injectable({
   providedIn: 'root',
@@ -25,6 +27,8 @@ export class ApiUsersService extends ApiService {
     categories: '/users/categories',
     moneyBoxes: '/users/money-boxes',
     moneyBox: '/users/money-box/:id',
+    childrens: '/users/childrens',
+    receipt: 'users/receipt'
   };
 
   getStories(): Observable<IStoryInfo[]> {
@@ -37,14 +41,12 @@ export class ApiUsersService extends ApiService {
     //return this.get<IStory, {id: number}>(this.endpoints.storyById, {id}).pipe(map(d => d.data));
   }
 
-  getUserStatistic(from: string, to: string): Observable<IUserStatistics> {
+  getUserStatistic(from?: string, to?: string): Observable<IUserStatistics> {
     return of(mockUserStatistic).pipe(delay(1000));
     //return this.get<IUserStatistics, {from: string, to: string}>(this.endpoints.statistic, {from, to}).pipe(map(d => d.data));
   }
 
-  getTransaction(filter: Partial<ITransactionFilter>): Observable<ITransaction[]> {
-    console.log(filter);
-    
+  getTransaction(filter: Partial<ITransactionFilter>): Observable<ITransaction[]> {    
     return of(mockUserTransaction).pipe(delay(1500));
     //return this.get<ITransaction, {from: string, to: string}>(this.endpoints.statistic, {from, to}).pipe(map(d => d.data));
   }
@@ -70,7 +72,15 @@ export class ApiUsersService extends ApiService {
   }
 
   editMoneyBox(action: ACTIONS, id: number, sum: number): Observable<void> {
-    //return of(undefined).pipe(delay(500));
-    return this.post<void, {id: number}, {action: ACTIONS, sum: number}>(this.endpoints.moneyBox, {id}, {action, sum}).pipe(map(d => d.data));
+    return of(undefined).pipe(delay(500));
+    //return this.post<void, {id: number}, {action: ACTIONS, sum: number}>(this.endpoints.moneyBox, {id}, {action, sum}).pipe(map(d => d.data));
+  }
+
+  getChildrens(): Observable<IChildren[]> {
+    return of(mockChildren).pipe(delay(1200));
+  }
+
+  addReceipt(sum: number): Observable<void> {
+    return of(undefined);
   }
 }

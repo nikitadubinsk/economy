@@ -22,13 +22,13 @@ const routes: Routes = [
                         m => m.UserTransactionsModule
                     ),
             },
-            // {
-            //     path: 'rating',
-            //     loadChildren: () =>
-            //         import('../user-raiting/user-raiting.module').then(
-            //             m => m.UserAwardsModule
-            //         ),
-            // },
+            {
+                path: 'childrens',
+                loadChildren: () =>
+                    import('../user-children/user-children.module').then(
+                        m => m.UserChildrenModule
+                    ),
+            },
             // {
             //     path: 'transaction',
             //     loadChildren: () =>

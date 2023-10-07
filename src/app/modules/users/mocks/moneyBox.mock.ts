@@ -25,4 +25,12 @@ export const mockMoneyBox: IMoneyBox[] = [
             dateEnd: "2023-09-30"
         }
     },
+    {
+        id: 3,
+        name: "Просто так",
+        sum: {
+            plan: 1000,
+            fact: 990
+        },
+    },
 ]

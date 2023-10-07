@@ -17,3 +17,5 @@ export const moneyBoxes = createSelector(state, state => state.moneyBoxes);
 export const moneyBoxesLoader = createSelector(state, state => state.moneyBoxesLoader);
 export const transactions = createSelector(state, state => state.transactionsInfo.transactions);
 export const transactionsLoader = createSelector(state, state => state.transactionsInfo.loader);
+export const childrens = createSelector(state, state => state.childrens);
+export const childrensLoader = createSelector(state, state => state.childrensLoader);

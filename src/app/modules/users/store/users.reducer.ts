@@ -1,5 +1,5 @@
 import {Action, createReducer, on} from '@ngrx/store';
-import { clearStory, loadMoneyBoxes, loadStories, loadStoryById, loadTransactionCategories, loadTransactions, loadUserStatistic, loadedMoneyBoxes, loadedStories, loadedStoryById, loadedTransactionCategories, loadedTransactions, loadedUserStatistic } from './users.actions';
+import { clearStory, loadChildrens, loadMoneyBoxes, loadStories, loadStoryById, loadTransactionCategories, loadTransactions, loadUserStatistic, loadedChildrens, loadedMoneyBoxes, loadedStories, loadedStoryById, loadedTransactionCategories, loadedTransactions, loadedUserStatistic } from './users.actions';
 import {initialState, UsersState} from './users.state';
 
 const reducer = createReducer(
@@ -67,6 +67,15 @@ const reducer = createReducer(
         ...state,
         moneyBoxesLoader: false,
         moneyBoxes
+    })),
+    on(loadChildrens, (state) => ({
+        ...state,
+        childrensLoader: true,
+    })),
+    on(loadedChildrens, (state, {childrens}) => ({
+        ...state,
+        childrensLoader: false,
+        childrens
     })),
 );
 

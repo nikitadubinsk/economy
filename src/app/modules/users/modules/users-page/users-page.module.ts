@@ -39,6 +39,7 @@ import { CreateTransactionModule } from '../create-transaction/create-transactio
 import { EditMoneyBoxModule } from '../edit-money-box/edit-money-box.module';
 import { UserInfoModule } from '../account/user-info/user-info.module';
 import { UserTransactionsModule } from '../account/user-transactions/user-transactions.module';
+import { CreateMoneyBoxModule } from '../create-money-box/create-money-box.module';
 
 export const TUI_MODULES = [
   TuiActionModule,
@@ -62,7 +63,7 @@ export const TUI_MODULES = [
   TuiLineDaysChartModule,
   TuiRepeatTimesModule,
   TuiGroupModule,
-  TuiArcChartModule
+  TuiArcChartModule,
 ];
 
 @NgModule({
@@ -77,6 +78,7 @@ export const TUI_MODULES = [
     EditMoneyBoxModule,
     UserInfoModule,
     UserTransactionsModule,
+    CreateMoneyBoxModule,
     ...TUI_MODULES,
     StoreModule.forFeature(usersFeatureKey, usersReducer),
     EffectsModule.forFeature([UsersEffects]),

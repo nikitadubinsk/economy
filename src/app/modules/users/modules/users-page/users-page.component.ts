@@ -18,11 +18,16 @@ import {
 } from '@taiga-ui/cdk';
 import { TUI_MONTHS } from '@taiga-ui/core';
 import { Observable, Subject } from 'rxjs';
-import { filter, map, startWith, take, takeUntil } from 'rxjs/operators';
+import { filter, map, take, takeUntil } from 'rxjs/operators';
 import { isDarkMode, navigateTo, switchTheme } from 'src/app/store';
 import {
+  addReceipt,
+  childrens,
+  childrensLoader,
+  createMoneyBox,
   deleteMoneyBox,
   editMoneyBox,
+  loadChildrens,
   loadMoneyBoxes,
   loadStories,
   loadTransactions,
@@ -60,9 +65,11 @@ export class UsersPageComponent implements OnInit {
   isDarkMode$ = this.store$.pipe(select(isDarkMode), take(1));
   moneyBoxes$ = this.store$.pipe(select(moneyBoxes));
   moneyBoxesLoader$ = this.store$.pipe(select(moneyBoxesLoader));
+  childrens$ = this.store$.pipe(select(childrens));
+  childrensLoader$ = this.store$.pipe(select(childrensLoader));
 
   private destroy$ = new Subject<void>();
-  ACTIONS = ACTIONS
+  ACTIONS = ACTIONS;
 
   themeForm = this.fb.group({
     theme: [false],
@@ -135,7 +142,8 @@ export class UsersPageComponent implements OnInit {
 
     this.store$.dispatch(loadStories());
     this.store$.dispatch(loadMoneyBoxes());
-    this.store$.dispatch(loadTransactions({filter: {}}))
+    this.store$.dispatch(loadTransactions({ filter: {} }));
+    this.store$.dispatch(loadChildrens())
   }
 
   categories(categories: ICategory[]): readonly number[] {
@@ -248,21 +256,34 @@ export class UsersPageComponent implements OnInit {
     return this.activeMoneyBoxesItemIndex[idx] === index;
   }
 
-  convertLegendMoneyBoxesLabel(idx: number, moneyBox: IMoneyBox): string {
+  convertLegendMoneyBoxesLabel(idx: number, moneyBox: IMoneyBox): string | undefined {
     if (idx == 0) {
-      return `${moneyBox.sum.fact}₽ из ${moneyBox.sum.plan}₽`
+      return `${moneyBox.sum.fact}₽/${moneyBox.sum.plan}₽`;
     } else if (moneyBox.date) {
-      return TuiDay.lengthBetween(TuiDay.currentLocal(), TuiDay.fromLocalNativeDate(new Date(moneyBox.date.dateEnd))).toString()
+      const range = TuiDay.lengthBetween(
+        TuiDay.currentLocal(),
+        TuiDay.fromLocalNativeDate(new Date(moneyBox.date.dateEnd))
+      ).toString();
+
+      return +range >=0 ? range : '0';
     } else {
-      return ''
+      return undefined;
     }
   }
 
   deleteMoneyBox(id: number) {
-    this.store$.dispatch(deleteMoneyBox({id}))
+    this.store$.dispatch(deleteMoneyBox({ id }));
   }
 
   editMoneyBox(action: ACTIONS, id: number) {
-    this.store$.dispatch(editMoneyBox({id, action}))
+    this.store$.dispatch(editMoneyBox({ id, action }));
+  }
+
+  createNewMoneyBox() {
+    this.store$.dispatch(createMoneyBox());
+  }
+
+  createNewReceipt() {
+    this.store$.dispatch(addReceipt())
   }
 }

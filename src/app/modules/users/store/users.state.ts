@@ -2,6 +2,7 @@ import { ISimpleItem, IStory, IStoryInfo } from "src/app/models";
 import { IUserStatistics } from "../models/statistics.model";
 import { ITransaction, ITransactionFilter } from "../models/transaction.model";
 import { IMoneyBox } from "../models/moneyBox.model";
+import { IChildren } from "../models/children.model";
 
 export interface UsersState {
     stories: IStoryInfo[];
@@ -21,6 +22,8 @@ export interface UsersState {
     moneyBoxes: IMoneyBox[];
     moneyBoxesLoader: boolean;
     name: string | null;
+    childrens: IChildren[];
+    childrensLoader: boolean;
 }
 
 export const initialState: UsersState = {
@@ -41,4 +44,6 @@ export const initialState: UsersState = {
     moneyBoxes: [],
     moneyBoxesLoader: false,
     name: null,
+    childrens: [],
+    childrensLoader: false
 };

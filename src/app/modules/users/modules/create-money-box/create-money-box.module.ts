@@ -1,5 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { UsersEffects, usersFeatureKey, usersReducer } from '../../store';
 import {
   TuiFieldErrorPipeModule,
   TuiInputDateModule,
@@ -19,7 +23,7 @@ import {
   TuiTextfieldControllerModule,
 } from '@taiga-ui/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { EditMoneyBoxComponent } from './edit-money-box.component';
+import { CreateMoneyBoxComponent } from './create-money-box.component';
 
 export const TUI_MODULES = [
   TuiProgressModule,
@@ -39,12 +43,14 @@ export const TUI_MODULES = [
 ];
 
 @NgModule({
-  declarations: [EditMoneyBoxComponent],
+  declarations: [CreateMoneyBoxComponent],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     ...TUI_MODULES,
+    StoreModule.forFeature(usersFeatureKey, usersReducer),
+    EffectsModule.forFeature([UsersEffects]),
   ],
 })
-export class EditMoneyBoxModule {}
+export class CreateMoneyBoxModule {}
