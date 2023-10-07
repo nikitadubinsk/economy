@@ -17,7 +17,6 @@
     left: 1rem;
     top: 0.5rem;
     width: calc(100% - 2rem);
-    height: 100%;
   }
 
   &_chapter {
@@ -52,13 +51,25 @@
     width: 25%;
     position: absolute;
     left: 0;
-    z-index: 100;
+    z-index: 10;
   }
   &-right {
     height: 80vh;
     width: 25%;
     position: absolute;
     right: 0;
-    z-index: 100;
+    z-index: 10;
   }
+}
+
+.answer {
+  z-index: 100;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.5);
+  text-align: center;
+  padding: 1%;
+  margin-bottom: 1%;
+  border-radius: 20px;
+  box-sizing: border-box;
+  cursor: pointer;
 }

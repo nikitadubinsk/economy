@@ -34,10 +34,14 @@ export const mockStory: IStory = {
     },
     {
       id: 2,
-      title: 'Vestibulum in auctor eros',
-      text: 'Vestibulum in auctor eros. Proin cursus lacus eu ornare gravida. Cras turpis velit, elementum vitae nibh eu, viverra cursus nisi. Cras suscipit id dui nec aliquam. Donec lorem ante, semper at venenatis sed, accumsan ut turpis. Fusce vel mauris vitae justo hendrerit vestibulum vitae vel orci. Sed tincidunt est malesuada, pharetra nisi a, finibus elit. In commodo nulla aliquam arcu eleifend porta. Phasellus congue velit at mattis pellentesque. Suspendisse posuere rhoncus est, sed feugiat ipsum eleifend a. In hac habitasse platea dictumst. Aliquam sed erat odio. Suspendisse potenti. Nunc quis cursus libero. Nunc rutrum malesuada sagittis.',
       img: 'https://klike.net/uploads/posts/2022-11/1667546896_2-1.jpg',
       isViewed: false,
+      question: {
+        text: "Что такое финансовая грамотность?",
+        answers: ["Первый вариант", "Второй вариант", "Третий вариант", "Четвертый вариант"],
+        correctAnswer: 2,
+        answer: "На самом деле правильный ответ второй!"
+      }
     },
     {
       id: 3,

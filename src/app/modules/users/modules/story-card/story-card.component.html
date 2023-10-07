@@ -27,8 +27,31 @@
       </div>
       <div class="story_chapter_text">
         <div class="story_chapter_text_body">
-          <p class="tui-text_h3 tui-space_bottom-4">{{ chapter.title }}</p>
-          <p class="tui-text_body-m-2">{{ chapter.text }}</p>
+          <div *ngIf="!chapter.question; else question">
+            <p class="tui-text_h3 tui-space_bottom-4">{{ chapter?.title }}</p>
+            <p class="tui-text_body-m-2">{{ chapter.text }}</p>
+          </div>
+          <ng-template #question>
+            <div *ngIf="!isShowCorrectAnswer; else correctAnswer">
+              <p class="tui-text_h3 tui-space_bottom-4">
+                {{ chapter?.question?.text }}
+              </p>
+              <div
+                *ngFor="
+                  let answer of chapter?.question?.answers;
+                  let idx = index
+                "
+              >
+                <p class="answer tui-text_body-l" (click)="selectAnswer(chapter.question, idx)">
+                  {{ answer }}
+                </p>
+              </div>
+            </div>
+            <ng-template #correctAnswer>
+              <p class="tui-text_h3 tui-space_bottom-4">{{correctAnswerText}}</p>
+              <p class="tui-text_body-m-2">{{chapter.question?.answer}}</p>
+            </ng-template>
+          </ng-template>
         </div>
       </div>
     </div>

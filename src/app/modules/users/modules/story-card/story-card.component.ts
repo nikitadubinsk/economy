@@ -4,6 +4,7 @@ import { clearStory, loadStoryById, story, storyLoader } from '../../store';
 import { tuiIsPresent } from '@taiga-ui/cdk';
 import { filter } from 'rxjs/operators';
 import { DomSanitizer } from '@angular/platform-browser';
+import { IQuestion } from 'src/app/models';
 
 @Component({
   selector: 'app-story-card',
@@ -16,6 +17,8 @@ export class StoryCardComponent implements OnInit, OnDestroy {
   storyLoader$ = this.store$.pipe(select(storyLoader));
 
   chapterIndex = 0;
+  isShowCorrectAnswer = false;
+  correctAnswerText = "";
 
   constructor(private readonly store$: Store, @Inject(DomSanitizer) private readonly sanitizer: DomSanitizer) {}
 
@@ -26,17 +29,26 @@ export class StoryCardComponent implements OnInit, OnDestroy {
   prev() {
     if (this.chapterIndex > 0) {
       this.chapterIndex--;
+      this.isShowCorrectAnswer = false;
     }
   }
 
   next(count: number) {
     if (this.chapterIndex < count - 1) {
       this.chapterIndex++;
+      this.isShowCorrectAnswer = false;
     }
   }
 
   convertImg(img: string) {
     return `url(${img}) no-repeat center top / cover`
+  }
+
+  selectAnswer(questions: IQuestion | undefined, idx: number) {
+    if (questions) {
+      this.isShowCorrectAnswer = true;
+      this.correctAnswerText = questions.correctAnswer === idx ? "Верно!" : "Неверно"
+    }
   }
 
   ngOnDestroy(): void {
