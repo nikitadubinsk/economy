@@ -1,0 +1,28 @@
+@import "@taiga-ui/core/styles/taiga-ui-local.less";
+@import "@taiga-ui/styles/taiga-ui-global";
+
+@logout-button-height: 56px;
+@dropdown-content-width: 360px;
+
+:host {
+    display: block;
+    margin-bottom: 32px;
+}
+
+.page-navigation {
+    box-shadow: 0 4px 56px rgba(0, 0, 0, .12);
+}
+
+.navigation__content {
+    @media screen and (min-width: 1560px) {
+        width: 1400px;
+    }
+
+    @media screen and (min-width: 1900px) {
+        width: 1700px;
+    }
+}
+
+.profile-info-name {
+    .text-body-m-bold();
+}

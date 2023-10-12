@@ -45,6 +45,16 @@
               Уже использовано {{ userStatistic?.budget?.fact }} из
               {{ userStatistic?.budget?.plan }}
             </p>
+            <button
+              tuiButton
+              class="tui-space_top-5"
+              type="button"
+              appearance="primary"
+              size="m"
+              (click)="createNewReceipt()"
+            >
+              Добавить поступление
+            </button>
           </tui-island>
           <tui-island [hoverable]="true" class="tui-space_bottom-5">
             <div class="ring_chart-wrapper">
@@ -119,9 +129,12 @@
             [overlay]="true"
             [inheritColor]="true"
           ></tui-loader>
-          <div class="money_box" *ngIf="!(moneyBoxesLoader$ | async) || false">
+          <div
+            class="money_boxes"
+            *ngIf="!(moneyBoxesLoader$ | async) || false"
+          >
             <tui-island
-              class="tui-space_bottom-5"
+              class="tui-space_bottom-5 money_box"
               [hoverable]="true"
               *ngFor="let moneyBox of moneyBoxes$ | async; let idx = index"
             >
@@ -211,26 +224,6 @@
               appearance="flat"
               size="m"
               class="tui-island__footer-button"
-              (click)="createNewTransaction()"
-            >
-              Добавить трату
-            </button>
-            <button
-              tuiButton
-              type="button"
-              appearance="flat"
-              size="m"
-              class="tui-island__footer-button"
-              (click)="createNewReceipt()"
-            >
-              Добавить поступление
-            </button>
-            <button
-              tuiButton
-              type="button"
-              appearance="flat"
-              size="m"
-              class="tui-island__footer-button"
               (click)="createNewMoneyBox()"
             >
               Создать копилку
@@ -246,7 +239,7 @@
           <div *ngIf="loader; else transactions">
             <div
               class="operation tui-space_bottom-1"
-              *tuiRepeatTimes="let index of 10"
+              *tuiRepeatTimes="let index of 5"
             >
               <div class="operation-date tui-skeleton">
                 Test
@@ -259,7 +252,7 @@
           <ng-template #transactions>
             <div
               class="operation tui-space_bottom-1"
-              *ngFor="let transaction of transactions$ | async"
+              *ngFor="let transaction of transactions$ | async | slice : 0 : 5"
             >
               <div class="operation-date">
                 {{ transaction.date | date : "dd" }}
@@ -287,6 +280,16 @@
               Просмотреть все траты →</a
             >
           </p>
+          <button
+            tuiButton
+            type="button"
+            appearance="flat"
+            size="m"
+            class="tui-island__footer-button"
+            (click)="createNewTransaction()"
+          >
+            Добавить трату
+          </button>
         </tui-island>
         <tui-island
           [hoverable]="true"
@@ -295,10 +298,16 @@
         >
           <h3 class="tui-space_bottom-3">Добавленные дети</h3>
           <div *ngIf="loader; else childrens">
-            <div  *tuiRepeatTimes="let index of 5" class="operation tui-space_bottom-1">
-              <div
-                class="operation-date tui-skeleton tui-skeleton_rounded"
-              ></div>
+            <div
+              *tuiRepeatTimes="let index of 5"
+              class="operation tui-space_bottom-2"
+            >
+              <figure class="tui-island__figure">
+                <div
+                  class="some-figure tui-skeleton_rounded tui-skeleton"
+                ></div>
+              </figure>
+              <div class="tui-skeleton tui-skeleton_rounded">Test</div>
               <div>
                 <p class="operation-title tui-skeleton">Тест</p>
                 <p class="operation-month tui-skeleton">Тест</p>
@@ -306,20 +315,25 @@
             </div>
           </div>
           <ng-template #childrens>
-          <div *ngFor="let children of childrens$ | async" class="operation tui-space_bottom-1">
-            <tui-avatar
-              size="l"
-              [text]="children.name"
-              class="operation-date"
-              [rounded]="true"
-              [autoColor]="true"
-            ></tui-avatar>
-            <div>
-              <p class="operation-title">{{ children.name }}</p>
-              <p class="operation-month">Добавлен {{ children.createdAt | date:"dd.MM.yyyy" }}</p>
+            <div
+              *ngFor="let children of childrens$ | async"
+              class="operation tui-space_bottom-2"
+            >
+              <tui-avatar
+                size="l"
+                [text]="children.name"
+                class="operation-date"
+                [rounded]="true"
+                [autoColor]="true"
+              ></tui-avatar>
+              <div>
+                <p class="operation-title">{{ children.name }}</p>
+                <p class="operation-month">
+                  Добавлен {{ children.createdAt | date : "dd.MM.yyyy" }}
+                </p>
+              </div>
             </div>
-          </div>
-        </ng-template>
+          </ng-template>
           <p class="tui-island__paragraph tui-island__paragraph_link">
             <a tuiLink routerLink="/users/account/childrens">
               Просмотреть полную информацию →</a

@@ -1,7 +1,11 @@
-<!-- <app-menu
+<app-navigation
     [items]="items"
     title="Панель оператора"
-    [userInfo]="{name: 'Фамилия Имя Отчество', position: 'Оператор'}"
+    [userInfo]="{name: 'Иванов Иван Иванович', position: 'Оператор'}"
     (logout)="logout()"
-></app-menu> -->
-<router-outlet></router-outlet>
+></app-navigation>
+<div class="page-content tui-container_adaptive">
+    <div class="selections__content">
+        <router-outlet></router-outlet>
+    </div>
+</div>

@@ -1,5 +1,7 @@
 import {Component, ChangeDetectionStrategy, OnInit} from '@angular/core';
-import { Store } from '@ngrx/store';
+import { FormBuilder } from '@angular/forms';
+import { Store, select } from '@ngrx/store';
+import { logout } from 'src/app/store';
 
 @Component({
     selector: 'app-managers-container',
@@ -8,22 +10,19 @@ import { Store } from '@ngrx/store';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ManagersContainerComponent {
-    // name$ = this.store$.pipe(select(name));
-    // role$ = this.store$.pipe(select(role));
-
     items = [
-        {name: "Статистика", route: "/operators/statistics"},
-        {name: "Пользователи", route: "/operators/users"},
-        {name: "Операторы", route: "/operators/operators"},
-        {name: "Информация", route: "/operators/chapters"},
-        {name: "Рассылки", route: "/operators/mailing"},
-        {name: "Организация", route: "/operators/organization"},
-        {name: "Сообщения", route: "/operators/message"},
+        {name: "Истории", route: "/operators/stories"},
+        // {name: "Пользователи", route: "/operators/users"},
+        // {name: "Операторы", route: "/operators/operators"},
+        // {name: "Информация", route: "/operators/chapters"},
+        // {name: "Рассылки", route: "/operators/mailing"},
+        // {name: "Организация", route: "/operators/organization"},
+        // {name: "Сообщения", route: "/operators/message"},
     ]
     
-    constructor(private readonly store$: Store) {}
+    constructor(private readonly store$: Store,  private readonly fb: FormBuilder) {}
 
     logout() {
-        //this.store$.dispatch(logout())
+        this.store$.dispatch(logout())
     }
 }

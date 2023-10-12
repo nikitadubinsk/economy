@@ -1,0 +1,41 @@
+<div class="page-navigation">
+    <div class="navigation__content tui-container_adaptive">
+        <div class="wrapper">
+            <p class="tui-text_h5 title">{{ title }}</p>
+            <p>{{items[0].name}}</p>
+            <tui-tabs-with-more class="tabs" [moreContent]="more" tuiMobileTabs>
+                <ng-container *ngFor="let item of items">
+                    <a tuiTab *tuiTab [routerLink]="item.route" routerLinkActive>{{ item.name }}</a>
+                </ng-container>
+            </tui-tabs-with-more>
+            <tui-hosted-dropdown [content]="dropdown" class="avatar">
+                <tui-avatar [rounded]="true" [text]="userInfo.name"></tui-avatar>
+            </tui-hosted-dropdown>
+            <div [formGroup]="themeForm" class="tui-space_left-2 tablet">
+                <tui-toggle formControlName="theme" size="l" [showIcons]="true"> </tui-toggle>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #dropdown>
+    <div class="dropdown">
+        <div class="dropdown-content">
+            <p class="tui-text_h6 tui-space_bottom-2">{{ userInfo.name }}</p>
+            <p class="tui-island__category">{{ userInfo.position }}</p>
+            <div [formGroup]="themeForm" class="mobile tui-space_top-2">
+                <tui-toggle formControlName="theme" size="l" [showIcons]="true">Темная тема </tui-toggle>
+            </div>
+        </div>
+        <div class="dropdown-footer">
+            <button tuiButton (click)="logout.emit()" appearance="icon" iconRight="tuiIconSubitem" size="s">
+                Выйти
+            </button>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #more>
+    <!-- <tui-svg src="tuiIconMoreHorLarge"></tui-svg> -->
+    <p>ЕЩЕ</p>
+</ng-template>

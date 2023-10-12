@@ -26,10 +26,10 @@ import {AppComponent} from './app.component';
                         path: 'users',
                         loadChildren: () => import('./modules/users/users.module').then(m => m.UsersModule),
                     },
-                    // {
-                    //     path: 'managers',
-                    //     loadChildren: () => import('./modules/managers/managers.module').then(m => m.ManagersModule),
-                    // },
+                    {
+                        path: 'managers',
+                        loadChildren: () => import('./modules/managers/managers.module').then(m => m.ManagersModule),
+                    },
                 ],
             },
         ]),
