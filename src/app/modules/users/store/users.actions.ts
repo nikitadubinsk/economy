@@ -1,7 +1,10 @@
 import { createAction, props } from '@ngrx/store';
 import { usersFeatureKey } from './users.selector';
 import { ISimpleItem, IStory, IStoryInfo } from 'src/app/models';
-import { IUserStatistics } from '../models/statistics.model';
+import {
+  IChildrenStatistics,
+  IUserStatistics,
+} from '../models/statistics.model';
 import { IMoneyBox } from '../models/moneyBox.model';
 import {
   ITransaction,
@@ -118,15 +121,41 @@ export const loadedTransactions = createAction(
 export const createMoneyBox = createAction(
   `[${usersFeatureKey}] CREATE_MONEY_BOX`
 );
-export const addReceipt = createAction(
-  `[${usersFeatureKey}] ADD_RECEIPT`,
-);
+export const addReceipt = createAction(`[${usersFeatureKey}] ADD_RECEIPT`);
 export const loadChildrens = createAction(
-  `[${usersFeatureKey}] LOAD_CHILDRENS`,
+  `[${usersFeatureKey}] LOAD_CHILDRENS`
 );
 export const loadedChildrens = createAction(
   `[${usersFeatureKey}] LOADED_CHILDRENS`,
   props<{
     childrens: IChildren[];
+  }>()
+);
+export const loadChildrenStatistics = createAction(
+  `[${usersFeatureKey}] LOAD_CHILDREN_STATICTICS`,
+  props<{
+    id: number;
+  }>()
+);
+export const loadedChildrenStatistics = createAction(
+  `[${usersFeatureKey}] LOADED_CHILDREN_STATICTICS`,
+  props<{
+    statistics: IChildrenStatistics;
+  }>()
+);
+export const deleteChildren = createAction(
+  `[${usersFeatureKey}] DELETE_CHILDREN`,
+  props<{
+    id: number;
+  }>()
+);
+export const addChildren = createAction(`[${usersFeatureKey}] ADD_CHILDREN`);
+export const loadUser = createAction(`[${usersFeatureKey}] LOAD_USER`);
+export const loadedUser = createAction(
+  `[${usersFeatureKey}] LOADED_USER`,
+  props<{
+    email: string;
+    date: string;
+    photo?: string;
   }>()
 );

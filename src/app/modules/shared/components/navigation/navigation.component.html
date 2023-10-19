@@ -2,18 +2,20 @@
     <div class="navigation__content tui-container_adaptive">
         <div class="wrapper">
             <p class="tui-text_h5 title">{{ title }}</p>
-            <p>{{items[0].name}}</p>
-            <tui-tabs-with-more class="tabs" [moreContent]="more" tuiMobileTabs>
+            <tui-tabs class="tabs">
                 <ng-container *ngFor="let item of items">
-                    <a tuiTab *tuiTab [routerLink]="item.route" routerLinkActive>{{ item.name }}</a>
+                  <a
+                    tuiTab
+                    [routerLink]="item.route"
+                    routerLinkActive
+                    [routerLinkActiveOptions]="{ exact: true }"
+                    >{{ item.name }}</a
+                  >
                 </ng-container>
-            </tui-tabs-with-more>
+              </tui-tabs>
             <tui-hosted-dropdown [content]="dropdown" class="avatar">
                 <tui-avatar [rounded]="true" [text]="userInfo.name"></tui-avatar>
             </tui-hosted-dropdown>
-            <div [formGroup]="themeForm" class="tui-space_left-2 tablet">
-                <tui-toggle formControlName="theme" size="l" [showIcons]="true"> </tui-toggle>
-            </div>
         </div>
     </div>
 </div>
@@ -33,9 +35,4 @@
             </button>
         </div>
     </div>
-</ng-template>
-
-<ng-template #more>
-    <!-- <tui-svg src="tuiIconMoreHorLarge"></tui-svg> -->
-    <p>ЕЩЕ</p>
 </ng-template>

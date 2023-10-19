@@ -6,7 +6,7 @@ export interface RootState {
 }
 
 export const initialState: RootState = {
-    name: null,
+    name: "Иванов Иван Викторович",
     role: null,
     isDarkMode: false,
     loadingButton: false

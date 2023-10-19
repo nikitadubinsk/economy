@@ -1,5 +1,5 @@
 import { ISimpleItem, IStory, IStoryInfo } from "src/app/models";
-import { IUserStatistics } from "../models/statistics.model";
+import { IChildrenStatistics, IUserStatistics } from "../models/statistics.model";
 import { ITransaction, ITransactionFilter } from "../models/transaction.model";
 import { IMoneyBox } from "../models/moneyBox.model";
 import { IChildren } from "../models/children.model";
@@ -22,8 +22,18 @@ export interface UsersState {
     moneyBoxes: IMoneyBox[];
     moneyBoxesLoader: boolean;
     name: string | null;
-    childrens: IChildren[];
-    childrensLoader: boolean;
+    childrensInfo: {
+        childrens: IChildren[];
+        loader: boolean;
+        statistics: IChildrenStatistics | null;
+        loaderStatistics: boolean;
+    };
+    userInfo: {
+        email: string | null;
+        date: string | null
+        photo: string | null;
+        loader: boolean;
+    }
 }
 
 export const initialState: UsersState = {
@@ -44,6 +54,16 @@ export const initialState: UsersState = {
     moneyBoxes: [],
     moneyBoxesLoader: false,
     name: null,
-    childrens: [],
-    childrensLoader: false
+    childrensInfo: {
+        childrens: [],
+        loader: false,
+        statistics: null,
+        loaderStatistics: false
+    },
+    userInfo: {
+        email: null,
+        date: null,
+        photo: null,
+        loader: false
+    }
 };

@@ -1,5 +1,5 @@
 import {Action, createReducer, on} from '@ngrx/store';
-import { clearStory, loadChildrens, loadMoneyBoxes, loadStories, loadStoryById, loadTransactionCategories, loadTransactions, loadUserStatistic, loadedChildrens, loadedMoneyBoxes, loadedStories, loadedStoryById, loadedTransactionCategories, loadedTransactions, loadedUserStatistic } from './users.actions';
+import { clearStory, loadChildrenStatistics, loadChildrens, loadMoneyBoxes, loadStories, loadStoryById, loadTransactionCategories, loadTransactions, loadUser, loadUserStatistic, loadedChildrenStatistics, loadedChildrens, loadedMoneyBoxes, loadedStories, loadedStoryById, loadedTransactionCategories, loadedTransactions, loadedUser, loadedUserStatistic } from './users.actions';
 import {initialState, UsersState} from './users.state';
 
 const reducer = createReducer(
@@ -70,12 +70,50 @@ const reducer = createReducer(
     })),
     on(loadChildrens, (state) => ({
         ...state,
-        childrensLoader: true,
+        childrensInfo: {
+            ...state.childrensInfo,
+            loader: true
+        }
     })),
     on(loadedChildrens, (state, {childrens}) => ({
         ...state,
-        childrensLoader: false,
-        childrens
+        childrensInfo: {
+            ...state.childrensInfo,
+            loader: false,
+            childrens
+        }
+    })),
+    on(loadChildrenStatistics, (state) => ({
+        ...state,
+        childrensInfo: {
+            ...state.childrensInfo,
+            loaderStatistics: true
+        }
+    })),
+    on(loadedChildrenStatistics, (state, {statistics}) => ({
+        ...state,
+        childrensInfo: {
+            ...state.childrensInfo,
+            loaderStatistics: false,
+            statistics
+        }
+    })),
+    on(loadUser, (state) => ({
+        ...state,
+        userInfo: {
+            ...state.userInfo,
+            loader: true
+        }
+    })),
+    on(loadedUser, (state, {email, date, photo}) => ({
+        ...state,
+        userInfo: {
+            ...state.userInfo,
+            loader: false,
+            email,
+            date,
+            photo: photo || null,
+        }
     })),
 );
 

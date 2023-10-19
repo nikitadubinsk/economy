@@ -1,5 +1,7 @@
 import {Component, ChangeDetectionStrategy, OnInit} from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
+import { loadUser, loaderUserInfo, userInfo } from '../../../store';
+import { name } from 'src/app/store';
 
 @Component({
     selector: 'app-user-info',
@@ -8,12 +10,13 @@ import { Store } from '@ngrx/store';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserInfoComponent implements OnInit {
-    // loading$ = this.store$.pipe(select(loading));
-    // awards$ = this.store$.pipe(select(awards));
+    info$ = this.store$.pipe(select(userInfo));
+    name$ = this.store$.pipe(select(name));
+    loader$ = this.store$.pipe(select(loaderUserInfo));
 
     constructor(private readonly store$: Store) {}
 
     ngOnInit(): void {
-        // this.store$.dispatch(loadAwards())
+        this.store$.dispatch(loadUser())
     }
 }

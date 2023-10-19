@@ -8,10 +8,12 @@ import { UsersEffects, usersFeatureKey, usersReducer } from '../../../store';
 import { TuiLoaderModule } from '@taiga-ui/core';
 import { UserInfoComponent } from './user-info.component';
 import { UserInfoRoutingModule } from './user-info.router';
+import { TuiLetModule } from '@taiga-ui/cdk';
 
 export const TUI_MODULES = [
     TuiAvatarModule,
-    TuiLoaderModule
+    TuiLoaderModule,
+    TuiLetModule
 ];
 
 @NgModule({

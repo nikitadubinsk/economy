@@ -30,6 +30,10 @@ import {AppComponent} from './app.component';
                         path: 'managers',
                         loadChildren: () => import('./modules/managers/managers.module').then(m => m.ManagersModule),
                     },
+                    {
+                        path: 'admin',
+                        loadChildren: () => import('./modules/admin/admin.module').then(m => m.AdminModule),
+                    },
                 ],
             },
         ]),

@@ -3,23 +3,29 @@ import { Store } from '@ngrx/store';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { TuiDialogService } from '@taiga-ui/core';
 import {
+  addChildren,
   addReceipt,
   createMoneyBox,
   createTransaction,
+  deleteChildren,
   deleteMoneyBox,
   editMoneyBox,
+  loadChildrenStatistics,
   loadChildrens,
   loadMoneyBoxes,
   loadStories,
   loadStoryById,
   loadTransactionCategories,
+  loadUser,
   loadUserStatistic,
+  loadedChildrenStatistics,
   loadedChildrens,
   loadedMoneyBoxes,
   loadedStories,
   loadedStoryById,
   loadedTransactionCategories,
   loadedTransactions,
+  loadedUser,
   loadedUserStatistic,
   openCreateNewTransactionPopup,
   openStory,
@@ -30,12 +36,17 @@ import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { StoryCardComponent } from '../modules/story-card/story-card.component';
 import { CreateTransactionComponent } from '../modules/create-transaction/create-transaction.component';
 import { TUI_PROMPT } from '@taiga-ui/kit';
-import { navigateTo, showSuccessMessage } from 'src/app/store';
+import {
+  navigateTo,
+  showErrorMessage,
+  showSuccessMessage,
+} from 'src/app/store';
 import { EMPTY, forkJoin, of } from 'rxjs';
 import { EditMoneyBoxComponent } from '../modules/edit-money-box/edit-money-box.component';
 import { ACTIONS } from '../consts/action.const';
 import { loadTransactions } from './users.actions';
 import { CreateMoneyBoxComponent } from '../modules/create-money-box/create-money-box.component';
+import { AddChildrenComponent } from '../modules/add-children/add-children.component';
 
 @Injectable()
 export class UsersEffects {
@@ -188,18 +199,16 @@ export class UsersEffects {
         )
       ),
       switchMap(({ action, id, sum }) =>
-        this.apiUsersService
-          .editMoneyBox(action, id, sum)
-          .pipe(
-            switchMap(() => [
-              loadMoneyBoxes(),
-              showSuccessMessage({
-                message: `Вы успешно ${
-                  action === ACTIONS.ADD ? 'положили' : 'взяли'
-                } ${sum}₽`,
-              }),
-            ])
-          )
+        this.apiUsersService.editMoneyBox(action, id, sum).pipe(
+          switchMap(() => [
+            loadMoneyBoxes(),
+            showSuccessMessage({
+              message: `Вы успешно ${
+                action === ACTIONS.ADD ? 'положили' : 'взяли'
+              } ${sum}₽`,
+            }),
+          ])
+        )
       )
     )
   );
@@ -236,18 +245,16 @@ export class UsersEffects {
         )
       ),
       switchMap(({ action, id, sum }) =>
-        this.apiUsersService
-          .editMoneyBox(action, id, sum)
-          .pipe(
-            switchMap(() => [
-              loadMoneyBoxes(),
-              showSuccessMessage({
-                message: `Вы успешно ${
-                  action === ACTIONS.ADD ? 'положили' : 'взяли'
-                } ${sum}₽`,
-              }),
-            ])
-          )
+        this.apiUsersService.editMoneyBox(action, id, sum).pipe(
+          switchMap(() => [
+            loadMoneyBoxes(),
+            showSuccessMessage({
+              message: `Вы успешно ${
+                action === ACTIONS.ADD ? 'положили' : 'взяли'
+              } ${sum}₽`,
+            }),
+          ])
+        )
       )
     )
   );
@@ -259,6 +266,86 @@ export class UsersEffects {
         this.apiUsersService.getChildrens().pipe(
           map((childrens) => loadedChildrens({ childrens })),
           catchError(() => [loadedChildrens({ childrens: [] })])
+        )
+      )
+    )
+  );
+
+  loadChildrenStatistics$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadChildrenStatistics),
+      switchMap(({ id }) =>
+        this.apiUsersService.getChildrenStatistics(id).pipe(
+          map((statistics) => loadedChildrenStatistics({ statistics })),
+          catchError(() => [
+            showErrorMessage({
+              message: 'Попробуйте загрузить статистику позже',
+            }),
+          ])
+        )
+      )
+    )
+  );
+
+  deleteChildren$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(deleteChildren),
+      switchMap(({ id }) =>
+        forkJoin([
+          this.dialogService.open<boolean>(TUI_PROMPT, {
+            label: 'Вы действительно хотите удалить ребенка?',
+            size: 'm',
+          }),
+          of(id),
+        ])
+      ),
+      switchMap(([flag, id]) =>
+        flag ? this.apiUsersService.deleteChildren(id) : EMPTY
+      ),
+      switchMap(() => [
+        loadChildrens(),
+        showSuccessMessage({ message: 'Вы успешно удалили ребенка' }),
+      ]),
+      catchError(() => [
+        showErrorMessage({ message: 'Попробуйте удалить ребенка позже' }),
+      ])
+    )
+  );
+
+  addChildren$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(addChildren),
+      switchMap(() =>
+        this.dialogService.open<{ action: ACTIONS; id: number; sum: number }>(
+          new PolymorpheusComponent(AddChildrenComponent, this.injector)
+        )
+      ),
+      switchMap(({ action, id, sum }) =>
+        this.apiUsersService.editMoneyBox(action, id, sum).pipe(
+          switchMap(() => [
+            loadMoneyBoxes(),
+            showSuccessMessage({
+              message: `Вы успешно ${
+                action === ACTIONS.ADD ? 'положили' : 'взяли'
+              } ${sum}₽`,
+            }),
+          ])
+        )
+      )
+    )
+  );
+
+  loadUser$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadUser),
+      switchMap(() =>
+        this.apiUsersService.getUserInfo().pipe(
+          map(({email, date, photo}) => loadedUser({ email, date, photo })),
+          catchError(() => [
+            showErrorMessage({
+              message: 'Попробуйте загрузить информацию позже',
+            }),
+          ])
         )
       )
     )

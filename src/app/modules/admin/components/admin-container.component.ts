@@ -4,16 +4,15 @@ import { Store, select } from '@ngrx/store';
 import { logout } from 'src/app/store';
 
 @Component({
-    selector: 'app-managers-container',
-    templateUrl: './managers-container.component.html',
-    styleUrls: ['./managers-container.component.less'],
+    selector: 'app-admin-container',
+    templateUrl: './admin-container.component.html',
+    styleUrls: ['./admin-container.component.less'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ManagersContainerComponent {
+export class AdminContainerComponent {
     items = [
-        {name: "Истории", route: "/managers/stories"},
-        {name: "Рассылки", route: "/managers/mailing"},
-        {name: "Пользователи", route: "/managers/users"},
+        {name: "Статистика", route: "/admin"},
+        {name: "Менеджеры", route: "/admin/managers"},
     ]
     
     constructor(private readonly store$: Store,  private readonly fb: FormBuilder) {}

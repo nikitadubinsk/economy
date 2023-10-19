@@ -1,0 +1,38 @@
+<div class="page-navigation">
+    <a
+        *ngIf="navigateBack"
+        class="back"
+        [routerLink]="navigateBack?.routerLink"
+        [queryParams]="navigateBack?.queryParams"
+    >
+        &#8592; {{ navigateBack?.caption }}
+    </a>
+    <div class="navigation__content tui-container_adaptive">
+        <div class="wrapper">
+            <p class="tui-text_h5">{{ title }}</p>
+            <tui-tabs-with-more
+                class="tabs"
+                [moreContent]="more"
+                tuiMobileTabs
+                [class.reverse]="!items.length"
+                [class.none]="!items.length"
+            >
+                <ng-container *ngFor="let item of items">
+                    <a
+                        tuiTab
+                        *tuiTab
+                        [routerLink]="item.route"
+                        routerLinkActive
+                        [routerLinkActiveOptions]="{exact: true}"
+                        >{{ item.name }}</a
+                    >
+                </ng-container>
+            </tui-tabs-with-more>
+            <div class="content"><ng-content></ng-content></div>
+        </div>
+    </div>
+</div>
+
+<ng-template #more>
+    <!-- <tui-svg src="tuiIconMoreHorLarge"></tui-svg> -->
+</ng-template>

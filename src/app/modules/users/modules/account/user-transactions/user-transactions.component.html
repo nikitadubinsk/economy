@@ -25,12 +25,11 @@
         Test
         <div class="operation-month tui-skeleton">Test</div>
       </div>
-      <div class="operation-date tui-skeleton tui-skeleton_rounded">
-        Test
-      </div>
+      <div class="operation-date tui-skeleton tui-skeleton_rounded">Test</div>
       <div class="operation-title tui-skeleton">Test</div>
       <div class="operation-title tui-skeleton">Test</div>
       <div class="operation-info tui-skeleton">Test</div>
+      <div class="operation-remove tui-skeleton">Test</div>
     </div>
   </div>
 
@@ -67,6 +66,16 @@
           [value]="transaction.sum"
         ></tui-money>
       </div>
+      <button
+        class="operation-remove"
+        tuiIconButton
+        appearance="icon"
+        icon="tuiIconTrash2Large"
+        title="Удалить операцию"
+        shape="rounded"
+        automation-id="delete-transaction-button"
+        size="s"
+      ></button>
     </div>
 
     <tui-pagination

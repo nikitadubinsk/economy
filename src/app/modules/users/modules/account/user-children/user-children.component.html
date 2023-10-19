@@ -1,7 +1,126 @@
 <div class="tui-row">
-  <div class="tui-col_12">
+  <div class="tui-col_12" *tuiLet="loader$ | async as loader">
     <h3 class="tui-form__header tui-form__header_margin-top_none">
       Добавленные дети
     </h3>
+
+    <div *ngIf="loader">
+      <div class="child tui-space_bottom-2" *tuiRepeatTimes="let index of 5">
+        <div class="child_info">
+          <div class="child-avatar tui-skeleton">Test</div>
+          <div>
+            <p class="child-title tui-skeleton">Test</p>
+            <p class="child-month tui-skeleton">Test</p>
+          </div>
+          <p class="child-remove tui-space_left-10 tui-skeleton"></p>
+        </div>
+      </div>
+    </div>
+
+    <tui-accordion class="container" [rounded]="false" *ngIf="!loader">
+      <tui-accordion-item
+        [borders]="null"
+        [showArrow]="false"
+        *ngFor="let children of childrens$ | async"
+        (click)="loadChildStatistics(children.id)"
+        ><div class="child tui-space_bottom-2">
+          <div class="child_info">
+            <tui-avatar
+              size="l"
+              [text]="children.name"
+              class="child-avatar"
+              [rounded]="true"
+              [autoColor]="true"
+            ></tui-avatar>
+            <div>
+              <p class="child-title">{{ children.name }}</p>
+              <p class="child-month">
+                Добавлен {{ children.createdAt | date : "dd.MM.yyyy" }}
+              </p>
+            </div>
+            <button
+              class="child-remove tui-space_left-10"
+              tuiIconButton
+              appearance="icon"
+              icon="tuiIconTrash2Large"
+              title="Удалить ребенка"
+              shape="rounded"
+              automation-id="delete-child-button"
+              size="s"
+              (click)="deleteChildren(children.id, $event)"
+            ></button>
+          </div>
+        </div>
+        <ng-template
+          tuiAccordionItemContent
+          *tuiLet="loaderStatistics$ | async as loader"
+        >
+          <tui-loader
+            [showLoader]="loader || false"
+            size="xxl"
+            [overlay]="true"
+          ></tui-loader>
+          <div *ngIf="!loader">
+            <div *tuiLet="statistics$ | async as statistics">
+              <div>
+                <h3 class="tui-space_bottom-3">Использование бюджета</h3>
+                <progress
+                  tuiProgressBar
+                  [value]="statistics?.budget?.fact"
+                  [max]="statistics?.budget?.plan"
+                ></progress>
+                <p>
+                  Уже использовано {{ statistics?.budget?.fact }} из
+                  {{ statistics?.budget?.plan }}
+                </p>
+              </div>
+              <div class="ring_chart-wrapper tui-space_top-5">
+                <tui-ring-chart
+                  size="l"
+                  class="chart tui-space_right-5"
+                  [value]="getCategories(statistics?.categories || [])"
+                >
+                </tui-ring-chart>
+                <div class="legend">
+                  <tui-legend-item
+                    *ngFor="
+                      let label of childCategories(
+                        statistics?.categories || []
+                      );
+                      let index = index
+                    "
+                    #item
+                    class="item tui-space_right-5"
+                    [color]="getColor(index)"
+                    [disabled]="!isEnabled(index)"
+                    [text]="label"
+                    (click)="onClick(index)"
+                    (keydown.delete)="toggle(index)"
+                  >
+                    <tui-primitive-checkbox
+                      [value]="!item.disabled"
+                    ></tui-primitive-checkbox>
+                    <p>
+                      {{ categories(statistics?.categories || [])[index] }}%
+                    </p>
+                  </tui-legend-item>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </tui-accordion-item>
+    </tui-accordion>
+
+    <button
+      tuiButton
+      class="tui-space_top-3"
+      type="button"
+      appearance="primary"
+      size="m"
+      (click)="addChildren()"
+    >
+      Добавить ребенка
+    </button>
   </div>
 </div>

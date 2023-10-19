@@ -133,10 +133,10 @@
             class="money_boxes"
             *ngIf="!(moneyBoxesLoader$ | async) || false"
           >
+          <div *ngFor="let moneyBox of moneyBoxes$ | async; let idx = index">
             <tui-island
               class="tui-space_bottom-5 money_box"
               [hoverable]="true"
-              *ngFor="let moneyBox of moneyBoxes$ | async; let idx = index"
             >
               <h3 class="tui-island__title">
                 Копилка "{{ moneyBox.name }}"
@@ -205,10 +205,11 @@
             </tui-island>
           </div>
         </div>
+        </div>
       </div>
       <div>
         <tui-island [hoverable]="true" class="tui-space_bottom-5">
-          <h3 class="tui-island__title">Фамилия Имя Отчество</h3>
+          <h3 class="tui-island__title">{{name$ | async}}</h3>
           <form [formGroup]="themeForm" class="tui-space_top-2">
             <tui-toggle formControlName="theme" size="l"> </tui-toggle>
           </form>

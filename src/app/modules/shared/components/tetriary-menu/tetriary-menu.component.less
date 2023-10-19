@@ -1,0 +1,87 @@
+@import "@taiga-ui/core/styles/taiga-ui-local.less";
+@import "@taiga-ui/styles/taiga-ui-global";
+
+:host {
+    display: block;
+    margin-bottom: 32px;
+}
+
+.content {
+    width: 100%;
+    text-align: right;
+}
+
+.wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--tui-info-bg-hover);
+    p {
+        width: 100%;
+    }
+}
+ 
+.tabs {
+    width: ~'calc(100% - 15.625rem)';
+    justify-content: flex-end;
+    box-shadow: none;
+}
+
+.navigation__content {
+    @media screen and (min-width: 1560px) {
+        width: 1400px;
+    }
+
+    @media screen and (min-width: 1900px) {
+        width: 1700px;
+    }
+}
+
+p {
+    margin: 0;
+    padding: 0;
+}
+
+.back {
+    padding-top: 3%;
+    border: 0;
+    background: 0 0;
+    line-height: inherit;
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    outline: 0;
+    text-decoration: none;
+    font-weight: 700;
+    white-space: nowrap;
+    color: var(--tui-text-03);
+    margin: -1.25rem 0 0.5rem -0.25rem;
+    font-size: .8125rem;
+    &:hover {
+        color: var(--tui-text-02);
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .tui-text_h5 {
+        font-size: 1.5rem;
+    }
+
+    .wrapper {
+        flex-direction: column;
+    }
+
+    .none {
+        display: none;
+    }
+
+    .tabs {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .content {
+        width: 100%;
+        text-align: left;
+    }
+}

@@ -9,7 +9,7 @@ import {
   TuiPaginationModule,
 } from '@taiga-ui/kit';
 import { UsersEffects, usersFeatureKey, usersReducer } from '../../../store';
-import { TuiLoaderModule, TuiSvgModule } from '@taiga-ui/core';
+import { TuiButtonModule, TuiLoaderModule, TuiSvgModule } from '@taiga-ui/core';
 import { UserTransactionsComponent } from './user-transactions.component';
 import { UserTransactionsRoutingModule } from './user-transactions.router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -23,7 +23,8 @@ export const TUI_MODULES = [
   TuiPaginationModule,
   TuiRepeatTimesModule,
   TuiMoneyModule,
-  TuiSvgModule
+  TuiSvgModule,
+  TuiButtonModule
 ];
 
 @NgModule({

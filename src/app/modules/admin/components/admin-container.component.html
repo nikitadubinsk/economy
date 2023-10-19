@@ -1,0 +1,11 @@
+<app-navigation
+    [items]="items"
+    title="Панель администратора"
+    [userInfo]="{name: 'Иванов Иван Иванович', position: 'Администратор'}"
+    (logout)="logout()"
+></app-navigation>
+<div class="page-content tui-container_adaptive">
+    <div class="selections__content">
+        <router-outlet></router-outlet>
+    </div>
+</div>

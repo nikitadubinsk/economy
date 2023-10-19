@@ -4,7 +4,7 @@ import { delay, map } from 'rxjs/operators';
 import { ISimpleItem, IStory, IStoryInfo } from 'src/app/models';
 import { ApiService } from 'src/app/services/api.service';
 import { mockStories, mockStory, mockUserStatistic } from '../mocks/story.mock';
-import { IUserStatistics } from '../models/statistics.model';
+import { IChildrenStatistics, IUserStatistics } from '../models/statistics.model';
 import { ITransaction, ITransactionFilter, ITransactionForm } from '../models/transaction.model';
 import { mockUserTransaction } from '../mocks/transactions.mock';
 import { mockCategories } from '../mocks/categories.mock';
@@ -13,6 +13,7 @@ import { mockMoneyBox } from '../mocks/moneyBox.mock';
 import { ACTIONS } from '../consts/action.const';
 import { IChildren } from '../models/children.model';
 import { mockChildren } from '../mocks/children.mock';
+import { mockChildrenStatistics } from '../mocks/children-statistics.mock';
 
 @Injectable({
   providedIn: 'root',
@@ -28,7 +29,8 @@ export class ApiUsersService extends ApiService {
     moneyBoxes: '/users/money-boxes',
     moneyBox: '/users/money-box/:id',
     childrens: '/users/childrens',
-    receipt: 'users/receipt'
+    receipt: '/users/receipt',
+    childrenStatistics: '/users/childrens/statistics/:id'
   };
 
   getStories(): Observable<IStoryInfo[]> {
@@ -82,5 +84,20 @@ export class ApiUsersService extends ApiService {
 
   addReceipt(sum: number): Observable<void> {
     return of(undefined);
+  }
+
+  getChildrenStatistics(id: number): Observable<IChildrenStatistics> {
+    return of(mockChildrenStatistics).pipe(delay(500));
+    //return this.get<IChildrenStatistics, {id: number}>(this.endpoints.childrenStatistics, {id}).pipe(map(d => d.data));
+  }
+
+  deleteChildren(id: number): Observable<void> {
+    return of(undefined).pipe(delay(500));
+    //return this.delete<IChildrenStatistics, {id: number}>(this.endpoints.childrenStatistics, {id}).pipe(map(d => d.data));
+  }
+
+  getUserInfo(): Observable<{email: string; date: string; photo?: string}> {
+    return of({email: "test@mail.com", date: "2001-03-16",}).pipe(delay(500));
+    //return this.delete<IChildrenStatistics, {id: number}>(this.endpoints.childrenStatistics, {id}).pipe(map(d => d.data));
   }
 }

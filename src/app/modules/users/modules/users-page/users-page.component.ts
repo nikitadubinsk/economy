@@ -19,7 +19,7 @@ import {
 import { TUI_MONTHS } from '@taiga-ui/core';
 import { Observable, Subject } from 'rxjs';
 import { filter, map, take, takeUntil } from 'rxjs/operators';
-import { isDarkMode, navigateTo, switchTheme } from 'src/app/store';
+import { isDarkMode, name, navigateTo, switchTheme } from 'src/app/store';
 import {
   addReceipt,
   childrens,
@@ -67,6 +67,7 @@ export class UsersPageComponent implements OnInit {
   moneyBoxesLoader$ = this.store$.pipe(select(moneyBoxesLoader));
   childrens$ = this.store$.pipe(select(childrens));
   childrensLoader$ = this.store$.pipe(select(childrensLoader));
+  name$ = this.store$.pipe(select(name));
 
   private destroy$ = new Subject<void>();
   ACTIONS = ACTIONS;
