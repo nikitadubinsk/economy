@@ -4,8 +4,15 @@ import { delay, map } from 'rxjs/operators';
 import { ISimpleItem, IStory, IStoryInfo } from 'src/app/models';
 import { ApiService } from 'src/app/services/api.service';
 import { mockStories, mockStory, mockUserStatistic } from '../mocks/story.mock';
-import { IChildrenStatistics, IUserStatistics } from '../models/statistics.model';
-import { ITransaction, ITransactionFilter, ITransactionForm } from '../models/transaction.model';
+import {
+  IChildrenStatistics,
+  IUserStatistics,
+} from '../models/statistics.model';
+import {
+  ITransaction,
+  ITransactionFilter,
+  ITransactionForm,
+} from '../models/transaction.model';
 import { mockUserTransaction } from '../mocks/transactions.mock';
 import { mockCategories } from '../mocks/categories.mock';
 import { IMoneyBox } from '../models/moneyBox.model';
@@ -14,6 +21,8 @@ import { ACTIONS } from '../consts/action.const';
 import { IChildren } from '../models/children.model';
 import { mockChildren } from '../mocks/children.mock';
 import { mockChildrenStatistics } from '../mocks/children-statistics.mock';
+import { IAward } from '../models/awards.model';
+import { mockAwards } from '../mocks/awards.mock';
 
 @Injectable({
   providedIn: 'root',
@@ -30,7 +39,8 @@ export class ApiUsersService extends ApiService {
     moneyBox: '/users/money-box/:id',
     childrens: '/users/childrens',
     receipt: '/users/receipt',
-    childrenStatistics: '/users/childrens/statistics/:id'
+    childrenStatistics: '/users/childrens/statistics/:id',
+    awards: '/users/awards',
   };
 
   getStories(): Observable<IStoryInfo[]> {
@@ -48,7 +58,9 @@ export class ApiUsersService extends ApiService {
     //return this.get<IUserStatistics, {from: string, to: string}>(this.endpoints.statistic, {from, to}).pipe(map(d => d.data));
   }
 
-  getTransaction(filter: Partial<ITransactionFilter>): Observable<ITransaction[]> {    
+  getTransaction(
+    filter: Partial<ITransactionFilter>
+  ): Observable<ITransaction[]> {
     return of(mockUserTransaction).pipe(delay(1500));
     //return this.get<ITransaction, {from: string, to: string}>(this.endpoints.statistic, {from, to}).pipe(map(d => d.data));
   }
@@ -96,8 +108,13 @@ export class ApiUsersService extends ApiService {
     //return this.delete<IChildrenStatistics, {id: number}>(this.endpoints.childrenStatistics, {id}).pipe(map(d => d.data));
   }
 
-  getUserInfo(): Observable<{email: string; date: string; photo?: string}> {
-    return of({email: "test@mail.com", date: "2001-03-16",}).pipe(delay(500));
+  getUserInfo(): Observable<{ email: string; date: string; photo?: string }> {
+    return of({ email: 'test@mail.com', date: '2001-03-16' }).pipe(delay(500));
     //return this.delete<IChildrenStatistics, {id: number}>(this.endpoints.childrenStatistics, {id}).pipe(map(d => d.data));
+  }
+
+  getAwards(): Observable<IAward[]> {
+    return of(mockAwards).pipe(delay(1200));
+    //return this.get<IAward[]>(this.endpoints.awards).pipe(map(d => d.data));
   }
 }

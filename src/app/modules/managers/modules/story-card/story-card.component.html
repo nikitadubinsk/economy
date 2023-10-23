@@ -1,0 +1,29 @@
+<div class="story-info">
+  <app-story [story]="story"></app-story>
+  <tui-island class="story-info_item">
+    <div class="tui-island__content">
+      <div class="tui-island__figure">
+        <form [formGroup]="activeForm">
+          <tui-toggle formControlName="active" size="l"></tui-toggle>
+        </form>
+      </div>
+      <div>
+        <p class="tui-island__category">Категория</p>
+        <h3 class="tui-island__title">{{ story.title }}</h3>
+      </div>
+    </div>
+    <div class="tui-island__footer-button">
+      <div tuiGroup class="group" [collapsed]="true">
+        <button tuiButton type="button" appearance="flat" size="m" class="width_50">
+          Редактировать
+      </button>
+      <button tuiButton type="button" appearance="flat" size="m" class="width_50">
+          Удалить
+      </button>
+      <button tuiButton type="button" appearance="flat" size="m" class="width_50">
+          Открыть содержимое
+      </button>
+      </div>
+  </div>
+  </tui-island>
+</div>

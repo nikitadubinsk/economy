@@ -13,6 +13,7 @@ import {
 } from '../models/transaction.model';
 import { ACTIONS } from '../consts/action.const';
 import { IChildren } from '../models/children.model';
+import { IAward } from '../models/awards.model';
 
 export const loadStories = createAction(`[${usersFeatureKey}] LOAD_STORIES`);
 
@@ -157,5 +158,12 @@ export const loadedUser = createAction(
     email: string;
     date: string;
     photo?: string;
+  }>()
+);
+export const loadAwards = createAction(`[${usersFeatureKey}] LOAD_AWARDS`);
+export const loadedAwards = createAction(
+  `[${usersFeatureKey}] LOADED_AWARDS`,
+  props<{
+    awards: IAward[];
   }>()
 );

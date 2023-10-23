@@ -10,14 +10,7 @@
 
     <ng-template #stories>
       <div class="stories tui-space_bottom-5">
-        <div
-          class="story"
-          (click)="showStory(story.id)"
-          *ngFor="let story of stories$ | async"
-          [ngStyle]="{ background: convertImg(story?.img || '') }"
-        >
-          <p class="story-title tui-text_body-s-2">{{ story.title }}</p>
-        </div>
+          <app-story [story]="story" (onShowStory)="showStory($event)" *ngFor="let story of stories$ | async"></app-story>
       </div>
     </ng-template>
 

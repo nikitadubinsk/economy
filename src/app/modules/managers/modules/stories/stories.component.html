@@ -1,0 +1,21 @@
+<app-tetriary-menu title="Истории">
+  <button
+        tuiButton
+        type="button"
+        size="s"
+        
+    >
+        Сохранить изменения
+    </button>
+</app-tetriary-menu>
+
+<tui-loader
+  [showLoader]="true"
+  *ngIf="loader$ | async; else storiesInfo"
+  size="xxl"
+></tui-loader>
+
+<ng-template #storiesInfo>
+  <app-story-card *ngFor="let story of stories$ | async; let index = index" [story]="story"></app-story-card>
+  <button tuiButton class="max-width">Добавить новую историю</button>
+</ng-template>

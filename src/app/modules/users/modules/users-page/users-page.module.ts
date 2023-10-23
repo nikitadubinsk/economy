@@ -40,6 +40,7 @@ import { EditMoneyBoxModule } from '../edit-money-box/edit-money-box.module';
 import { UserInfoModule } from '../account/user-info/user-info.module';
 import { UserTransactionsModule } from '../account/user-transactions/user-transactions.module';
 import { CreateMoneyBoxModule } from '../create-money-box/create-money-box.module';
+import { StoryModule } from 'src/app/modules/shared/components/story/story.module';
 
 export const TUI_MODULES = [
   TuiActionModule,
@@ -79,6 +80,7 @@ export const TUI_MODULES = [
     UserInfoModule,
     UserTransactionsModule,
     CreateMoneyBoxModule,
+    StoryModule,
     ...TUI_MODULES,
     StoreModule.forFeature(usersFeatureKey, usersReducer),
     EffectsModule.forFeature([UsersEffects]),

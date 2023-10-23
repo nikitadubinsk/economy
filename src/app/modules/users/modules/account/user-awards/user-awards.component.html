@@ -1,0 +1,22 @@
+<div class="tui-row">
+  <div class="tui-col_12" *tuiLet="loader$ | async as loader">
+    <h3 class="tui-form__header tui-form__header_margin-top_none">
+      Мои награды
+    </h3>
+
+    <tui-loader
+      [showLoader]="true"
+      *ngIf="loader; else awardsInfo"
+      size="xxl"
+    ></tui-loader>
+
+    <ng-template #awardsInfo>
+      <div class="awards">
+        <div class="award" *ngFor="let award of awards$ | async">
+          <tui-avatar [text]="award.name" size="xxl" [avatarUrl]="award.photo"></tui-avatar>
+          <h6 class="tui-text_h6">{{ award.name }}</h6>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</div>

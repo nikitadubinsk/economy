@@ -8,6 +8,7 @@ export const mockStories: IStoryInfo[] = [
     isViewed: false,
     img: 'https://bfmspb.ru/common/htdocs/upload/fm/News/35c8a5e3ba6ac5ea82e4f0970046bf1109f88a75-3000-1500.jpg',
     count: 6,
+    weight: 1,
   },
   {
     id: 2,
@@ -15,6 +16,7 @@ export const mockStories: IStoryInfo[] = [
     isViewed: true,
     img: 'https://static17.tgcnt.ru/posts/_0/5b/5bf6596675cfef41d94ef1c1ed3cd22a.jpg',
     count: 10,
+    weight: 2,
   },
 ];
 
@@ -37,11 +39,16 @@ export const mockStory: IStory = {
       img: 'https://klike.net/uploads/posts/2022-11/1667546896_2-1.jpg',
       isViewed: false,
       question: {
-        text: "Что такое финансовая грамотность?",
-        answers: ["Первый вариант", "Второй вариант", "Третий вариант", "Четвертый вариант"],
+        text: 'Что такое финансовая грамотность?',
+        answers: [
+          'Первый вариант',
+          'Второй вариант',
+          'Третий вариант',
+          'Четвертый вариант',
+        ],
         correctAnswer: 2,
-        answer: "На самом деле правильный ответ второй!"
-      }
+        answer: 'На самом деле правильный ответ второй!',
+      },
     },
     {
       id: 3,

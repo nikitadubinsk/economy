@@ -18,6 +18,7 @@ import {
   loadTransactionCategories,
   loadUser,
   loadUserStatistic,
+  loadedAwards,
   loadedChildrenStatistics,
   loadedChildrens,
   loadedMoneyBoxes,
@@ -44,7 +45,7 @@ import {
 import { EMPTY, forkJoin, of } from 'rxjs';
 import { EditMoneyBoxComponent } from '../modules/edit-money-box/edit-money-box.component';
 import { ACTIONS } from '../consts/action.const';
-import { loadTransactions } from './users.actions';
+import { loadTransactions, loadAwards } from './users.actions';
 import { CreateMoneyBoxComponent } from '../modules/create-money-box/create-money-box.component';
 import { AddChildrenComponent } from '../modules/add-children/add-children.component';
 
@@ -340,10 +341,27 @@ export class UsersEffects {
       ofType(loadUser),
       switchMap(() =>
         this.apiUsersService.getUserInfo().pipe(
-          map(({email, date, photo}) => loadedUser({ email, date, photo })),
+          map(({ email, date, photo }) => loadedUser({ email, date, photo })),
           catchError(() => [
             showErrorMessage({
               message: 'Попробуйте загрузить информацию позже',
+            }),
+          ])
+        )
+      )
+    )
+  );
+
+  loadAwards$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadAwards),
+      switchMap(() =>
+        this.apiUsersService.getAwards().pipe(
+          map((awards) => loadedAwards({ awards })),
+          catchError(() => [
+            loadedAwards({ awards: [] }),
+            showErrorMessage({
+              message: 'Попробуйте загрузить позже позже',
             }),
           ])
         )
