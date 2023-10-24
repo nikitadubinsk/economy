@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
-import { IStoryInfo } from 'src/app/models';
+import { IManagerChapter, IStoryManagerInfo } from 'src/app/models';
 import { ApiService } from 'src/app/services/api.service';
-import { mockStories } from '../../users/mocks/story.mock';
+import { mockManagerChapters, mockManagerStories } from '../mocks/story.mock';
 
 @Injectable({
   providedIn: 'root',
@@ -11,10 +11,31 @@ import { mockStories } from '../../users/mocks/story.mock';
 export class ApiManagerService extends ApiService {
   endpoints = {
     managers: '/manager/stories',
+    story: '/manager/story/:id',
   };
 
-  getStories(): Observable<IStoryInfo[]> {
-    // return this.get<IStoryInfo[]>(this.endpoints.managers).pipe(map(d => d.data));
-    return of(mockStories).pipe(delay(2000));
+  getStories(): Observable<IStoryManagerInfo[]> {
+    //return this.get<IStoryManagerInfo[]>(this.endpoints.managers).pipe(map(d => d.data));
+    return of(mockManagerStories).pipe(delay(2000));
+  }
+
+  deleteStory(id: number): Observable<void> {
+    //return this.get<IStoryManagerInfo[]>(this.endpoints.managers).pipe(map(d => d.data));
+    return of(undefined).pipe(delay(1000));
+  }
+
+  editStory(id: number): Observable<void> {
+    //return this.get<IStoryManagerInfo[]>(this.endpoints.managers).pipe(map(d => d.data));
+    return of(undefined).pipe(delay(1000));
+  }
+
+  activeStory(id: number, active: boolean): Observable<void> {
+    //return this.get<IStoryManagerInfo[]>(this.endpoints.managers).pipe(map(d => d.data));
+    return of(undefined).pipe(delay(500));
+  }
+
+  getChapters(id: number): Observable<IManagerChapter[]> {
+    //return this.get<IStoryManagerInfo[]>(this.endpoints.managers).pipe(map(d => d.data));
+    return of(mockManagerChapters).pipe(delay(2000));
   }
 }

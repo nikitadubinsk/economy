@@ -19,8 +19,6 @@ import {
   TuiLoaderModule,
   TuiTextfieldControllerModule,
 } from '@taiga-ui/core';
-import { StoriesComponent } from './stories.component';
-import { StoriesRoutingModule } from './stories.router';
 import { StoryModule } from 'src/app/modules/shared/components/story/story.module';
 import {
   ManagersEffects,
@@ -37,30 +35,23 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StoryCardModule } from '../story-card/story-card.module';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { EditStoryModule } from '../edit-story/edit-story.module';
+import { StoryInfoComponent } from './story-info.component';
+import { StoryInfoRoutingModule } from './story-info.router';
+import { ChapterCardModule } from '../chapter-card/chapter-card.module';
 
 export const TUI_MODULES = [
-  TuiArcChartModule,
-  TuiRingChartModule,
-  TuiMoneyModule,
-  TuiLegendItemModule,
-  TuiLetModule,
   TuiLoaderModule,
-  TuiBarChartModule,
-  TuiAxesModule,
   TuiIslandModule,
+  TuiGroupModule,
   TuiButtonModule,
   TuiToggleModule,
-  TuiInputModule,
-  TuiGroupModule,
-  TuiRadioBlockModule,
-  TuiTextfieldControllerModule,
 ];
 
 @NgModule({
-  declarations: [StoriesComponent],
+  declarations: [StoryInfoComponent],
   imports: [
     CommonModule,
-    StoriesRoutingModule,
+    StoryInfoRoutingModule,
     TetriaryMenuModule,
     StoryModule,
     FormsModule,
@@ -68,9 +59,10 @@ export const TUI_MODULES = [
     StoryCardModule,
     DragDropModule,
     EditStoryModule,
+    ChapterCardModule,
     ...TUI_MODULES,
     StoreModule.forFeature(managersFeatureKey, managersReducer),
     EffectsModule.forFeature([ManagersEffects]),
   ],
 })
-export class StoriesModule {}
+export class StoryInfoModule {}

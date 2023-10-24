@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { IStoryInfo } from 'src/app/models';
+import { IStoryInfo, IStoryManagerInfo } from 'src/app/models';
 
 @Component({
   selector: 'app-story',
@@ -7,7 +7,7 @@ import { IStoryInfo } from 'src/app/models';
   styleUrls: ['./story.component.less'],
 })
 export class StoryComponent {
-  @Input() story!: IStoryInfo;
+  @Input() story!: IStoryInfo | IStoryManagerInfo;
 
   @Output() onShowStory = new EventEmitter<number>();
 

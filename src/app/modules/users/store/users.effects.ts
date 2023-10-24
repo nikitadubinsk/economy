@@ -10,12 +10,14 @@ import {
   deleteChildren,
   deleteMoneyBox,
   editMoneyBox,
+  loadAwards,
   loadChildrenStatistics,
   loadChildrens,
   loadMoneyBoxes,
   loadStories,
   loadStoryById,
   loadTransactionCategories,
+  loadTransactions,
   loadUser,
   loadUserStatistic,
   loadedAwards,
@@ -31,7 +33,7 @@ import {
   openCreateNewTransactionPopup,
   openStory,
 } from './users.actions';
-import { catchError, map, switchMap, tap } from 'rxjs/operators';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { ApiUsersService } from '../services/api-users.service';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { StoryCardComponent } from '../modules/story-card/story-card.component';
@@ -45,7 +47,6 @@ import {
 import { EMPTY, forkJoin, of } from 'rxjs';
 import { EditMoneyBoxComponent } from '../modules/edit-money-box/edit-money-box.component';
 import { ACTIONS } from '../consts/action.const';
-import { loadTransactions, loadAwards } from './users.actions';
 import { CreateMoneyBoxComponent } from '../modules/create-money-box/create-money-box.component';
 import { AddChildrenComponent } from '../modules/add-children/add-children.component';
 

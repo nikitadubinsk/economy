@@ -8,19 +8,20 @@
         </form>
       </div>
       <div>
-        <p class="tui-island__category">Категория</p>
+        <p class="tui-island__category">Категория: {{story.category.name}}</p>
         <h3 class="tui-island__title">{{ story.title }}</h3>
+        <p class="tui-island__paragraph">Дата создания: {{story.createdAt | date:"dd.MM.yyyy"}}</p>
       </div>
     </div>
     <div class="tui-island__footer-button">
       <div tuiGroup class="group" [collapsed]="true">
-        <button tuiButton type="button" appearance="flat" size="m" class="width_50">
+        <button tuiButton type="button" appearance="flat" size="m" class="width_50" (click)="editStory(story)">
           Редактировать
       </button>
-      <button tuiButton type="button" appearance="flat" size="m" class="width_50">
+      <button tuiButton type="button" appearance="flat" size="m" class="width_50" (click)="deleteStory(story.id)">
           Удалить
       </button>
-      <button tuiButton type="button" appearance="flat" size="m" class="width_50">
+      <button tuiButton type="button" appearance="flat" size="m" class="width_50" (click)="openStory(story.id)">
           Открыть содержимое
       </button>
       </div>

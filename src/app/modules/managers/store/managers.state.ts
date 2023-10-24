@@ -1,11 +1,15 @@
-import { IStoryInfo } from 'src/app/models';
+import { IManagerChapter, IStoryInfo, IStoryManagerInfo } from 'src/app/models';
 
 export interface ManagersState {
-  stories: IStoryInfo[];
-  storiesLoader: boolean;
+  stories: IStoryManagerInfo[];
+  chapters: IManagerChapter[];
+  loader: boolean;
+  isChangeEntity: boolean;
 }
 
 export const initialState: ManagersState = {
   stories: [],
-  storiesLoader: false,
+  chapters: [],
+  loader: false,
+  isChangeEntity: false,
 };

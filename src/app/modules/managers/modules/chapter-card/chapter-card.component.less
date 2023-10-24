@@ -1,0 +1,27 @@
+@import "@taiga-ui/core/styles/taiga-ui-local.less";
+@import "@taiga-ui/styles/taiga-ui-global";
+
+:host {
+    display: block;
+}
+
+.chapter {
+    &_info {
+        margin: 1rem -1rem -1rem -1rem;
+        min-height: 70vh;
+    }
+
+    &_text {
+        padding: 2rem;
+        display: flex;
+        align-items: flex-end;
+        min-height: calc(80vh - 4rem);
+  
+        &_body {
+          max-height: calc(50vh - 4rem);
+          overflow: scroll;
+          color: black;
+        }
+      }
+}
+

@@ -1,13 +1,36 @@
 <app-tetriary-menu title="Истории">
   <button
-        tuiButton
-        type="button"
-        size="s"
-        
-    >
-        Сохранить изменения
-    </button>
+    tuiButton
+    type="button"
+    size="s"
+    [disabled]="!(isChangeEntity$ | async) || false"
+  >
+    Сохранить изменения
+  </button>
 </app-tetriary-menu>
+
+<form [formGroup]="storyForm" class="tui-space_bottom-10">
+  <tui-input
+    formControlName="title"
+    class="tui-space_bottom-3"
+    tuiTextfieldIconLeft="tuiIconSearch"
+    [tuiTextfieldCleaner]="true"
+    >Поиск по историям</tui-input
+  >
+  <div tuiGroup class="group" [collapsed]="true">
+    <tui-radio-block
+      *ngFor="let category of categories"
+      contentAlign="right"
+      formControlName="category"
+      [hideRadio]="true"
+      [item]="category.id"
+      size="s"
+      class="tui-group__auto-width-item"
+    >
+      {{ category.name }}
+    </tui-radio-block>
+  </div>
+</form>
 
 <tui-loader
   [showLoader]="true"
@@ -16,6 +39,20 @@
 ></tui-loader>
 
 <ng-template #storiesInfo>
-  <app-story-card *ngFor="let story of stories$ | async; let index = index" [story]="story"></app-story-card>
+  <div
+    cdkDropList
+    [cdkDropListData]="stories"
+    (cdkDropListDropped)="onDragDropStories($event)"
+  >
+    <app-story-card
+      *ngFor="let story of stories$ | async; let index = index"
+      [story]="story"
+      cdkDrag
+      (onDeleteStory)="deleteStory($event)"
+      (onEditStory)="editStory($event)"
+      (onOpenStory)="openStory($event)"
+      (onActiveStory)="activeStory($event)"
+    ></app-story-card>
+  </div>
   <button tuiButton class="max-width">Добавить новую историю</button>
 </ng-template>

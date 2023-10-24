@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ManagersContainerComponent } from './components/managers-container.component';
+import { ChaptersResolver } from './resolvers/chapters.resolver';
 
 const routes: Routes = [
   {
@@ -13,6 +14,16 @@ const routes: Routes = [
           import('./modules/stories/stories.module').then(
             (m) => m.StoriesModule
           ),
+      },
+      {
+        path: 'story/:id',
+        loadChildren: () =>
+          import('./modules/story-info/story-info.module').then(
+            (m) => m.StoryInfoModule
+          ),
+        resolve: {
+          chapters: ChaptersResolver,
+        },
       },
       // {
       //     path: 'add',

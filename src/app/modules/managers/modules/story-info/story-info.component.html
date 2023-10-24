@@ -1,0 +1,18 @@
+<app-tetriary-menu [title]="title" [navigateBack]="navigateBack">
+</app-tetriary-menu>
+
+<tui-loader
+  [showLoader]="true"
+  *ngIf="loader$ | async; else chaptersInfo"
+  size="xxl"
+></tui-loader>
+
+<ng-template #chaptersInfo>
+  <div class="chapter">
+    <app-chapter-card
+      *ngFor="let chapter of chapters$ | async"
+      [chapter]="chapter"
+    >
+    </app-chapter-card>
+  </div>
+</ng-template>

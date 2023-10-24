@@ -1,17 +1,37 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import { ManagersState, initialState } from './managers.state';
-import { loadStories, loadedStories } from './managers.actions';
+import {
+  changeWeightStoriesSuccess,
+  loadChapters,
+  loadStories,
+  loadedChapters,
+  loadedStories,
+} from './managers.actions';
 
 const reducer = createReducer(
   initialState,
   on(loadStories, (state) => ({
     ...state,
-    storiesLoader: true,
+    loader: true,
   })),
   on(loadedStories, (state, { stories }) => ({
     ...state,
-    storiesLoader: false,
+    loader: false,
     stories,
+  })),
+  on(changeWeightStoriesSuccess, (state, { stories }) => ({
+    ...state,
+    stories,
+    isChangeEntity: true,
+  })),
+  on(loadChapters, (state) => ({
+    ...state,
+    loader: true,
+  })),
+  on(loadedChapters, (state, { chapters }) => ({
+    ...state,
+    loader: false,
+    chapters,
   }))
 );
 

@@ -11,19 +11,19 @@ import {
 } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { IStoryManagerInfo } from 'src/app/models';
+import { IManagerChapter, IStoryManagerInfo } from 'src/app/models';
 import { openStory } from '../../../users/store/users.actions';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-story-card',
-  templateUrl: './story-card.component.html',
-  styleUrls: ['./story-card.component.less'],
+  selector: 'app-chapter-card',
+  templateUrl: './chapter-card.component.html',
+  styleUrls: ['./chapter-card.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class StoryCardComponent implements OnChanges, OnInit, OnDestroy {
-  @Input() story!: IStoryManagerInfo;
+export class ChapterCardComponent implements OnChanges, OnInit, OnDestroy {
+  @Input() chapter!: IManagerChapter;
 
   @Output() onDeleteStory = new EventEmitter<number>();
   @Output() onEditStory = new EventEmitter<IStoryManagerInfo>();
@@ -42,17 +42,17 @@ export class StoryCardComponent implements OnChanges, OnInit, OnDestroy {
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.story?.firstChange) {
-      this.activeForm.patchValue({ active: this.story.active });
+    if (changes.chapter?.firstChange) {
+      this.activeForm.patchValue({ active: this.chapter.active });
     }
   }
 
   ngOnInit(): void {
-    this.activeForm.controls.active.valueChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((active) =>
-        this.onActiveStory.emit({ id: this.story.id, active })
-      );
+    // this.activeForm.controls.active.valueChanges
+    //   .pipe(takeUntil(this.destroy$))
+    //   .subscribe((active) =>
+    //     this.onActiveStory.emit({ id: this.story.id, active })
+    //   );
   }
 
   deleteStory(id: number) {
@@ -65,6 +65,10 @@ export class StoryCardComponent implements OnChanges, OnInit, OnDestroy {
 
   openStory(id: number) {
     this.onOpenStory.emit(id);
+  }
+
+  convertImg(img: string) {
+    return `url(${img}) no-repeat center top / cover`;
   }
 
   ngOnDestroy(): void {
