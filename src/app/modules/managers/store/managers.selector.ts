@@ -12,3 +12,7 @@ export const isChangeEntity = createSelector(
   state,
   (state) => state.isChangeEntity
 );
+export const storyFilters = createSelector(
+  state,
+  (state) => state.storyFilters
+);

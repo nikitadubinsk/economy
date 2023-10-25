@@ -1,7 +1,7 @@
 import { Inject, Injectable, Injector } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { filter, map, switchMap, take } from 'rxjs/operators';
+import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { ApiManagerService } from '../services/api-managers.service';
 import {
   changeWeightStories,
@@ -14,7 +14,7 @@ import {
   loadedStories,
 } from './managers.actions';
 import { EMPTY, forkJoin, of } from 'rxjs';
-import { stories } from './managers.selector';
+import { stories, storyFilters } from './managers.selector';
 import { tuiIsPresent } from '@taiga-ui/cdk';
 import { IStoryManagerInfo } from 'src/app/models';
 import { getChangedWeightsList } from '../utils/get-changed-weights-list';
@@ -39,9 +39,9 @@ export class ManagersEffects {
   loadStories$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadStories),
-      switchMap(() =>
+      switchMap(({ filters }) =>
         this.apiManagerService
-          .getStories()
+          .getStories(filters)
           .pipe(map((stories) => loadedStories({ stories })))
       )
     )
@@ -78,15 +78,21 @@ export class ManagersEffects {
             size: 'm',
           }),
           of(id),
+          this.store$.pipe(select(storyFilters), take(1), filter(tuiIsPresent)),
         ])
       ),
-      switchMap(([flag, id]) =>
-        flag ? this.apiManagerService.deleteStory(id) : EMPTY
-      ),
-      switchMap(() => [
-        loadStories(),
-        showSuccessMessage({ message: 'Вы успешно удалили историю' }),
-      ])
+      switchMap(([flag, id, filters]) =>
+        flag
+          ? this.apiManagerService
+              .deleteStory(id)
+              .pipe(
+                switchMap(() => [
+                  loadStories({ filters }),
+                  showSuccessMessage({ message: 'Вы успешно удалили историю' }),
+                ])
+              )
+          : EMPTY
+      )
     )
   );
 
@@ -94,20 +100,23 @@ export class ManagersEffects {
     this.actions$.pipe(
       ofType(editStory),
       switchMap(({ story }) =>
-        this.dialogService.open<{ story: IStoryManagerInfo }>(
-          new PolymorpheusComponent(EditStoryComponent, this.injector),
-          {
-            data: {
-              story,
-              action: ACTIONS.EDIT,
-            },
-          }
-        )
+        forkJoin([
+          this.dialogService.open<{ story: IStoryManagerInfo }>(
+            new PolymorpheusComponent(EditStoryComponent, this.injector),
+            {
+              data: {
+                story,
+                action: ACTIONS.EDIT,
+              },
+            }
+          ),
+          this.store$.pipe(select(storyFilters)),
+        ])
       ),
-      switchMap(({ story }) =>
+      switchMap(([{ story }, filters]) =>
         this.apiManagerService.editStory(story.id).pipe(
           switchMap(() => [
-            loadStories(),
+            loadStories({ filters }),
             showSuccessMessage({
               message: 'Вы успешно изминили историю',
             }),
@@ -121,15 +130,13 @@ export class ManagersEffects {
     this.actions$.pipe(
       ofType(activeStory),
       switchMap(({ id, active }) =>
-        this.apiManagerService
-          .activeStory(id, active)
-          .pipe(
-            map(() =>
-              showSuccessMessage({
-                message: 'Вы успешно изменили статус активности истории',
-              })
-            )
+        this.apiManagerService.activeStory(id, active).pipe(
+          map(() =>
+            showSuccessMessage({
+              message: 'Вы успешно изменили статус активности истории',
+            })
           )
+        )
       )
     )
   );

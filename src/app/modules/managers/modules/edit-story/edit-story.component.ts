@@ -27,6 +27,8 @@ export class EditStoryComponent {
 
   storyForm = this.fb.group({
     title: [undefined, [Validators.required]],
+    category: [undefined, [Validators.required]],
+    img: [undefined, [Validators.required]],
   });
 
   get title() {

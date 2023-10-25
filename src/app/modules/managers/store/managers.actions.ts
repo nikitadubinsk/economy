@@ -1,8 +1,14 @@
 import { createAction, props } from '@ngrx/store';
 import { managersFeatureKey } from './managers.selector';
 import { IManagerChapter, IStoryManagerInfo } from 'src/app/models';
+import { IStoryFilters } from '../models/filters.model';
 
-export const loadStories = createAction(`[${managersFeatureKey}] LOAD_STORIES`);
+export const loadStories = createAction(
+  `[${managersFeatureKey}] LOAD_STORIES`,
+  props<{
+    filters: Partial<IStoryFilters>;
+  }>()
+);
 export const loadedStories = createAction(
   `[${managersFeatureKey}] LOADED_STATISTICS`,
   props<{

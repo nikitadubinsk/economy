@@ -10,9 +10,10 @@ import {
 
 const reducer = createReducer(
   initialState,
-  on(loadStories, (state) => ({
+  on(loadStories, (state, { filters }) => ({
     ...state,
     loader: true,
+    storyFilters: filters,
   })),
   on(loadedStories, (state, { stories }) => ({
     ...state,

@@ -1,4 +1,9 @@
-import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  OnInit,
+  OnDestroy,
+} from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { isChangeEntity, stories, loader } from '../../store/managers.selector';
 import {
@@ -13,6 +18,8 @@ import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { STORY_CATEGORIES } from '../../consts/categories.const';
 import { FormBuilder } from '@angular/forms';
 import { navigateTo } from 'src/app/store';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-stories',
@@ -20,7 +27,7 @@ import { navigateTo } from 'src/app/store';
   styleUrls: ['./stories.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class StoriesComponent implements OnInit {
+export class StoriesComponent implements OnInit, OnDestroy {
   stories$ = this.store$.pipe(select(stories));
   loader$ = this.store$.pipe(select(loader));
   isChangeEntity$ = this.store$.pipe(select(isChangeEntity));
@@ -34,13 +41,21 @@ export class StoriesComponent implements OnInit {
     category: [1],
   });
 
+  private destroy$ = new Subject<void>();
+
   constructor(
     private readonly store$: Store,
     private readonly fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
-    this.store$.dispatch(loadStories());
+    this.store$.dispatch(loadStories({ filters: {} }));
+
+    this.storyForm.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((filters) => {
+        this.store$.dispatch(loadStories({ filters }));
+      });
   }
 
   onDragDropStories({ previousIndex, currentIndex }: CdkDragDrop<any>) {
@@ -65,5 +80,10 @@ export class StoriesComponent implements OnInit {
 
   activeStory(args: { id: number; active: boolean }) {
     this.store$.dispatch(activeStory({ id: args.id, active: args.active }));
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(undefined);
+    this.destroy$.complete();
   }
 }
