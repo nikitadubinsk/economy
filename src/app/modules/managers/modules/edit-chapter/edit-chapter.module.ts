@@ -37,6 +37,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EditChapterComponent } from './edit-chapter.component';
 import { EditChapterRoutingModule } from './edit-chapter.router';
 import { TetriaryMenuModule } from 'src/app/modules/shared/components/tetriary-menu/tetriary-menu.module';
+import { ChapterCardModule } from '../chapter-card/chapter-card.module';
 
 export const TUI_MODULES = [
   TuiLetModule,
@@ -71,6 +72,7 @@ export const TUI_MODULES = [
     ReactiveFormsModule,
     EditChapterRoutingModule,
     TetriaryMenuModule,
+    ChapterCardModule,
     ...TUI_MODULES,
     StoreModule.forFeature(managersFeatureKey, managersReducer),
     EffectsModule.forFeature([ManagersEffects]),

@@ -1,5 +1,5 @@
 <tui-island>
-  <div class="tui-island__content">
+  <div class="tui-island__content" *ngIf="!isEditMode">
     <div class="tui-island__figure">
       <form [formGroup]="activeForm">
         <tui-toggle formControlName="active" size="l"></tui-toggle>
@@ -9,7 +9,10 @@
       <p class="tui-island__paragraph">Дата создания: {{chapter.createdAt | date:"dd.MM.yyyy"}}</p>
     </div>
   </div>
-  <div class="chapter_info" [ngStyle]="{ background: convertImg(chapter.img || '') }">
+  <div class="tui-island__content content" *ngIf="isEditMode && !chapter.img">
+    <h2>Скоро здесь будет история</h2>
+  </div>
+  <div class="chapter_info" [ngStyle]="{ background: convertImg(chapter.img || '') }" *ngIf="chapter.img">
       <div class="chapter_text">
           <div class="chapter_text_body">
             <div *ngIf="!chapter.question; else question">
@@ -36,7 +39,7 @@
           </div>
         </div>
   </div>
-  <div class="tui-island__footer-button">
+  <div class="tui-island__footer-button" *ngIf="!isEditMode">
     <div tuiGroup class="group" [collapsed]="true">
       <button tuiButton type="button" appearance="flat" size="m" class="width_50" (click)="editStory()">
         Редактировать

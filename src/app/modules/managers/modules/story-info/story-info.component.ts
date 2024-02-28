@@ -44,7 +44,6 @@ export class StoryInfoComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // console.log(window.innerWidth)
     this.carouselCount = 3;
     // this.store$.dispatch(loadChapters({id: 1}));
   }
@@ -57,8 +56,8 @@ export class StoryInfoComponent implements OnInit {
     this.store$.dispatch(activeChapter({ id, active }));
   }
 
-  editStory(chapter: IManagerChapter) {
-    this.store$.dispatch(selectChapter({ chapter }));
+  editStory(id: number) {
+    this.store$.dispatch(selectChapter({ id }));
   }
 
   deleteStory(id: number) {

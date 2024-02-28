@@ -34,12 +34,12 @@ const reducer = createReducer(
     ...state,
     loader: false,
     chapters,
-  })),
-  on(selectChapter, (state, { chapter }) => ({
-    ...state,
-    loader: false,
-    chapter,
   }))
+  // on(selectChapter, (state, { chapter }) => ({
+  //   ...state,
+  //   loader: false,
+  //   chapter,
+  // }))
 );
 
 export function managersReducer(

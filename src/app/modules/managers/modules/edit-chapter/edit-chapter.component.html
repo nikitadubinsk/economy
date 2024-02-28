@@ -4,17 +4,7 @@
 <!-- <tui-loader [showLoader]="isShowLoader" size="xxl" [overlay]="true"></tui-loader> -->
 <form class="tui-space_top-3" [formGroup]="chapterForm">
   <div class="tui-row">
-    <div class="tui-col_8">
-      <div class="tui-form__row">
-        <tui-input formControlName="title" [tuiTextfieldCleaner]="true"
-          >Название<span class="tui-required"></span
-        ></tui-input>
-
-        <tui-error
-          [error]="[] | tuiFieldError | async"
-          formControlName="title"
-        ></tui-error>
-      </div>
+    <div class="tui-col_7">
       <div class="tui-form__row">
         <tui-input-files
           *ngIf="!imgControl.value"
@@ -71,14 +61,82 @@
           </tui-radio-block>
         </div>
       </div>
-      <div *ngIf="isTextType">
+      <div *ngIf="isTextType" class="tui-space_top-4">
+        <div class="tui-form__row">
+          <tui-input formControlName="title" [tuiTextfieldCleaner]="true"
+            >Заголовок<span class="tui-required"></span
+          ></tui-input>
+  
+          <tui-error
+            [error]="[] | tuiFieldError | async"
+            formControlName="title"
+          ></tui-error>
+        </div>
         <div class="tui-form__row">
           <tui-textarea formControlName="description">Текст</tui-textarea>
         </div>
       </div>
-      <div *ngIf="isQuestionType">
-        c;bnsjk;cbns;ddsfbsdf
+      <div *ngIf="isQuestionType" class="tui-space_top-4">
+        <div class="tui-form__row">
+          <tui-input formControlName="title" [tuiTextfieldCleaner]="true"
+            >Заголовок<span class="tui-required"></span
+          ></tui-input>
+  
+          <tui-error
+            [error]="[] | tuiFieldError | async"
+            formControlName="title"
+          ></tui-error>
+        </div>
+        <div class="tui-form__row">
+          <tui-input formControlName="answer1" [tuiTextfieldCleaner]="true"
+            >Первый вариант ответа<span class="tui-required"></span
+          ></tui-input>
+
+          <tui-error
+            [error]="[] | tuiFieldError | async"
+            formControlName="answer1"
+          ></tui-error>
+        </div>
+        <div class="tui-form__row">
+          <tui-input formControlName="answer2" [tuiTextfieldCleaner]="true"
+            >Второй вариант ответа<span class="tui-required"></span
+          ></tui-input>
+
+          <tui-error
+            [error]="[] | tuiFieldError | async"
+            formControlName="answer2"
+          ></tui-error>
+        </div>
+        <div class="tui-form__row">
+          <tui-input formControlName="answer3" [tuiTextfieldCleaner]="true"
+            >Третий вариант ответа<span class="tui-required"></span
+          ></tui-input>
+
+          <tui-error
+            [error]="[] | tuiFieldError | async"
+            formControlName="answer3"
+          ></tui-error>
+        </div>
+        <div class="tui-form__row">
+          <tui-input formControlName="answer4" [tuiTextfieldCleaner]="true"
+            >Четвертый вариант ответа<span class="tui-required"></span
+          ></tui-input>
+
+          <tui-error
+            [error]="[] | tuiFieldError | async"
+            formControlName="answer4"
+          ></tui-error>
+        </div>
+        <div class="tui-form__row">
+          <tui-textarea formControlName="description"
+            >Пояснение ответа</tui-textarea
+          >
+        </div>
       </div>
+      <button tuiButton class="tui-space_top-4">Сохранить историю</button>
+    </div>
+    <div class="tui-col_5">
+      <app-chapter-card [chapter]="chapter" class="chapter" [isEditMode]="true"> </app-chapter-card>
     </div>
   </div>
 </form>

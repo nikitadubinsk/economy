@@ -178,8 +178,8 @@ export class ManagersEffects {
       //     of(data),
       //   ])
       // ),
-      map(({ chapter }) =>
-        navigateTo({ payload: { path: [`/managers/story/1/${chapter.id}`] } })
+      map(({ id }) =>
+        navigateTo({ payload: { path: [`/managers/story/1/${id}`] } })
       )
     )
   );

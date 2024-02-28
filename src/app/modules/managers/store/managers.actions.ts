@@ -70,7 +70,7 @@ export const activeChapter = createAction(
 export const selectChapter = createAction(
   `[${managersFeatureKey}] SELECT_CHAPTER`,
   props<{
-    chapter: IManagerChapter;
+    id: number;
   }>()
 );
 export const deleteChapter = createAction(

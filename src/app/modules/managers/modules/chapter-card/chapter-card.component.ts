@@ -22,10 +22,11 @@ import { takeUntil } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChapterCardComponent implements OnChanges, OnInit, OnDestroy {
-  @Input() chapter!: IManagerChapter;
+  @Input() chapter!: Partial<IManagerChapter>;
+  @Input() isEditMode: boolean = false;
 
   @Output() onDeleteStory = new EventEmitter<number>();
-  @Output() onEditStory = new EventEmitter<IManagerChapter>();
+  @Output() onEditStory = new EventEmitter<number>();
   @Output() onOpenStory = new EventEmitter<number>();
   @Output() onActiveStory = new EventEmitter<{ id: number; active: boolean }>();
 
@@ -50,7 +51,7 @@ export class ChapterCardComponent implements OnChanges, OnInit, OnDestroy {
     this.activeForm.controls.active.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe((active) =>
-        this.onActiveStory.emit({ id: this.chapter.id, active })
+        this.onActiveStory.emit({ id: this.chapter.id || 0, active })
       );
   }
 
@@ -59,7 +60,9 @@ export class ChapterCardComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   editStory() {
-    this.onEditStory.emit(this.chapter);
+    if (this.chapter.id) {
+      this.onEditStory.emit(this.chapter.id);
+    }
   }
 
   openStory(id: number) {
