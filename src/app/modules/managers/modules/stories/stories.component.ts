@@ -16,7 +16,7 @@ import {
 import { IStoryManagerInfo } from '../../../../models/story.model';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { STORY_CATEGORIES } from '../../consts/categories.const';
-import { FormBuilder } from '@angular/forms';
+import { UntypedFormBuilder } from '@angular/forms';
 import { navigateTo } from 'src/app/store';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -45,7 +45,7 @@ export class StoriesComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly store$: Store,
-    private readonly fb: FormBuilder
+    private readonly fb: UntypedFormBuilder
   ) {}
 
   ngOnInit(): void {

@@ -1,8 +1,8 @@
 import { Component, ChangeDetectionStrategy, Inject } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { ACTIONS } from '../../consts/action.const';
-import {POLYMORPHEUS_CONTEXT} from '@tinkoff/ng-polymorpheus';
+import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 
 @Component({
   selector: 'app-edit-money-box',
@@ -11,8 +11,14 @@ import {POLYMORPHEUS_CONTEXT} from '@tinkoff/ng-polymorpheus';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EditMoneyBoxComponent {
-  constructor(private readonly fb: FormBuilder, @Inject(POLYMORPHEUS_CONTEXT)
-  private readonly context: TuiDialogContext<{action: ACTIONS, id: number, sum: number}, {id: number; action: ACTIONS}>) {}
+  constructor(
+    private readonly fb: UntypedFormBuilder,
+    @Inject(POLYMORPHEUS_CONTEXT)
+    private readonly context: TuiDialogContext<
+      { action: ACTIONS; id: number; sum: number },
+      { id: number; action: ACTIONS }
+    >
+  ) {}
 
   moneyBoxForm = this.fb.group({
     sum: [undefined, [Validators.required, Validators.min(1)]],
@@ -20,16 +26,18 @@ export class EditMoneyBoxComponent {
 
   get title() {
     if (this.context.data) {
-      return this.context.data.action === ACTIONS.ADD ? 'Пополнить копилку' : "Взять деньги из копилки"
+      return this.context.data.action === ACTIONS.ADD
+        ? 'Пополнить копилку'
+        : 'Взять деньги из копилки';
     } else {
-      return  "Добавить поступление"
+      return 'Добавить поступление';
     }
   }
 
   editMoneyBox() {
     this.context.completeWith({
       ...this.context.data,
-      sum: this.moneyBoxForm.value.sum
+      sum: this.moneyBoxForm.value.sum,
     });
   }
 }

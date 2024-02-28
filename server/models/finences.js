@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Finances.belongsTo(models.Users, {
         foreignKey: "userId",
-        as: "user"
+        as: "user",
       });
     }
   }
@@ -16,21 +16,21 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
-        allowNull: false
+        allowNull: false,
       },
       userId: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        allowNull: false,
       },
       budget: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        allowNull: false,
       },
     },
     {
       sequelize,
       paranoid: true,
-      modelName: "Finances"
+      modelName: "Finances",
     }
   );
   return Finances;

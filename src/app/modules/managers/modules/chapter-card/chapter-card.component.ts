@@ -9,10 +9,9 @@ import {
   OnChanges,
   SimpleChanges,
 } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { UntypedFormBuilder } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { IManagerChapter, IStoryManagerInfo } from 'src/app/models';
-import { openStory } from '../../../users/store/users.actions';
+import { IManagerChapter } from 'src/app/models';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -26,7 +25,7 @@ export class ChapterCardComponent implements OnChanges, OnInit, OnDestroy {
   @Input() chapter!: IManagerChapter;
 
   @Output() onDeleteStory = new EventEmitter<number>();
-  @Output() onEditStory = new EventEmitter<IStoryManagerInfo>();
+  @Output() onEditStory = new EventEmitter<IManagerChapter>();
   @Output() onOpenStory = new EventEmitter<number>();
   @Output() onActiveStory = new EventEmitter<{ id: number; active: boolean }>();
 
@@ -38,7 +37,7 @@ export class ChapterCardComponent implements OnChanges, OnInit, OnDestroy {
 
   constructor(
     private readonly store$: Store,
-    private readonly fb: FormBuilder
+    private readonly fb: UntypedFormBuilder
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -48,19 +47,19 @@ export class ChapterCardComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // this.activeForm.controls.active.valueChanges
-    //   .pipe(takeUntil(this.destroy$))
-    //   .subscribe((active) =>
-    //     this.onActiveStory.emit({ id: this.story.id, active })
-    //   );
+    this.activeForm.controls.active.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((active) =>
+        this.onActiveStory.emit({ id: this.chapter.id, active })
+      );
   }
 
-  deleteStory(id: number) {
-    this.onDeleteStory.emit(id);
+  deleteStory() {
+    this.onDeleteStory.emit(this.chapter.id);
   }
 
-  editStory(story: IStoryManagerInfo) {
-    this.onEditStory.emit(story);
+  editStory() {
+    this.onEditStory.emit(this.chapter);
   }
 
   openStory(id: number) {

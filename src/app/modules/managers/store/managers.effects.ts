@@ -1,11 +1,13 @@
 import { Inject, Injectable, Injector } from '@angular/core';
-import { Store, select } from '@ngrx/store';
+import { Store, select, props } from '@ngrx/store';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { ApiManagerService } from '../services/api-managers.service';
 import {
+  activeChapter,
   changeWeightStories,
   changeWeightStoriesSuccess,
+  deleteChapter,
   deleteStory,
   editStory,
   loadChapters,
@@ -18,13 +20,13 @@ import { stories, storyFilters } from './managers.selector';
 import { tuiIsPresent } from '@taiga-ui/cdk';
 import { IStoryManagerInfo } from 'src/app/models';
 import { getChangedWeightsList } from '../utils/get-changed-weights-list';
-import { showSuccessMessage } from 'src/app/store';
+import { navigateTo, showSuccessMessage } from 'src/app/store';
 import { TuiDialogService } from '@taiga-ui/core';
 import { TUI_PROMPT } from '@taiga-ui/kit';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { EditStoryComponent } from '../modules/edit-story/edit-story.component';
 import { ACTIONS } from '../consts/action.const';
-import { activeStory } from './managers.actions';
+import { activeStory, selectChapter } from './managers.actions';
 
 @Injectable()
 export class ManagersEffects {
@@ -148,6 +150,63 @@ export class ManagersEffects {
         this.apiManagerService
           .getChapters(id)
           .pipe(map((chapters) => loadedChapters({ chapters })))
+      )
+    )
+  );
+
+  activeChapter$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(activeChapter),
+      switchMap(({ id, active }) =>
+        this.apiManagerService.activeChapter(id, active).pipe(
+          map(() =>
+            showSuccessMessage({
+              message: 'Вы успешно изменили статус активности истории',
+            })
+          )
+        )
+      )
+    )
+  );
+
+  selectChapter$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(selectChapter),
+      // switchMap((data) =>
+      //   forkJoin([
+      //     this.store$.pipe(select(stories), take(1), filter(tuiIsPresent)),
+      //     of(data),
+      //   ])
+      // ),
+      map(({ chapter }) =>
+        navigateTo({ payload: { path: [`/managers/story/1/${chapter.id}`] } })
+      )
+    )
+  );
+
+  eleteChapter$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(deleteChapter),
+      switchMap(({ id }) =>
+        forkJoin([
+          this.dialogService.open<boolean>(TUI_PROMPT, {
+            label: 'Вы действительно хотите удалить историю?',
+            size: 'm',
+          }),
+          of(id),
+        ])
+      ),
+      switchMap(([flag, id]) =>
+        flag
+          ? this.apiManagerService
+              .deleteStory(id)
+              .pipe(
+                switchMap(() => [
+                  loadChapters({ id: 1 }),
+                  showSuccessMessage({ message: 'Вы успешно удалили историю' }),
+                ])
+              )
+          : EMPTY
       )
     )
   );

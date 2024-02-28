@@ -1,13 +1,13 @@
-import { IBudget } from "./statistics.model";
+import { IBudget } from './statistics.model';
 
 export interface IMoneyBox {
-    id: number;
-    name: string;
-    sum: IBudget;
-    date?: IMoneyBoxDate;
+  id: number;
+  name: string;
+  sum: IBudget;
+  date?: IMoneyBoxDate;
 }
 
 export interface IMoneyBoxDate {
-    dateStart: string;
-    dateEnd: string; 
+  dateStart: string;
+  dateEnd: string;
 }

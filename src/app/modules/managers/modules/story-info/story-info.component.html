@@ -8,11 +8,50 @@
 ></tui-loader>
 
 <ng-template #chaptersInfo>
-  <div class="chapter">
-    <app-chapter-card
-      *ngFor="let chapter of chapters$ | async"
-      [chapter]="chapter"
-    >
-    </app-chapter-card>
+  <div *tuiLet="chapters$ | async as chapters">
+    <div tuiCarouselButtons class="wrapper">
+      <button
+        icon="tuiIconChevronLeftLarge"
+        title="Previous"
+        tuiIconButton
+        type="button"
+        (click)="carousel.prev()"
+        [disabled]="index === 0"
+      ></button>
+      <tui-carousel
+        [draggable]="true"
+        [itemsCount]="carouselCount"
+        [(index)]="index"
+        #carousel
+        class="carousel"
+      >
+        <ng-container *ngFor="let chapter of chapters">
+          <div *tuiItem>
+            <app-chapter-card
+              [chapter]="chapter"
+              class="chapter"
+              (onActiveStory)="activeStory($event)"
+              (onEditStory)="editStory($event)"
+              (onDeleteStory)="deleteStory($event)"
+            >
+            </app-chapter-card>
+          </div>
+        </ng-container>
+      </tui-carousel>
+      <button
+        icon="tuiIconChevronRightLarge"
+        title="Next"
+        tuiIconButton
+        type="button"
+        (click)="carousel.next()"
+        [disabled]="index === (chapters?.length || 0) - carouselCount"
+      ></button>
+    </div>
+    <tui-pagination
+      size="s"
+      class="pagination tui-space_top-6"
+      [length]="(chapters?.length || 0) - carouselCount + 1"
+      [(index)]="index"
+    ></tui-pagination>
   </div>
 </ng-template>

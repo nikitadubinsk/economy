@@ -2,6 +2,7 @@ import { createAction, props } from '@ngrx/store';
 import { managersFeatureKey } from './managers.selector';
 import { IManagerChapter, IStoryManagerInfo } from 'src/app/models';
 import { IStoryFilters } from '../models/filters.model';
+import { TuiFileLike } from '@taiga-ui/kit';
 
 export const loadStories = createAction(
   `[${managersFeatureKey}] LOAD_STORIES`,
@@ -57,5 +58,30 @@ export const loadedChapters = createAction(
   `[${managersFeatureKey}] LOADED_CHAPTERS`,
   props<{
     chapters: IManagerChapter[];
+  }>()
+);
+export const activeChapter = createAction(
+  `[${managersFeatureKey}] ACTIVE_CHAPTER`,
+  props<{
+    id: number;
+    active: boolean;
+  }>()
+);
+export const selectChapter = createAction(
+  `[${managersFeatureKey}] SELECT_CHAPTER`,
+  props<{
+    chapter: IManagerChapter;
+  }>()
+);
+export const deleteChapter = createAction(
+  `[${managersFeatureKey}] DELETE_CHAPTER`,
+  props<{
+    id: number;
+  }>()
+);
+export const loadChapterImage = createAction(
+  `[${managersFeatureKey}] LOAD_CHAPTER_IMAGE`,
+  props<{
+    file: TuiFileLike;
   }>()
 );

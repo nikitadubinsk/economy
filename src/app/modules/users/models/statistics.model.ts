@@ -1,25 +1,25 @@
 export interface IUserStatistics {
-    budget: IBudget;
-    days: [string, number][];
-    categories: ICategory[];
+  budget: IBudget;
+  days: [string, number][];
+  categories: ICategory[];
 }
 
 export interface IChildrenStatistics {
-    budget: IBudget;
-    categories: IChildrenCategory[]
+  budget: IBudget;
+  categories: IChildrenCategory[];
 }
 
 export interface IBudget {
-    plan: number;
-    fact: number;
+  plan: number;
+  fact: number;
 }
 
 export interface IChildrenCategory {
-    name: string;
-    percent: number;
+  name: string;
+  percent: number;
 }
 
 export interface ICategory {
-    name: string;
-    sum: number;
+  name: string;
+  sum: number;
 }

@@ -9,7 +9,7 @@ import {
   OnChanges,
   SimpleChanges,
 } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { UntypedFormBuilder } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { IStoryManagerInfo } from 'src/app/models';
 import { openStory } from '../../../users/store/users.actions';
@@ -38,7 +38,7 @@ export class StoryCardComponent implements OnChanges, OnInit, OnDestroy {
 
   constructor(
     private readonly store$: Store,
-    private readonly fb: FormBuilder
+    private readonly fb: UntypedFormBuilder
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {

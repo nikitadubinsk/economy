@@ -4,7 +4,7 @@ import {
   OnInit,
   OnDestroy,
 } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { UntypedFormBuilder } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 import { loadTransactions } from '../../../store';
 import {
@@ -12,7 +12,12 @@ import {
   transactions,
 } from '../../../store/users.selector';
 import { Subject } from 'rxjs';
-import { takeUntil, filter, debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import {
+  takeUntil,
+  filter,
+  debounceTime,
+  distinctUntilChanged,
+} from 'rxjs/operators';
 import { isEqual } from 'src/app/utils/is-equal.util';
 
 @Component({
@@ -34,14 +39,18 @@ export class UserTransactionsComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly store$: Store,
-    private readonly fb: FormBuilder
+    private readonly fb: UntypedFormBuilder
   ) {}
 
   ngOnInit(): void {
     this.store$.dispatch(loadTransactions({ filter: {} }));
 
     this.filterForm.valueChanges
-      .pipe(distinctUntilChanged(isEqual), debounceTime(500), takeUntil(this.destroy$))
+      .pipe(
+        distinctUntilChanged(isEqual),
+        debounceTime(500),
+        takeUntil(this.destroy$)
+      )
       .subscribe((filter) =>
         this.store$.dispatch(
           loadTransactions({

@@ -6,6 +6,7 @@ import {
   loadStories,
   loadedChapters,
   loadedStories,
+  selectChapter,
 } from './managers.actions';
 
 const reducer = createReducer(
@@ -33,6 +34,11 @@ const reducer = createReducer(
     ...state,
     loader: false,
     chapters,
+  })),
+  on(selectChapter, (state, { chapter }) => ({
+    ...state,
+    loader: false,
+    chapter,
   }))
 );
 

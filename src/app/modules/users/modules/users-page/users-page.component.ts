@@ -4,7 +4,7 @@ import {
   OnInit,
   Inject,
 } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 import {
   TuiDay,
@@ -108,7 +108,7 @@ export class UsersPageComponent implements OnInit {
 
   constructor(
     private readonly store$: Store,
-    private readonly fb: FormBuilder,
+    private readonly fb: UntypedFormBuilder,
     @Inject(TUI_MONTHS) private readonly months$: Observable<readonly string[]>
   ) {}
 
@@ -144,7 +144,7 @@ export class UsersPageComponent implements OnInit {
     this.store$.dispatch(loadStories());
     this.store$.dispatch(loadMoneyBoxes());
     this.store$.dispatch(loadTransactions({ filter: {} }));
-    this.store$.dispatch(loadChildrens())
+    this.store$.dispatch(loadChildrens());
   }
 
   categories(categories: ICategory[]): readonly number[] {
@@ -257,7 +257,10 @@ export class UsersPageComponent implements OnInit {
     return this.activeMoneyBoxesItemIndex[idx] === index;
   }
 
-  convertLegendMoneyBoxesLabel(idx: number, moneyBox: IMoneyBox): string | undefined {
+  convertLegendMoneyBoxesLabel(
+    idx: number,
+    moneyBox: IMoneyBox
+  ): string | undefined {
     if (idx == 0) {
       return `${moneyBox.sum.fact}₽/${moneyBox.sum.plan}₽`;
     } else if (moneyBox.date) {
@@ -266,7 +269,7 @@ export class UsersPageComponent implements OnInit {
         TuiDay.fromLocalNativeDate(new Date(moneyBox.date.dateEnd))
       ).toString();
 
-      return +range >=0 ? range : '0';
+      return +range >= 0 ? range : '0';
     } else {
       return undefined;
     }
@@ -285,6 +288,6 @@ export class UsersPageComponent implements OnInit {
   }
 
   createNewReceipt() {
-    this.store$.dispatch(addReceipt())
+    this.store$.dispatch(addReceipt());
   }
 }

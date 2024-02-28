@@ -1,5 +1,5 @@
 export interface IChildren {
-    id: number;
-    name: string;
-    createdAt: string
+  id: number;
+  name: string;
+  createdAt: string;
 }

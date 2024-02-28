@@ -5,7 +5,7 @@ import { isDarkMode } from './store';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.less']
+  styleUrls: ['./app.component.less'],
 })
 export class AppComponent {
   isDarkMode$ = this.store$.pipe(select(isDarkMode));

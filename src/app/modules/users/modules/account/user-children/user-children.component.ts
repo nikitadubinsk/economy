@@ -34,12 +34,12 @@ export class UserChildrenComponent implements OnInit {
   }
 
   deleteChildren(id: number, event: Event) {
-    event.stopPropagation()
-    this.store$.dispatch(deleteChildren({id}))
+    event.stopPropagation();
+    this.store$.dispatch(deleteChildren({ id }));
   }
 
   loadChildStatistics(id: number) {
-      this.store$.dispatch(loadChildrenStatistics({ id }));
+    this.store$.dispatch(loadChildrenStatistics({ id }));
   }
 
   getCategories(categories: IChildrenCategory[]): readonly number[] {
@@ -81,6 +81,6 @@ export class UserChildrenComponent implements OnInit {
   }
 
   addChildren() {
-    this.store$.dispatch(addChildren())
+    this.store$.dispatch(addChildren());
   }
 }

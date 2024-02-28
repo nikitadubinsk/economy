@@ -4,10 +4,11 @@ import {
   OnInit,
   Inject,
 } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { ACTIONS } from '../../consts/action.const';
+import { STORY_CATEGORIES } from '../../consts/categories.const';
 
 @Component({
   selector: 'app-edit-story',
@@ -17,7 +18,7 @@ import { ACTIONS } from '../../consts/action.const';
 })
 export class EditStoryComponent {
   constructor(
-    private readonly fb: FormBuilder,
+    private readonly fb: UntypedFormBuilder,
     @Inject(POLYMORPHEUS_CONTEXT)
     private readonly context: TuiDialogContext<
       { id: number },
@@ -30,6 +31,8 @@ export class EditStoryComponent {
     category: [undefined, [Validators.required]],
     img: [undefined, [Validators.required]],
   });
+
+  categories = STORY_CATEGORIES;
 
   get title() {
     if (this.context.data) {

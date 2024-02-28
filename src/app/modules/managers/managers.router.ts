@@ -25,13 +25,13 @@ const routes: Routes = [
           chapters: ChaptersResolver,
         },
       },
-      // {
-      //     path: 'add',
-      //     loadChildren: () =>
-      //         import('./modules/create-transaction/create-transaction.module').then(
-      //             m => m.CreateTransactionModule
-      //         ),
-      // },
+      {
+        path: 'story/:id/:chapterId',
+        loadChildren: () =>
+          import('./modules/edit-chapter/edit-chapter.module').then(
+            (m) => m.EditChapterModule
+          ),
+      },
       // {
       //     path: 'section/:chapterId',
       //     loadChildren: () =>

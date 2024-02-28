@@ -26,9 +26,9 @@ import {
   managersReducer,
 } from '../../store';
 import {
-  TuiInputModule,
+  TuiCarouselModule,
   TuiIslandModule,
-  TuiRadioBlockModule,
+  TuiPaginationModule,
   TuiToggleModule,
 } from '@taiga-ui/kit';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -45,6 +45,9 @@ export const TUI_MODULES = [
   TuiGroupModule,
   TuiButtonModule,
   TuiToggleModule,
+  TuiCarouselModule,
+  TuiPaginationModule,
+  TuiLetModule,
 ];
 
 @NgModule({

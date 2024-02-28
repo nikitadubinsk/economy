@@ -1,9 +1,9 @@
 export interface ISimpleItem {
-    id: number;
-    name: string;
+  id: number;
+  name: string;
 }
 
 export interface ISimpleItemWeight {
-    id: number;
-    weight: number;
+  id: number;
+  weight: number;
 }

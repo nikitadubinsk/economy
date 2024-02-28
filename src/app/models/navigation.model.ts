@@ -1,4 +1,4 @@
 export interface NavigationPayload {
-    path: (string | number)[];
-    queryParams?: object;
+  path: (string | number)[];
+  queryParams?: object;
 }

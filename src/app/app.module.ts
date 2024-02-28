@@ -20,7 +20,7 @@ import { TUI_LANGUAGE, TUI_RUSSIAN_LANGUAGE } from '@taiga-ui/i18n';
 import { of } from 'rxjs';
 
 import { registerLocaleData } from '@angular/common';
-import localeRu from '@angular/common/locales/ru'
+import localeRu from '@angular/common/locales/ru';
 
 registerLocaleData(localeRu);
 

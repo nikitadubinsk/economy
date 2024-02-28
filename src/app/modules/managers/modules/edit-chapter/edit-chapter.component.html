@@ -1,0 +1,88 @@
+<app-tetriary-menu [title]="title" [navigateBack]="navigateBack">
+</app-tetriary-menu>
+
+<!-- <tui-loader [showLoader]="isShowLoader" size="xxl" [overlay]="true"></tui-loader> -->
+<form class="tui-space_top-3" [formGroup]="chapterForm">
+  <div class="tui-row">
+    <div class="tui-col_8">
+      <div class="tui-form__row">
+        <tui-input formControlName="title" [tuiTextfieldCleaner]="true"
+          >Название<span class="tui-required"></span
+        ></tui-input>
+
+        <tui-error
+          [error]="[] | tuiFieldError | async"
+          formControlName="title"
+        ></tui-error>
+      </div>
+      <div class="tui-form__row">
+        <tui-input-files
+          *ngIf="!imgControl.value"
+          accept="image/*"
+          formControlName="img"
+          (reject)="onReject($event)"
+          link="Выберите картинку для фона истории"
+          label="или перетащите ее сюда"
+        ></tui-input-files>
+
+        <tui-files class="tui-space_top-1">
+          <tui-file
+            *ngIf="imgControl.value"
+            [file]="imgControl.value"
+            [showDelete]="imgControl.enabled"
+            (removed)="removeFile()"
+          ></tui-file>
+
+          <tui-file
+            *ngIf="rejectedFiles$ | async as file"
+            state="error"
+            [file]="file"
+            [showDelete]="imgControl.enabled"
+            (removed)="clearRejected()"
+          ></tui-file>
+
+          <tui-file
+            *ngIf="loadingFiles$ | async as file"
+            state="loading"
+            [file]="file"
+            [showDelete]="imgControl.enabled"
+          ></tui-file>
+        </tui-files>
+      </div>
+      <div class="group tui-form__row">
+        <div tuiGroup class="group" [collapsed]="true">
+          <tui-radio-block
+            contentAlign="right"
+            formControlName="type"
+            size="l"
+            [hideRadio]="true"
+            item="text"
+          >
+            Текст
+          </tui-radio-block>
+          <tui-radio-block
+            contentAlign="right"
+            formControlName="type"
+            size="l"
+            [hideRadio]="true"
+            item="question"
+          >
+            Вопрос
+          </tui-radio-block>
+        </div>
+      </div>
+      <div *ngIf="isTextType">
+        <div class="tui-form__row">
+          <tui-textarea formControlName="description">Текст</tui-textarea>
+        </div>
+      </div>
+      <div *ngIf="isQuestionType">
+        c;bnsjk;cbns;ddsfbsdf
+      </div>
+    </div>
+  </div>
+</form>
+
+<ng-template #itemContent let-item>
+  {{ item.name || item.code }}
+</ng-template>

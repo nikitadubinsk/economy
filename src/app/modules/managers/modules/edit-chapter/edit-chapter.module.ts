@@ -10,6 +10,7 @@ import {
   TuiErrorModule,
   TuiGroupModule,
   TuiLoaderModule,
+  TuiTextfieldControllerModule,
 } from '@taiga-ui/core';
 import { StoryModule } from 'src/app/modules/shared/components/story/story.module';
 import {
@@ -18,15 +19,24 @@ import {
   managersReducer,
 } from '../../store';
 import {
+  TuiCheckboxBlockModule,
+  TuiCheckboxModule,
   TuiDataListWrapperModule,
   TuiFieldErrorPipeModule,
+  TuiFilesModule,
+  TuiInputFilesModule,
   TuiInputModule,
   TuiIslandModule,
+  TuiRadioBlockModule,
+  TuiRadioModule,
   TuiSelectModule,
+  TuiTextareaModule,
   TuiToggleModule,
 } from '@taiga-ui/kit';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { EditStoryComponent } from './edit-story.component';
+import { EditChapterComponent } from './edit-chapter.component';
+import { EditChapterRoutingModule } from './edit-chapter.router';
+import { TetriaryMenuModule } from 'src/app/modules/shared/components/tetriary-menu/tetriary-menu.module';
 
 export const TUI_MODULES = [
   TuiLetModule,
@@ -41,19 +51,29 @@ export const TUI_MODULES = [
   TuiSelectModule,
   TuiDataListModule,
   TuiDataListWrapperModule,
+  TuiTextfieldControllerModule,
+  TuiTextareaModule,
+  TuiCheckboxBlockModule,
+  TuiCheckboxModule,
+  TuiRadioModule,
+  TuiRadioBlockModule,
+  TuiInputFilesModule,
+  TuiFilesModule,
 ];
 
 @NgModule({
-  declarations: [EditStoryComponent],
-  exports: [EditStoryComponent],
+  declarations: [EditChapterComponent],
+  exports: [EditChapterComponent],
   imports: [
     CommonModule,
     StoryModule,
     FormsModule,
     ReactiveFormsModule,
+    EditChapterRoutingModule,
+    TetriaryMenuModule,
     ...TUI_MODULES,
     StoreModule.forFeature(managersFeatureKey, managersReducer),
     EffectsModule.forFeature([ManagersEffects]),
   ],
 })
-export class EditStoryModule {}
+export class EditChapterModule {}

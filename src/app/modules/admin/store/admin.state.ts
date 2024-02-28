@@ -1,7 +1,7 @@
 export interface AdminState {
-    statistics: [] | null
+  statistics: [] | null;
 }
 
 export const initialState: AdminState = {
-    statistics: null
+  statistics: null,
 };

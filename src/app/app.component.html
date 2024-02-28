@@ -1,6 +1,5 @@
 <tui-root>
   <router-outlet></router-outlet>
-  <tui-theme-night *ngIf="isDarkMode$ | async"></tui-theme-night>
   <ng-container ngProjectAs="tuiOverContent">
   </ng-container>
   <ng-container ngProjectAs="tuiOverDialogs">
@@ -11,4 +10,5 @@
   </ng-container>
   <ng-container ngProjectAs="tuiOverHints">
   </ng-container>
+  <tui-theme-night *ngIf="isDarkMode$ | async"></tui-theme-night>
 </tui-root>

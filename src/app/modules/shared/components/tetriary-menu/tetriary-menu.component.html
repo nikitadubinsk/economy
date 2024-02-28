@@ -2,10 +2,10 @@
     <a
         *ngIf="navigateBack"
         class="back"
-        [routerLink]="navigateBack?.routerLink"
-        [queryParams]="navigateBack?.queryParams"
+        [routerLink]="navigateBack.routerLink"
+        [queryParams]="navigateBack.queryParams"
     >
-        &#8592; {{ navigateBack?.caption }}
+        &#8592; {{ navigateBack.caption }}
     </a>
     <div class="navigation__content tui-container_adaptive">
         <div class="wrapper">

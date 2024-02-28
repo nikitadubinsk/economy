@@ -1,4 +1,4 @@
-import { IManagerChapter, IStoryInfo, IStoryManagerInfo } from 'src/app/models';
+import { IManagerChapter, IStoryManagerInfo } from 'src/app/models';
 import { IStoryFilters } from '../models/filters.model';
 
 export interface ManagersState {
@@ -7,6 +7,8 @@ export interface ManagersState {
   loader: boolean;
   isChangeEntity: boolean;
   storyFilters: Partial<IStoryFilters>;
+  chapter: IManagerChapter | null;
+  storyId: number;
 }
 
 export const initialState: ManagersState = {
@@ -15,4 +17,6 @@ export const initialState: ManagersState = {
   loader: false,
   isChangeEntity: false,
   storyFilters: {},
+  chapter: null,
+  storyId: 0,
 };

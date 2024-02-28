@@ -40,11 +40,6 @@ export const TUI_MODULES = [
 
 @NgModule({
   declarations: [EditMoneyBoxComponent],
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    ...TUI_MODULES,
-  ],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, ...TUI_MODULES],
 })
 export class EditMoneyBoxModule {}

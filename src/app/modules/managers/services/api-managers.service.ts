@@ -39,4 +39,14 @@ export class ApiManagerService extends ApiService {
     //return this.get<IStoryManagerInfo[]>(this.endpoints.managers).pipe(map(d => d.data));
     return of(mockManagerChapters).pipe(delay(2000));
   }
+
+  activeChapter(id: number, active: boolean): Observable<void> {
+    //return this.get<IStoryManagerInfo[]>(this.endpoints.managers).pipe(map(d => d.data));
+    return of(undefined).pipe(delay(500));
+  }
+
+  deleteChapter(id: number): Observable<void> {
+    //return this.get<IStoryManagerInfo[]>(this.endpoints.managers).pipe(map(d => d.data));
+    return of(undefined).pipe(delay(1000));
+  }
 }

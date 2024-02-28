@@ -24,7 +24,7 @@ export const TUI_MODULES = [
   TuiRepeatTimesModule,
   TuiMoneyModule,
   TuiSvgModule,
-  TuiButtonModule
+  TuiButtonModule,
 ];
 
 @NgModule({
