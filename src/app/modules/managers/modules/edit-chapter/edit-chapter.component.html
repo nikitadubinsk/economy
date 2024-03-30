@@ -1,145 +1,174 @@
-<app-tetriary-menu [title]="title" [navigateBack]="navigateBack">
+<app-tetriary-menu [title]="title$ | async" [navigateBack]="navigateBack">
 </app-tetriary-menu>
 
-<!-- <tui-loader [showLoader]="isShowLoader" size="xxl" [overlay]="true"></tui-loader> -->
-<form class="tui-space_top-3" [formGroup]="chapterForm">
-  <div class="tui-row">
-    <div class="tui-col_7">
-      <div class="tui-form__row">
-        <tui-input-files
-          *ngIf="!imgControl.value"
-          accept="image/*"
-          formControlName="img"
-          (reject)="onReject($event)"
-          link="Выберите картинку для фона истории"
-          label="или перетащите ее сюда"
-        ></tui-input-files>
+<tui-loader
+  [showLoader]="true"
+  *ngIf="loader$ | async; else chapterInfo"
+  size="xxl"
+></tui-loader>
 
-        <tui-files class="tui-space_top-1">
-          <tui-file
-            *ngIf="imgControl.value"
-            [file]="imgControl.value"
-            [showDelete]="imgControl.enabled"
-            (removed)="removeFile()"
-          ></tui-file>
+<ng-template #chapterInfo>
+  <form class="tui-space_top-3" [formGroup]="chapterForm" *tuiLet="isEdit$ | async as isEdit">
+    <div class="tui-row">
+      <div class="tui-col_7">
+        <div class="tui-form__row" *tuiLet="loadedFiles$ | async as loadedFiles">
+          <tui-input-files
+            *ngIf="!imgControl.value"
+            accept="image/*"
+            formControlName="img"
+            link="Выберите картинку для фона истории"
+            label="или перетащите ее сюда"
+          ></tui-input-files>
 
-          <tui-file
-            *ngIf="rejectedFiles$ | async as file"
-            state="error"
-            [file]="file"
-            [showDelete]="imgControl.enabled"
-            (removed)="clearRejected()"
-          ></tui-file>
-
-          <tui-file
-            *ngIf="loadingFiles$ | async as file"
-            state="loading"
-            [file]="file"
-            [showDelete]="imgControl.enabled"
-          ></tui-file>
-        </tui-files>
-      </div>
-      <div class="group tui-form__row">
-        <div tuiGroup class="group" [collapsed]="true">
-          <tui-radio-block
-            contentAlign="right"
-            formControlName="type"
-            size="l"
-            [hideRadio]="true"
-            item="text"
+          <tui-files
+            class="tui-space_top-1"
+            *tuiLet="loadingFiles$ | async as loadingFiles"
           >
-            Текст
-          </tui-radio-block>
-          <tui-radio-block
-            contentAlign="right"
-            formControlName="type"
-            size="l"
-            [hideRadio]="true"
-            item="question"
+            <tui-file
+              *ngIf="imgControl.value && !loadingFiles"
+              [file]="imgControl.value"
+              [showDelete]="imgControl.enabled"
+              (removed)="removeFile()"
+            ></tui-file>
+
+            <tui-file
+              *ngIf="loadingFiles"
+              state="loading"
+              [file]="imgControl.value"
+              [showDelete]="imgControl.enabled"
+            ></tui-file>
+          </tui-files>
+        </div>
+        <div class="group tui-form__row">
+          <div tuiGroup class="group" [collapsed]="true">
+            <tui-radio-block
+              contentAlign="right"
+              formControlName="type"
+              size="l"
+              [hideRadio]="true"
+              item="text"
+            >
+              Текст
+            </tui-radio-block>
+            <tui-radio-block
+              contentAlign="right"
+              formControlName="type"
+              size="l"
+              [hideRadio]="true"
+              item="question"
+            >
+              Вопрос
+            </tui-radio-block>
+          </div>
+        </div>
+        <div *ngIf="isTextType" class="tui-space_top-4">
+          <div class="tui-form__row">
+            <tui-input formControlName="title" [tuiTextfieldCleaner]="true"
+              >Заголовок<span class="tui-required"></span
+            ></tui-input>
+
+            <tui-error
+              [error]="[] | tuiFieldError | async"
+              formControlName="title"
+            ></tui-error>
+          </div>
+          <div class="tui-form__row">
+            <tui-textarea
+              formControlName="description"
+              [expandable]="false"
+              class="field-large"
+              [rows]="15"
+              >Текст</tui-textarea
+            >
+          </div>
+        </div>
+        <div *ngIf="isQuestionType" class="tui-space_top-4">
+          <div class="tui-form__row">
+            <tui-input formControlName="title" [tuiTextfieldCleaner]="true"
+              >Заголовок<span class="tui-required"></span
+            ></tui-input>
+
+            <tui-error
+              [error]="[] | tuiFieldError | async"
+              formControlName="title"
+            ></tui-error>
+          </div>
+          <div class="tui-form__row">
+            <tui-input formControlName="answer1" [tuiTextfieldCleaner]="true"
+              >Первый вариант ответа<span class="tui-required"></span
+            ></tui-input>
+
+            <tui-error
+              [error]="[] | tuiFieldError | async"
+              formControlName="answer1"
+            ></tui-error>
+          </div>
+          <div class="tui-form__row">
+            <tui-input formControlName="answer2" [tuiTextfieldCleaner]="true"
+              >Второй вариант ответа<span class="tui-required"></span
+            ></tui-input>
+
+            <tui-error
+              [error]="[] | tuiFieldError | async"
+              formControlName="answer2"
+            ></tui-error>
+          </div>
+          <div class="tui-form__row">
+            <tui-input formControlName="answer3" [tuiTextfieldCleaner]="true"
+              >Третий вариант ответа<span class="tui-required"></span
+            ></tui-input>
+
+            <tui-error
+              [error]="[] | tuiFieldError | async"
+              formControlName="answer3"
+            ></tui-error>
+          </div>
+          <div class="tui-form__row">
+            <tui-input formControlName="answer4" [tuiTextfieldCleaner]="true"
+              >Четвертый вариант ответа<span class="tui-required"></span
+            ></tui-input>
+
+            <tui-error
+              [error]="[] | tuiFieldError | async"
+              formControlName="answer4"
+            ></tui-error>
+          </div>
+          <div class="tui-form__row">
+            <tui-textarea
+              formControlName="description"
+              [rows]="20"
+              class="field-large"
+              >Пояснение ответа</tui-textarea
+            >
+          </div>
+        </div>
+        <div class="tui-form__row tui-form__row_multi-fields">
+          <tui-toggle size="l" [showIcons]="true" formControlName="active"
+            >Активная</tui-toggle
           >
-            Вопрос
-          </tui-radio-block>
+          <p class="tui-text_body-m tui-space_left-3">Активная</p>
         </div>
+        <button
+          tuiButton
+          class="tui-space_top-4"
+          (click)="saveChapter(isEdit)"
+          [disabled]="chapterForm.invalid || chapterForm.pristine"
+          [showLoader]="(loaderButton$ | async) || false"
+        >
+          {{ buttonTitle$ | async }}
+        </button>
       </div>
-      <div *ngIf="isTextType" class="tui-space_top-4">
-        <div class="tui-form__row">
-          <tui-input formControlName="title" [tuiTextfieldCleaner]="true"
-            >Заголовок<span class="tui-required"></span
-          ></tui-input>
-  
-          <tui-error
-            [error]="[] | tuiFieldError | async"
-            formControlName="title"
-          ></tui-error>
-        </div>
-        <div class="tui-form__row">
-          <tui-textarea formControlName="description">Текст</tui-textarea>
-        </div>
+      <div class="tui-col_5">
+        <app-chapter-card
+          [chapter]="chapter"
+          class="chapter"
+          [isEditMode]="true"
+        >
+        </app-chapter-card>
       </div>
-      <div *ngIf="isQuestionType" class="tui-space_top-4">
-        <div class="tui-form__row">
-          <tui-input formControlName="title" [tuiTextfieldCleaner]="true"
-            >Заголовок<span class="tui-required"></span
-          ></tui-input>
-  
-          <tui-error
-            [error]="[] | tuiFieldError | async"
-            formControlName="title"
-          ></tui-error>
-        </div>
-        <div class="tui-form__row">
-          <tui-input formControlName="answer1" [tuiTextfieldCleaner]="true"
-            >Первый вариант ответа<span class="tui-required"></span
-          ></tui-input>
-
-          <tui-error
-            [error]="[] | tuiFieldError | async"
-            formControlName="answer1"
-          ></tui-error>
-        </div>
-        <div class="tui-form__row">
-          <tui-input formControlName="answer2" [tuiTextfieldCleaner]="true"
-            >Второй вариант ответа<span class="tui-required"></span
-          ></tui-input>
-
-          <tui-error
-            [error]="[] | tuiFieldError | async"
-            formControlName="answer2"
-          ></tui-error>
-        </div>
-        <div class="tui-form__row">
-          <tui-input formControlName="answer3" [tuiTextfieldCleaner]="true"
-            >Третий вариант ответа<span class="tui-required"></span
-          ></tui-input>
-
-          <tui-error
-            [error]="[] | tuiFieldError | async"
-            formControlName="answer3"
-          ></tui-error>
-        </div>
-        <div class="tui-form__row">
-          <tui-input formControlName="answer4" [tuiTextfieldCleaner]="true"
-            >Четвертый вариант ответа<span class="tui-required"></span
-          ></tui-input>
-
-          <tui-error
-            [error]="[] | tuiFieldError | async"
-            formControlName="answer4"
-          ></tui-error>
-        </div>
-        <div class="tui-form__row">
-          <tui-textarea formControlName="description"
-            >Пояснение ответа</tui-textarea
-          >
-        </div>
-      </div>
-      <button tuiButton class="tui-space_top-4">Сохранить историю</button>
     </div>
-    <div class="tui-col_5">
-      <app-chapter-card [chapter]="chapter" class="chapter" [isEditMode]="true"> </app-chapter-card>
-    </div>
-  </div>
-</form>
+  </form>
+</ng-template>
 
 <ng-template #itemContent let-item>
   {{ item.name || item.code }}

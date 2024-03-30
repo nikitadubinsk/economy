@@ -1,4 +1,6 @@
 <app-tetriary-menu [title]="title" [navigateBack]="navigateBack">
+  <button tuiButton type="button" *tuiLet="storyId$ | async as storyId"
+  size="s" (click)="createChapter(storyId)">Создать новую историю</button>
 </app-tetriary-menu>
 
 <tui-loader

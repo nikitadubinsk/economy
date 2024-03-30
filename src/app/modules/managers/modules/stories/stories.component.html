@@ -4,6 +4,8 @@
     type="button"
     size="s"
     [disabled]="!(isChangeEntity$ | async) || false"
+    (click)="saveNewWeight()"
+    [showLoader]="(loaderButton$ | async) || false"
   >
     Сохранить изменения
   </button>
@@ -53,6 +55,7 @@
       (onOpenStory)="openStory($event)"
       (onActiveStory)="activeStory($event)"
     ></app-story-card>
+    <app-stub *ngIf="isShowStub$ | async"></app-stub>
   </div>
-  <button tuiButton class="max-width">Добавить новую историю</button>
+  <button tuiButton class="max-width tui-space_top-10" (click)="createStory()">Добавить новую историю</button>
 </ng-template>

@@ -2,6 +2,7 @@ import { createAction, props } from '@ngrx/store';
 import { NavigationPayload } from '../models';
 import { rootFeatureKey } from './root.selector';
 import { TuiAlertOptions } from '@taiga-ui/core';
+import { TuiFileLike } from '@taiga-ui/kit';
 
 export const navigateTo = createAction(
   `[${rootFeatureKey}] NAVIGATE_TO`,
@@ -67,4 +68,16 @@ export const loadUserPhoto = createAction(
 export const resetPassword = createAction(
   `[${rootFeatureKey}] RESET_PASSWORD`,
   props<{ login: string }>()
+);
+export const loadImage = createAction(
+  `[${rootFeatureKey}] LOAD_IMAGE`,
+  props<{
+    file: TuiFileLike;
+  }>()
+);
+export const loadedImage = createAction(
+  `[${rootFeatureKey}] LOADED_IMAGE`,
+  props<{
+    name: string;
+  }>()
 );

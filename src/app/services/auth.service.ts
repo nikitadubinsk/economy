@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { delay, map } from 'rxjs/operators';
 import { IAuthResponse, ILoginForm } from '../models/auth.model';
 
 import { ApiService } from './api.service';
+import { TuiFileLike } from '@taiga-ui/kit';
 
 @Injectable({
   providedIn: 'root',
@@ -59,6 +60,17 @@ export class ApiAuthService extends ApiService {
       this.endpoints.photo,
       photo
     ).pipe(map((d) => d.data));
+  }
+
+  loadImage(photo: TuiFileLike): Observable<string> {
+    // return this.sendFile<string, File>(
+    //   this.endpoints.photo,
+    //   photo
+    // ).pipe(map((d) => d.data));
+
+    return of(
+      'https://static17.tgcnt.ru/posts/_0/5b/5bf6596675cfef41d94ef1c1ed3cd22a.jpg'
+    ).pipe(delay(1000));
   }
 
   userInfo(): Observable<{

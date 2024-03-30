@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ManagersContainerComponent } from './components/managers-container.component';
 import { ChaptersResolver } from './resolvers/chapters.resolver';
+import { ChapterResolver } from './resolvers/chapter.resolver';
+import { StoryResolver } from './resolvers/story.resolver';
 
 const routes: Routes = [
   {
@@ -13,6 +15,13 @@ const routes: Routes = [
         loadChildren: () =>
           import('./modules/stories/stories.module').then(
             (m) => m.StoriesModule
+          ),
+      },
+      {
+        path: 'mailing',
+        loadChildren: () =>
+          import('./modules/mailing-page/mailing-page.module').then(
+            (m) => m.MailingPageModule
           ),
       },
       {
@@ -31,28 +40,34 @@ const routes: Routes = [
           import('./modules/edit-chapter/edit-chapter.module').then(
             (m) => m.EditChapterModule
           ),
+        resolve: {
+          chapter: ChapterResolver,
+        },
       },
-      // {
-      //     path: 'section/:chapterId',
-      //     loadChildren: () =>
-      //         import('./modules/articles/section-page/section-page.module').then(
-      //             m => m.SectionPageModule
-      //         ),
-      // },
-      // {
-      //     path: 'section/:chapterId/:sectionId',
-      //     loadChildren: () =>
-      //         import('./modules/articles/article-page/article-page.module').then(
-      //             m => m.ArticlePageModule
-      //         ),
-      // },
-      // {
-      //     path: 'account',
-      //     loadChildren: () =>
-      //         import('./modules/account/account-page/account-page.module').then(
-      //             m => m.AccountPageModule
-      //         ),
-      // },
+      {
+        path: 'story/:id/create',
+        loadChildren: () =>
+          import('./modules/edit-chapter/edit-chapter.module').then(
+            (m) => m.EditChapterModule
+          ),
+      },
+      {
+        path: ':id/edit',
+        loadChildren: () =>
+          import('./modules/edit-story/edit-story.module').then(
+            (m) => m.EditStoryModule
+          ),
+        resolve: {
+          story: StoryResolver,
+        },
+      },
+      {
+        path: 'create',
+        loadChildren: () =>
+          import('./modules/edit-story/edit-story.module').then(
+            (m) => m.EditStoryModule
+          ),
+      },
     ],
   },
   // {

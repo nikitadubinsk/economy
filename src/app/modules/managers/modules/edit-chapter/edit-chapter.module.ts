@@ -10,6 +10,7 @@ import {
   TuiErrorModule,
   TuiGroupModule,
   TuiLoaderModule,
+  TuiTextfieldController,
   TuiTextfieldControllerModule,
 } from '@taiga-ui/core';
 import { StoryModule } from 'src/app/modules/shared/components/story/story.module';

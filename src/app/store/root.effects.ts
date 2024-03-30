@@ -21,6 +21,8 @@ import {
   updateUserInfo,
   loadUserPhoto,
   resetPassword,
+  loadImage,
+  loadedImage,
 } from './root.actions';
 
 @Injectable()
@@ -175,6 +177,22 @@ export class RootEffects {
               }),
             ])
           )
+      )
+    )
+  );
+
+  loadImage$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadImage),
+      switchMap(({ file }) =>
+        this.apiAuthService.loadImage(file).pipe(
+          switchMap((name) => [loadedImage({ name })]),
+          catchError(() => [
+            showErrorMessage({
+              message: 'Произошла небольшая ошибка, попробуйте еще раз',
+            }),
+          ])
+        )
       )
     )
   );

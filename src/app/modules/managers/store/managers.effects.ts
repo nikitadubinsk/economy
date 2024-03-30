@@ -1,22 +1,29 @@
 import { Inject, Injectable, Injector } from '@angular/core';
-import { Store, select, props } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { filter, map, switchMap, take, tap } from 'rxjs/operators';
+import { catchError, filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { ApiManagerService } from '../services/api-managers.service';
 import {
   activeChapter,
   changeWeightStories,
   changeWeightStoriesSuccess,
+  createStory,
   deleteChapter,
   deleteStory,
   editStory,
+  loadChapterById,
   loadChapters,
   loadStories,
+  loadStoryById,
+  loadedChapterById,
   loadedChapters,
   loadedStories,
+  loadedStoryById,
+  saveNewWeight,
+  turnOffLoaderButton,
 } from './managers.actions';
 import { EMPTY, forkJoin, of } from 'rxjs';
-import { stories, storyFilters } from './managers.selector';
+import { stories, storyFilters, storyId } from './managers.selector';
 import { tuiIsPresent } from '@taiga-ui/cdk';
 import { IStoryManagerInfo } from 'src/app/models';
 import { getChangedWeightsList } from '../utils/get-changed-weights-list';
@@ -42,9 +49,21 @@ export class ManagersEffects {
     this.actions$.pipe(
       ofType(loadStories),
       switchMap(({ filters }) =>
+        this.apiManagerService.getStories(filters).pipe(
+          map((stories) => loadedStories({ stories })),
+          catchError(() => [loadedStories({ stories: [] })])
+        )
+      )
+    )
+  );
+
+  loadStoryById$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadStoryById),
+      switchMap(({ id }) =>
         this.apiManagerService
-          .getStories(filters)
-          .pipe(map((stories) => loadedStories({ stories })))
+          .getStory(id)
+          .pipe(map((story) => loadedStoryById({ story })))
       )
     )
   );
@@ -98,36 +117,6 @@ export class ManagersEffects {
     )
   );
 
-  editStory$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(editStory),
-      switchMap(({ story }) =>
-        forkJoin([
-          this.dialogService.open<{ story: IStoryManagerInfo }>(
-            new PolymorpheusComponent(EditStoryComponent, this.injector),
-            {
-              data: {
-                story,
-                action: ACTIONS.EDIT,
-              },
-            }
-          ),
-          this.store$.pipe(select(storyFilters)),
-        ])
-      ),
-      switchMap(([{ story }, filters]) =>
-        this.apiManagerService.editStory(story.id).pipe(
-          switchMap(() => [
-            loadStories({ filters }),
-            showSuccessMessage({
-              message: 'Вы успешно изминили историю',
-            }),
-          ])
-        )
-      )
-    )
-  );
-
   activeStory$ = createEffect(() =>
     this.actions$.pipe(
       ofType(activeStory),
@@ -172,14 +161,14 @@ export class ManagersEffects {
   selectChapter$ = createEffect(() =>
     this.actions$.pipe(
       ofType(selectChapter),
-      // switchMap((data) =>
-      //   forkJoin([
-      //     this.store$.pipe(select(stories), take(1), filter(tuiIsPresent)),
-      //     of(data),
-      //   ])
-      // ),
-      map(({ id }) =>
-        navigateTo({ payload: { path: [`/managers/story/1/${id}`] } })
+      switchMap((data) =>
+        forkJoin([
+          this.store$.pipe(select(storyId), take(1), filter(tuiIsPresent)),
+          of(data),
+        ])
+      ),
+      map(([storyId, { id }]) =>
+        navigateTo({ payload: { path: [`/managers/story/${storyId}/${id}`] } })
       )
     )
   );
@@ -207,6 +196,77 @@ export class ManagersEffects {
                 ])
               )
           : EMPTY
+      )
+    )
+  );
+
+  loadChapterById$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadChapterById),
+      switchMap(({ id }) =>
+        this.apiManagerService
+          .getChapterById(id)
+          .pipe(map((chapter) => loadedChapterById({ chapter })))
+      )
+    )
+  );
+
+  createStory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(createStory),
+      switchMap(({ title, category, active, img }) =>
+        this.apiManagerService.createStory(title, category, active, img).pipe(
+          switchMap(() => [
+            showSuccessMessage({
+              message: 'Вы успешно создали новую историю',
+            }),
+            turnOffLoaderButton(),
+            navigateTo({ payload: { path: ['/managers'] } }),
+          ])
+        )
+      )
+    )
+  );
+
+  editStory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(editStory),
+      switchMap(({ id, title, category, active, img }) =>
+        this.apiManagerService.editStory(id, title, category, active, img).pipe(
+          switchMap(() => [
+            showSuccessMessage({
+              message: 'Вы успешно изменили историю',
+            }),
+            turnOffLoaderButton(),
+            navigateTo({ payload: { path: ['/managers'] } }),
+          ])
+        )
+      )
+    )
+  );
+
+  saveNewWeight$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(saveNewWeight),
+      switchMap(() =>
+        this.store$.pipe(
+          select(stories),
+          take(1),
+          filter(tuiIsPresent),
+          map((stories) =>
+            stories.map((story) => ({ id: story.id, weight: story.weight }))
+          ),
+          switchMap((stories) =>
+            this.apiManagerService.changeWeight(stories).pipe(
+              switchMap(() => [
+                showSuccessMessage({
+                  message: 'Вы успешно сохранили новый порядок историй',
+                }),
+                turnOffLoaderButton(),
+              ])
+            )
+          )
+        )
       )
     )
   );

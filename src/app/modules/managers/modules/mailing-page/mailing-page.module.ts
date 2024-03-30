@@ -19,8 +19,6 @@ import {
   TuiLoaderModule,
   TuiTextfieldControllerModule,
 } from '@taiga-ui/core';
-import { StoriesComponent } from './stories.component';
-import { StoriesRoutingModule } from './stories.router';
 import { StoryModule } from 'src/app/modules/shared/components/story/story.module';
 import {
   ManagersEffects,
@@ -38,6 +36,8 @@ import { StoryCardModule } from '../story-card/story-card.module';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { EditStoryModule } from '../edit-story/edit-story.module';
 import { StubModule } from 'src/app/modules/shared/components/stub/stub.module';
+import { MailingPageComponent } from './mailing-page.component';
+import { MailingPageRoutingModule } from './mailing-page.router';
 
 export const TUI_MODULES = [
   TuiArcChartModule,
@@ -58,10 +58,10 @@ export const TUI_MODULES = [
 ];
 
 @NgModule({
-  declarations: [StoriesComponent],
+  declarations: [MailingPageComponent],
   imports: [
     CommonModule,
-    StoriesRoutingModule,
+    MailingPageRoutingModule,
     TetriaryMenuModule,
     StoryModule,
     FormsModule,
@@ -75,4 +75,4 @@ export const TUI_MODULES = [
     EffectsModule.forFeature([ManagersEffects]),
   ],
 })
-export class StoriesModule {}
+export class MailingPageModule {}

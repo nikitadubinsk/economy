@@ -3,23 +3,24 @@ import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
-import { chapters, loadChapters, saveStoryId } from '../store';
+import { loadStoryById, story } from '../store';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ChaptersResolver implements Resolve<boolean> {
+export class StoryResolver implements Resolve<boolean> {
   constructor(private readonly store$: Store) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<boolean> {
     const { id } = route.params;
 
     return this.store$.pipe(
-      select(chapters),
+      select(story),
       take(1),
-      map((chapters) => {
-        this.store$.dispatch(loadChapters({ id }));
-        this.store$.dispatch(saveStoryId({ id }));
+      map((story) => {
+        if (!story) {
+          this.store$.dispatch(loadStoryById({ id }));
+        }
 
         return true;
       })

@@ -1,45 +1,102 @@
-<form [formGroup]="storyForm">
-  <div class="tui-row tui-row_sme">
-    <div class="tui-col_12">
-      <h3 class="tui-form__header tui-form__header_margin-top_none">
-        {{ title }}
-      </h3>
-      <div class="tui-form__row">
-        <tui-input formControlName="title">
-          Название
-          <span class="tui-required"></span>
-        </tui-input>
-        <tui-error
-          formControlName="title"
-          [error]="[] | tuiFieldError | async"
-        ></tui-error>
-      </div>
-      <div class="tui-form__row">
-        <tui-select formControlName="category">
-          Категория
-          <span class="tui-required"></span>
-          <tui-data-list-wrapper
-            *tuiDataList
-            [items]="categories"
-          ></tui-data-list-wrapper>
-        </tui-select>
-        <tui-error
-          formControlName="category"
-          [error]="[] | tuiFieldError | async"
-        ></tui-error>
-      </div>
-      <div class="tui-form__buttons">
-        <button
-          size="l"
-          tuiButton
-          type="button"
-          class="tui-form__button"
-          [disabled]="storyForm.invalid"
-          (click)="editStory()"
+<app-tetriary-menu
+  [title]="title$ | async"
+  [navigateBack]="navigateBack$ | async"
+>
+</app-tetriary-menu>
+
+<tui-loader
+  [showLoader]="true"
+  *ngIf="loader$ | async; else storyInfo"
+  size="xxl"
+></tui-loader>
+
+<ng-template #storyInfo>
+  <form
+    class="tui-space_top-3"
+    [formGroup]="storyForm"
+    *tuiLet="isEdit$ | async as isEdit"
+  >
+    <div class="tui-row">
+      <div class="tui-col_7">
+        <div class="tui-form__row">
+          <tui-input formControlName="title">
+            Название
+            <span class="tui-required"></span>
+          </tui-input>
+          <tui-error
+            formControlName="title"
+            [error]="[] | tuiFieldError | async"
+          ></tui-error>
+        </div>
+        <div class="tui-form__row">
+          <tui-select
+            [tuiTextfieldLabelOutside]="true"
+            [valueContent]="stringifyCategory(categories)"
+            formControlName="category"
+          >Категория<span class="tui-required"></span>
+            <ng-template tuiDataList>
+              <tui-data-list>
+                <button *ngFor="let category of categories" tuiOption [value]="category.id">
+                  {{ category.name }}
+                </button>
+              </tui-data-list>
+            </ng-template>
+          </tui-select>
+          <tui-error
+            formControlName="category"
+            [error]="[] | tuiFieldError | async"
+          ></tui-error>
+        </div>
+        <div
+          class="tui-form__row"
+          *tuiLet="loadedFiles$ | async as loadedFiles"
         >
-          {{ title }}
+          <tui-input-files
+            *ngIf="!imgControl.value"
+            accept="image/*"
+            formControlName="img"
+            link="Выберите картинку для фона истории"
+            label="или перетащите ее сюда"
+          ></tui-input-files>
+
+          <tui-files
+            class="tui-space_top-1"
+            *tuiLet="loadingFiles$ | async as loadingFiles"
+          >
+            <tui-file
+              *ngIf="imgControl.value && !loadingFiles"
+              [file]="imgControl.value"
+              [showDelete]="imgControl.enabled"
+              (removed)="removeFile()"
+            ></tui-file>
+
+            <tui-file
+              *ngIf="loadingFiles"
+              state="loading"
+              [file]="imgControl.value"
+              [showDelete]="imgControl.enabled"
+            ></tui-file>
+          </tui-files>
+        </div>
+        <div class="tui-form__row tui-form__row_multi-fields">
+          <tui-toggle size="l" [showIcons]="true" formControlName="active"
+            >Активная</tui-toggle
+          >
+          <p class="tui-text_body-m tui-space_left-3">Активная</p>
+        </div>
+        <button
+          tuiButton
+          class="tui-space_top-4"
+          (click)="saveStory(isEdit)"
+          [disabled]="storyForm.invalid || storyForm.pristine"
+          [showLoader]="(loaderButton$ | async) || false"
+        >
+          {{ buttonTitle$ | async }}
         </button>
       </div>
+      <div class="tui-col_5">
+        <app-story [story]="story"></app-story>
+      </div>
     </div>
-  </div>
-</form>
+  </form>
+</ng-template>

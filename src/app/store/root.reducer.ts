@@ -1,6 +1,7 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import {
   auth,
+  loadedImage,
   loadedUserInfo,
   resetPassword,
   switchTheme,
@@ -31,6 +32,10 @@ const reducer = createReducer(
   on(resetPassword, (state) => ({
     ...state,
     loadingButton: true,
+  })),
+  on(loadedImage, (state, { name }) => ({
+    ...state,
+    imageName: name,
   }))
 );
 

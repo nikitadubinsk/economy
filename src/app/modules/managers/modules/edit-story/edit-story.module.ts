@@ -10,6 +10,7 @@ import {
   TuiErrorModule,
   TuiGroupModule,
   TuiLoaderModule,
+  TuiTextfieldControllerModule,
 } from '@taiga-ui/core';
 import { StoryModule } from 'src/app/modules/shared/components/story/story.module';
 import {
@@ -20,6 +21,8 @@ import {
 import {
   TuiDataListWrapperModule,
   TuiFieldErrorPipeModule,
+  TuiFilesModule,
+  TuiInputFilesModule,
   TuiInputModule,
   TuiIslandModule,
   TuiSelectModule,
@@ -27,6 +30,8 @@ import {
 } from '@taiga-ui/kit';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EditStoryComponent } from './edit-story.component';
+import { EditStoryRoutingModule } from './edit-story.router';
+import { TetriaryMenuModule } from 'src/app/modules/shared/components/tetriary-menu/tetriary-menu.module';
 
 export const TUI_MODULES = [
   TuiLetModule,
@@ -41,6 +46,9 @@ export const TUI_MODULES = [
   TuiSelectModule,
   TuiDataListModule,
   TuiDataListWrapperModule,
+  TuiInputFilesModule,
+  TuiFilesModule,
+  TuiTextfieldControllerModule,
 ];
 
 @NgModule({
@@ -51,6 +59,8 @@ export const TUI_MODULES = [
     StoryModule,
     FormsModule,
     ReactiveFormsModule,
+    EditStoryRoutingModule,
+    TetriaryMenuModule,
     ...TUI_MODULES,
     StoreModule.forFeature(managersFeatureKey, managersReducer),
     EffectsModule.forFeature([ManagersEffects]),

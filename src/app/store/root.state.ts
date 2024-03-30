@@ -3,6 +3,7 @@ export interface RootState {
   role: string | null;
   isDarkMode: boolean;
   loadingButton: boolean;
+  imageName: string | null;
 }
 
 export const initialState: RootState = {
@@ -10,4 +11,5 @@ export const initialState: RootState = {
   role: null,
   isDarkMode: false,
   loadingButton: false,
+  imageName: null,
 };

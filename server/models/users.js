@@ -14,35 +14,35 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
   }
-  Finances.init(
+  Users.init(
     {
       id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
-        allowNull: false,
+        allowNull: false
       },
       name: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: false
       },
       email: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: false
       },
       roleId: {
         type: DataTypes.INTEGER,
-        allowNull: true,
+        allowNull: true
       },
       password: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: false
       },
     },
     {
       sequelize,
       paranoid: true,
-      modelName: "Users",
+      modelName: "Users"
     }
   );
   return Users;

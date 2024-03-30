@@ -7,7 +7,7 @@ import { IStoryInfo, IStoryManagerInfo } from 'src/app/models';
   styleUrls: ['./story.component.less'],
 })
 export class StoryComponent {
-  @Input() story!: IStoryInfo | IStoryManagerInfo;
+  @Input() story!: IStoryInfo | IStoryManagerInfo | Partial<IStoryManagerInfo>;
 
   @Output() onShowStory = new EventEmitter<number>();
 

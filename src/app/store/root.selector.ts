@@ -12,3 +12,4 @@ export const loadingButton = createSelector(
   state,
   (state) => state.loadingButton
 );
+export const imageName = createSelector(state, (state) => state.imageName);

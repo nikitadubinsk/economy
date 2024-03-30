@@ -5,10 +5,13 @@ import {
   HostListener,
 } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import { chapters, loader } from '../../store/managers.selector';
+import { chapters, loader, storyId } from '../../store/managers.selector';
 import { UntypedFormBuilder } from '@angular/forms';
 import { activeChapter, deleteChapter, selectChapter } from '../../store';
 import { IManagerChapter } from 'src/app/models';
+import { navigateTo } from 'src/app/store';
+import { tuiIsPresent } from '@taiga-ui/cdk';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-story-info',
@@ -19,6 +22,7 @@ import { IManagerChapter } from 'src/app/models';
 export class StoryInfoComponent implements OnInit {
   chapters$ = this.store$.pipe(select(chapters));
   loader$ = this.store$.pipe(select(loader));
+  storyId$ = this.store$.pipe(select(storyId), filter(tuiIsPresent));
 
   title = 'История';
   navigateBack = {
@@ -62,5 +66,11 @@ export class StoryInfoComponent implements OnInit {
 
   deleteStory(id: number) {
     this.store$.dispatch(deleteChapter({ id }));
+  }
+
+  createChapter(id: number | null) {
+    this.store$.dispatch(
+      navigateTo({ payload: { path: [`/managers/story/${id}/create`] } })
+    );
   }
 }

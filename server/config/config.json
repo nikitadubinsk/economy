@@ -1,9 +1,9 @@
 {
   "development": {
-    "username": "nikitadub5",
-    "password": "Onboarding2022",
-    "database": "nikitadub5",
-    "host": "pg2.sweb.ru",
+    "username": "a0936510_finliteracy",
+    "password": "admin123",
+    "database": "a0936510_finliteracy",
+    "host": "141.8.194.149",
     "dialect": "postgres"
   }
 }

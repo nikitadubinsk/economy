@@ -1,6 +1,10 @@
 import { createAction, props } from '@ngrx/store';
 import { managersFeatureKey } from './managers.selector';
-import { IManagerChapter, IStoryManagerInfo } from 'src/app/models';
+import {
+  IManagerChapter,
+  ISimpleItem,
+  IStoryManagerInfo,
+} from 'src/app/models';
 import { IStoryFilters } from '../models/filters.model';
 import { TuiFileLike } from '@taiga-ui/kit';
 
@@ -14,6 +18,18 @@ export const loadedStories = createAction(
   `[${managersFeatureKey}] LOADED_STATISTICS`,
   props<{
     stories: IStoryManagerInfo[];
+  }>()
+);
+export const loadStoryById = createAction(
+  `[${managersFeatureKey}] LOAD_STORY_BY_ID`,
+  props<{
+    id: number;
+  }>()
+);
+export const loadedStoryById = createAction(
+  `[${managersFeatureKey}] LOADED_STORY_BY_ID`,
+  props<{
+    story: IStoryManagerInfo;
   }>()
 );
 export const changeWeightStories = createAction(
@@ -38,7 +54,11 @@ export const deleteStory = createAction(
 export const editStory = createAction(
   `[${managersFeatureKey}] EDIT_STORY`,
   props<{
-    story: IStoryManagerInfo;
+    id: number;
+    title: string;
+    category: number;
+    active: boolean;
+    img: string;
   }>()
 );
 export const activeStory = createAction(
@@ -79,9 +99,40 @@ export const deleteChapter = createAction(
     id: number;
   }>()
 );
-export const loadChapterImage = createAction(
-  `[${managersFeatureKey}] LOAD_CHAPTER_IMAGE`,
+export const loadChapterById = createAction(
+  `[${managersFeatureKey}] LOAD_CHAPTER_BY_ID`,
   props<{
-    file: TuiFileLike;
+    id: number;
+  }>()
+);
+export const loadedChapterById = createAction(
+  `[${managersFeatureKey}] LOADED_CHAPTER_BY_ID`,
+  props<{
+    chapter: IManagerChapter;
+  }>()
+);
+export const resetChapter = createAction(
+  `[${managersFeatureKey}] RESET_CHAPTER`
+);
+export const resetStory = createAction(`[${managersFeatureKey}] RESET_STORY`);
+export const createStory = createAction(
+  `[${managersFeatureKey}] CREATE_STORY`,
+  props<{
+    title: string;
+    category: number;
+    active: boolean;
+    img: string;
+  }>()
+);
+export const turnOffLoaderButton = createAction(
+  `[${managersFeatureKey}] TURN_OFF_LOADER_BUTTON`
+);
+export const saveNewWeight = createAction(
+  `[${managersFeatureKey}] SAVE_NEW_WEIGHT`
+);
+export const saveStoryId = createAction(
+  `[${managersFeatureKey}] SAVE_STORY_ID`,
+  props<{
+    id: number;
   }>()
 );

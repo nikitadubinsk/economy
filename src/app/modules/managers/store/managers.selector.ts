@@ -17,3 +17,9 @@ export const storyFilters = createSelector(
   (state) => state.storyFilters
 );
 export const chapter = createSelector(state, (state) => state.chapter);
+export const story = createSelector(state, (state) => state.story);
+export const loaderButton = createSelector(
+  state,
+  (state) => state.loaderButton
+);
+export const storyId = createSelector(state, (state) => state.storyId);

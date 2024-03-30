@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { delay } from 'rxjs/operators';
+import { delay, map } from 'rxjs/operators';
 import { IManagerChapter, IStoryManagerInfo } from 'src/app/models';
 import { ApiService } from 'src/app/services/api.service';
 import { mockManagerChapters, mockManagerStories } from '../mocks/story.mock';
@@ -16,16 +16,42 @@ export class ApiManagerService extends ApiService {
   };
 
   getStories(filters: Partial<IStoryFilters>): Observable<IStoryManagerInfo[]> {
-    //return this.get<IStoryManagerInfo[]>(this.endpoints.managers).pipe(map(d => d.data));
+    //return this.get<IStoryManagerInfo[], Partial<IStoryFilters>>(this.endpoints.managers, filters).pipe(map(d => d.data));
     return of(mockManagerStories).pipe(delay(2000));
   }
 
-  deleteStory(id: number): Observable<void> {
+  getStory(id: number): Observable<IStoryManagerInfo> {
+    //return this.get<IStoryManagerInfo[]>(this.endpoints.managers).pipe(map(d => d.data));
+    return of(mockManagerStories[0]).pipe(delay(2000));
+  }
+
+  editStory(
+    id: number,
+    title: string,
+    category: number,
+    active: boolean,
+    img: string
+  ): Observable<void> {
     //return this.get<IStoryManagerInfo[]>(this.endpoints.managers).pipe(map(d => d.data));
     return of(undefined).pipe(delay(1000));
   }
 
-  editStory(id: number): Observable<void> {
+  createStory(
+    title: string,
+    category: number,
+    active: boolean,
+    img: string
+  ): Observable<void> {
+    //return this.get<IStoryManagerInfo[]>(this.endpoints.managers).pipe(map(d => d.data));
+    return of(undefined).pipe(delay(1000));
+  }
+
+  changeWeight(stories: { id: number; weight: number }[]): Observable<void> {
+    //return this.get<IStoryManagerInfo[]>(this.endpoints.managers).pipe(map(d => d.data));
+    return of(undefined).pipe(delay(1000));
+  }
+
+  deleteStory(id: number): Observable<void> {
     //return this.get<IStoryManagerInfo[]>(this.endpoints.managers).pipe(map(d => d.data));
     return of(undefined).pipe(delay(1000));
   }
@@ -48,5 +74,10 @@ export class ApiManagerService extends ApiService {
   deleteChapter(id: number): Observable<void> {
     //return this.get<IStoryManagerInfo[]>(this.endpoints.managers).pipe(map(d => d.data));
     return of(undefined).pipe(delay(1000));
+  }
+
+  getChapterById(id: number): Observable<IManagerChapter> {
+    //return this.get<IStoryManagerInfo[]>(this.endpoints.managers).pipe(map(d => d.data));
+    return of(mockManagerChapters[id - 1]).pipe(delay(1000));
   }
 }

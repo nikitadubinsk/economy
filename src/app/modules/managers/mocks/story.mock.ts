@@ -45,7 +45,7 @@ export const mockManagerChapters: IManagerChapter[] = [
     createdAt: '2023-03-16',
   },
   {
-    id: 2,
+    id: 3,
     img: 'https://klike.net/uploads/posts/2022-11/1667546896_2-1.jpg',
     active: false,
     createdAt: '2023-03-16',
@@ -62,7 +62,7 @@ export const mockManagerChapters: IManagerChapter[] = [
     },
   },
   {
-    id: 2,
+    id: 4,
     title: 'Lorem ipsum dolor sit amet',
     text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec at commodo quam. Aliquam id lorem sed felis iaculis suscipit eget sit amet augue. Suspendisse dapibus, risus at sollicitudin ullamcorper, ligula nibh volutpat tellus, a consequat nunc felis id justo. Aliquam id aliquet lectus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nulla facilisi. Etiam lobortis elementum leo. Vivamus dui leo, blandit id eros sed, varius fringilla nibh. Aliquam erat volutpat. Nulla sed efficitur nisi. Nam lacinia consectetur malesuada. Vestibulum ut eros porttitor, commodo nulla sit amet, pellentesque arcu. Mauris lectus nunc, gravida nec elit vitae, accumsan convallis tortor. Integer vel eros lacus. Donec elementum sit amet ipsum in posuere. Pellentesque diam justo, ultricies eget vulputate eget, suscipit at quam.',
     img: 'https://klike.net/uploads/posts/2022-11/1667546896_2-1.jpg',
@@ -70,7 +70,7 @@ export const mockManagerChapters: IManagerChapter[] = [
     createdAt: '2023-03-16',
   },
   {
-    id: 2,
+    id: 5,
     title: 'Lorem ipsum dolor sit amet',
     text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec at commodo quam. Aliquam id lorem sed felis iaculis suscipit eget sit amet augue. Suspendisse dapibus, risus at sollicitudin ullamcorper, ligula nibh volutpat tellus, a consequat nunc felis id justo. Aliquam id aliquet lectus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nulla facilisi. Etiam lobortis elementum leo. Vivamus dui leo, blandit id eros sed, varius fringilla nibh. Aliquam erat volutpat. Nulla sed efficitur nisi. Nam lacinia consectetur malesuada. Vestibulum ut eros porttitor, commodo nulla sit amet, pellentesque arcu. Mauris lectus nunc, gravida nec elit vitae, accumsan convallis tortor. Integer vel eros lacus. Donec elementum sit amet ipsum in posuere. Pellentesque diam justo, ultricies eget vulputate eget, suscipit at quam.',
     img: 'https://klike.net/uploads/posts/2022-11/1667546896_2-1.jpg',
@@ -78,7 +78,7 @@ export const mockManagerChapters: IManagerChapter[] = [
     createdAt: '2023-03-16',
   },
   {
-    id: 2,
+    id: 6,
     title: 'Lorem ipsum dolor sit amet',
     text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec at commodo quam. Aliquam id lorem sed felis iaculis suscipit eget sit amet augue. Suspendisse dapibus, risus at sollicitudin ullamcorper, ligula nibh volutpat tellus, a consequat nunc felis id justo. Aliquam id aliquet lectus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nulla facilisi. Etiam lobortis elementum leo. Vivamus dui leo, blandit id eros sed, varius fringilla nibh. Aliquam erat volutpat. Nulla sed efficitur nisi. Nam lacinia consectetur malesuada. Vestibulum ut eros porttitor, commodo nulla sit amet, pellentesque arcu. Mauris lectus nunc, gravida nec elit vitae, accumsan convallis tortor. Integer vel eros lacus. Donec elementum sit amet ipsum in posuere. Pellentesque diam justo, ultricies eget vulputate eget, suscipit at quam.',
     img: 'https://klike.net/uploads/posts/2022-11/1667546896_2-1.jpg',
@@ -86,7 +86,7 @@ export const mockManagerChapters: IManagerChapter[] = [
     createdAt: '2023-03-16',
   },
   {
-    id: 2,
+    id: 7,
     title: 'Lorem ipsum dolor sit amet',
     text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec at commodo quam. Aliquam id lorem sed felis iaculis suscipit eget sit amet augue. Suspendisse dapibus, risus at sollicitudin ullamcorper, ligula nibh volutpat tellus, a consequat nunc felis id justo. Aliquam id aliquet lectus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nulla facilisi. Etiam lobortis elementum leo. Vivamus dui leo, blandit id eros sed, varius fringilla nibh. Aliquam erat volutpat. Nulla sed efficitur nisi. Nam lacinia consectetur malesuada. Vestibulum ut eros porttitor, commodo nulla sit amet, pellentesque arcu. Mauris lectus nunc, gravida nec elit vitae, accumsan convallis tortor. Integer vel eros lacus. Donec elementum sit amet ipsum in posuere. Pellentesque diam justo, ultricies eget vulputate eget, suscipit at quam.',
     img: 'https://klike.net/uploads/posts/2022-11/1667546896_2-1.jpg',
@@ -94,7 +94,7 @@ export const mockManagerChapters: IManagerChapter[] = [
     createdAt: '2023-03-16',
   },
   {
-    id: 2,
+    id: 8,
     title: 'Lorem ipsum dolor sit amet',
     text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec at commodo quam. Aliquam id lorem sed felis iaculis suscipit eget sit amet augue. Suspendisse dapibus, risus at sollicitudin ullamcorper, ligula nibh volutpat tellus, a consequat nunc felis id justo. Aliquam id aliquet lectus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nulla facilisi. Etiam lobortis elementum leo. Vivamus dui leo, blandit id eros sed, varius fringilla nibh. Aliquam erat volutpat. Nulla sed efficitur nisi. Nam lacinia consectetur malesuada. Vestibulum ut eros porttitor, commodo nulla sit amet, pellentesque arcu. Mauris lectus nunc, gravida nec elit vitae, accumsan convallis tortor. Integer vel eros lacus. Donec elementum sit amet ipsum in posuere. Pellentesque diam justo, ultricies eget vulputate eget, suscipit at quam.',
     img: 'https://klike.net/uploads/posts/2022-11/1667546896_2-1.jpg',
@@ -102,7 +102,7 @@ export const mockManagerChapters: IManagerChapter[] = [
     createdAt: '2023-03-16',
   },
   {
-    id: 2,
+    id: 9,
     title: 'Lorem ipsum dolor sit amet',
     text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec at commodo quam. Aliquam id lorem sed felis iaculis suscipit eget sit amet augue. Suspendisse dapibus, risus at sollicitudin ullamcorper, ligula nibh volutpat tellus, a consequat nunc felis id justo. Aliquam id aliquet lectus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nulla facilisi. Etiam lobortis elementum leo. Vivamus dui leo, blandit id eros sed, varius fringilla nibh. Aliquam erat volutpat. Nulla sed efficitur nisi. Nam lacinia consectetur malesuada. Vestibulum ut eros porttitor, commodo nulla sit amet, pellentesque arcu. Mauris lectus nunc, gravida nec elit vitae, accumsan convallis tortor. Integer vel eros lacus. Donec elementum sit amet ipsum in posuere. Pellentesque diam justo, ultricies eget vulputate eget, suscipit at quam.',
     img: 'https://klike.net/uploads/posts/2022-11/1667546896_2-1.jpg',
@@ -110,7 +110,7 @@ export const mockManagerChapters: IManagerChapter[] = [
     createdAt: '2023-03-16',
   },
   {
-    id: 2,
+    id: 10,
     title: 'Lorem ipsum dolor sit amet',
     text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec at commodo quam. Aliquam id lorem sed felis iaculis suscipit eget sit amet augue. Suspendisse dapibus, risus at sollicitudin ullamcorper, ligula nibh volutpat tellus, a consequat nunc felis id justo. Aliquam id aliquet lectus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nulla facilisi. Etiam lobortis elementum leo. Vivamus dui leo, blandit id eros sed, varius fringilla nibh. Aliquam erat volutpat. Nulla sed efficitur nisi. Nam lacinia consectetur malesuada. Vestibulum ut eros porttitor, commodo nulla sit amet, pellentesque arcu. Mauris lectus nunc, gravida nec elit vitae, accumsan convallis tortor. Integer vel eros lacus. Donec elementum sit amet ipsum in posuere. Pellentesque diam justo, ultricies eget vulputate eget, suscipit at quam.',
     img: 'https://klike.net/uploads/posts/2022-11/1667546896_2-1.jpg',

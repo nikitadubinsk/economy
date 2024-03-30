@@ -1,6 +1,6 @@
 <div
   class="story"
-  (click)="showStory(story.id)"
+  (click)="showStory(story.id || 0)"
   [ngStyle]="{ background: convertImg(story.img || '') }"
 >
   <p class="story-title tui-text_body-s-2">{{ story.title }}</p>
