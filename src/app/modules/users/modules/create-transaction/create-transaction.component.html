@@ -72,18 +72,6 @@
             ></tui-error>
           </div>
         </div>
-        <div class="tui-form__row">
-          <tui-textarea
-            formControlName="description"
-            [expandable]="false"
-            [rows]="15"
-            [tuiTextfieldCleaner]="true"
-            >Описание </tui-textarea>
-          <tui-error
-            formControlName="description"
-            [error]="[] | tuiFieldError | async"
-          ></tui-error>
-        </div>
         <div class="tui-form__buttons">
           <button size="l" tuiButton type="submit" class="tui-form__button" [disabled]="createForm.invalid" (click)="createTransaction()">
             Добавить транзакцию

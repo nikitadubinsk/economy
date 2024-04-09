@@ -6,7 +6,8 @@
   min-height: 80vh;
   margin: -2rem;
   overflow: hidden;
-  border-radius: var(--tui-radius-xl);
+  // border-radius: var(--tui-radius-xl);
+  border-radius: 30px;
   position: relative;
   background: var(--tui-base-01);
 }
@@ -27,12 +28,14 @@
       padding: 2rem;
       display: flex;
       align-items: flex-end;
-      min-height: calc(80vh - 4rem);
+      min-height: calc(80vh);
+      width: 100%;
 
       &_body {
         max-height: calc(50vh - 4rem);
         overflow: scroll;
         color: black;
+        width: 100%;
       }
     }
   }
@@ -72,4 +75,8 @@
   border-radius: 20px;
   box-sizing: border-box;
   cursor: pointer;
+}
+
+.max_width {
+  width: 100%;
 }

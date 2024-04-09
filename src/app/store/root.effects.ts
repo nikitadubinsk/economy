@@ -23,6 +23,8 @@ import {
   resetPassword,
   loadImage,
   loadedImage,
+  registrateUser,
+  loadPeopleInfo,
 } from './root.actions';
 
 @Injectable()
@@ -105,6 +107,25 @@ export class RootEffects {
     )
   );
 
+  registrateUser$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(registrateUser),
+      switchMap(({ info }) =>
+        this.apiAuthService.registrate(info).pipe(
+          switchMap(({ token }) => [
+            setLS({ token }),
+            loadUserInfo(),
+            turnOffLoadingButton(),
+          ]),
+          catchError(() => [
+            showErrorMessage({ message: 'Произошла ошибка' }),
+            turnOffLoadingButton(),
+          ])
+        )
+      )
+    )
+  );
+
   setLS$ = createEffect(
     () =>
       this.actions$.pipe(
@@ -126,28 +147,39 @@ export class RootEffects {
     { dispatch: false }
   );
 
+  loadPeopleInfo$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadPeopleInfo),
+      switchMap(() =>
+        this.apiAuthService.userInfo().pipe(
+          switchMap(({ name, role }) => [loadedUserInfo({ name, role })]),
+          catchError(() => [
+            showErrorMessage({ message: 'Произошла ошибка' }),
+            navigateTo({ payload: { path: ['/auth'] } }),
+          ])
+        )
+      )
+    )
+  );
+
   loadUserInfo$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadUserInfo),
       switchMap(() =>
         this.apiAuthService.userInfo().pipe(
-          switchMap(
-            ({ name, role, operatorRoles, typeInformationPerception }) => [
-              loadedUserInfo({ name, role, operatorRoles }),
-              navigateTo({
-                payload: {
-                  path:
-                    role === 'Менеджер' || role === 'Оператор'
-                      ? ['/operators']
-                      : role === 'Администратор'
-                      ? ['/admin']
-                      : typeInformationPerception
-                      ? ['/users']
-                      : ['/detail'],
-                },
-              }),
-            ]
-          ),
+          switchMap(({ name, role }) => [
+            loadedUserInfo({ name, role }),
+            navigateTo({
+              payload: {
+                path:
+                  role === 'Оператор'
+                    ? ['/managers']
+                    : role === 'Администратор'
+                    ? ['/admin']
+                    : ['/users'],
+              },
+            }),
+          ]),
           catchError(() => [
             showErrorMessage({ message: 'Произошла ошибка' }),
             navigateTo({ payload: { path: ['/auth'] } }),
@@ -186,7 +218,7 @@ export class RootEffects {
       ofType(loadImage),
       switchMap(({ file }) =>
         this.apiAuthService.loadImage(file).pipe(
-          switchMap((name) => [loadedImage({ name })]),
+          switchMap(({ name }) => [loadedImage({ name })]),
           catchError(() => [
             showErrorMessage({
               message: 'Произошла небольшая ошибка, попробуйте еще раз',

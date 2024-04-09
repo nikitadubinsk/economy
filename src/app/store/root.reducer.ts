@@ -3,6 +3,7 @@ import {
   auth,
   loadedImage,
   loadedUserInfo,
+  resetImageName,
   resetPassword,
   switchTheme,
   turnOffLoadingButton,
@@ -36,6 +37,10 @@ const reducer = createReducer(
   on(loadedImage, (state, { name }) => ({
     ...state,
     imageName: name,
+  })),
+  on(resetImageName, (state) => ({
+    ...state,
+    imageName: null,
   }))
 );
 

@@ -22,6 +22,13 @@ const routes: Routes = [
             (m) => m.CreateTransactionModule
           ),
       },
+      {
+        path: 'money-box',
+        loadChildren: () =>
+          import('./modules/create-money-box/create-money-box.module').then(
+            (m) => m.CreateMoneyBoxModule
+          ),
+      },
       // {
       //     path: 'section/:chapterId',
       //     loadChildren: () =>

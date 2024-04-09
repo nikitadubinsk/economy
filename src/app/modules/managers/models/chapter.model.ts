@@ -10,6 +10,7 @@ export interface IChapterCreate {
   answer4?: string;
   active: boolean;
   img: string;
+  correctAnswer?: string;
 }
 
 export interface IChapterEdit extends IChapterCreate {

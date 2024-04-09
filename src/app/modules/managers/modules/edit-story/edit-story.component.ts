@@ -28,7 +28,7 @@ import {
   tuiIsPresent,
   tuiPure,
 } from '@taiga-ui/cdk';
-import { imageName, loadImage } from 'src/app/store';
+import { imageName, loadImage, resetImageName } from 'src/app/store';
 
 @Component({
   selector: 'app-edit-story',
@@ -78,9 +78,9 @@ export class EditStoryComponent implements OnInit, OnDestroy {
   categories = STORY_CATEGORIES;
   story: Partial<IStoryManagerInfo> = {};
 
-  readonly loadingFiles$ = new Subject<TuiFileLike | null>();
+  readonly loadingFiles$ = new Subject<File | null>();
   readonly loadedFiles$ = this.imgControl.valueChanges.pipe(
-    map((file: TuiFileLike | null) => {
+    map((file: File | null) => {
       if (file) {
         this.store$.dispatch(loadImage({ file }));
         this.loadingFiles$.next(file);
@@ -167,5 +167,6 @@ export class EditStoryComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.store$.dispatch(resetStory());
+    this.store$.dispatch(resetImageName());
   }
 }

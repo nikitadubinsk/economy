@@ -12,19 +12,18 @@ const fs = require("fs");
 const jwt = require("jsonwebtoken");
 const { secret } = require("./config/config");
 const path = require("path");
-const fileUpload = require("express-fileupload");
 
-// const authRouter = require("./routers/authRouter");
-// const adminRouter = require("./routers/adminRouter");
-// const userRouter = require("./routers/userRouter");
-// const operatorRouter = require("./routers/operatorRouter");
+const authRouter = require("./routers/authRouter");
+const adminRouter = require("./routers/adminRouter");
+const userRouter = require("./routers/userRouter");
+const operatorRouter = require("./routers/operatorRouter");
 
 const CONFIG = {
-  DB: "a0936510_finliteracy",
-  USERNAME: "a0936510_finliteracy",
-  PASSWORD: "admin123",
+  DB: "a0936510_economy",
+  USERNAME: "a0936510_economy",
+  PASSWORD: "Qq123456",
   DIALECT: "mysql",
-  HOST: "pma.sprinthost.ru/",
+  HOST: "localhost",
 };
 
 app.use(cookieParser("economy"));
@@ -57,8 +56,33 @@ app.use(function (req, res, next) {
 app.use(history());
 app.use(cookieParser());
 
+app.use('/api/auth', authRouter);
+app.use('/api/manager', operatorRouter);
+app.use('/api/users', userRouter);
+app.use('/api/admin', adminRouter);
+
+app.use(multer({dest: 'server/uploads'}).single('file'));
+
+app.post('/api/photo', async (req, res) => {
+  try {
+      const extname = path.extname(req.file.originalname);
+      if (req.file) {
+          fs.rename(req.file.path, `${req.file.destination}/${req.file.filename}${extname}`, async () => {
+              res.send({name: `${req.file.filename}${extname}`});
+          });
+      }
+  } catch (e) {
+      console.error(e);
+      res.status(500).send({
+          message: `Произошла небольшая ошибка во время загрузки фотографии ${e.message}`,
+      });
+  }
+});
 
 
+app.get('/api/file/:filename', (req, res) => {
+  res.sendFile(path.join(__dirname, '/uploads', req.params.filename));
+});
 app.use("/", serveStatic(path.join(__dirname, "../dist/economy")));
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "../dist/economy/index.html"));
@@ -66,6 +90,38 @@ app.get("/", (req, res) => {
 app.get("/*/", (req, res) => {
   res.sendFile(path.join(__dirname, "../dist/economy/index.html"));
 });
+
+// try {
+//     db.Roles.create({
+//     name: "Родитель",
+//   });
+//     db.Roles.create({
+//     name: "Ребенок",
+//   });
+//     db.Roles.create({
+//     name: "Оператор",
+//   });
+//     db.Roles.create({
+//     name: "Администратор",
+//   });
+//    db.StoryCategories.create({
+//       name: "6-12",
+//     });
+//      db.StoryCategories.create({
+//       name: "12-18",
+//     });
+//      db.SpendingCategories.create({
+//       name: "Супермаркеты",
+//     });
+//      db.SpendingCategories.create({
+//       name: "Одежда и обувь",
+//     });
+//      db.StoryCategories.create({
+//       name: "Родитель",
+//     });
+// } catch {
+//   console.log("ОШИБКА")
+// }
 
 db.sequelize
   //.sync({ force: true })

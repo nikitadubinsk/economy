@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminContainerComponent } from './components/admin-container.component';
+import { EditAdminRateResolver } from './resolvers/edit-admin-rate.resolver';
 
 const routes: Routes = [
   {
@@ -18,6 +19,30 @@ const routes: Routes = [
           import('./modules/admin-statistics/admin-statistics.module').then(
             (m) => m.AdminStatisticsModule
           ),
+      },
+      {
+        path: 'rates',
+        loadChildren: () =>
+          import('./modules/admin-rates/admin-rates.module').then(
+            (m) => m.AdminRatesModule
+          ),
+      },
+      {
+        path: 'rates/create',
+        loadChildren: () =>
+          import('./modules/admin-create-rate/admin-create-rate.module').then(
+            (m) => m.AdminCreateRateModule
+          ),
+      },
+      {
+        path: 'rates/:id',
+        loadChildren: () =>
+          import('./modules/admin-create-rate/admin-create-rate.module').then(
+            (m) => m.AdminCreateRateModule
+          ),
+        resolve: {
+          rates: EditAdminRateResolver,
+        },
       },
     ],
   },

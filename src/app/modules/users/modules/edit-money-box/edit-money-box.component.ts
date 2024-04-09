@@ -35,6 +35,7 @@ export class EditMoneyBoxComponent {
   }
 
   editMoneyBox() {
+    console.log(this.context.data);
     this.context.completeWith({
       ...this.context.data,
       sum: this.moneyBoxForm.value.sum,

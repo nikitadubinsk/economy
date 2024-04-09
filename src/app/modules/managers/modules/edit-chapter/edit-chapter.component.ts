@@ -7,22 +7,21 @@ import {
 } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { STORY_CATEGORIES } from '../../consts/categories.const';
-import { TuiFileLike } from '@taiga-ui/kit';
-import { EMPTY, Subject, combineLatest, forkJoin, noop, of } from 'rxjs';
-import {
-  filter,
-  map,
-  startWith,
-  switchMap,
-  takeUntil,
-  tap,
-} from 'rxjs/operators';
+import { Subject, combineLatest, noop } from 'rxjs';
+import { filter, map, startWith, takeUntil, tap } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
-import { chapter, loader, loaderButton, resetChapter } from '../../store';
+import {
+  chapter,
+  createChapter,
+  editChapter,
+  loader,
+  loaderButton,
+  resetChapter,
+} from '../../store';
 import { EChapterType } from '../../consts/chapter-type.const';
 import { IManagerChapter } from 'src/app/models';
 import { TuiDestroyService, tuiIsPresent } from '@taiga-ui/cdk';
-import { imageName, loadImage } from 'src/app/store';
+import { imageName, loadImage, resetImageName } from 'src/app/store';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -65,6 +64,7 @@ export class EditChapterComponent implements OnInit, OnDestroy {
 
   categories = STORY_CATEGORIES;
   chapter: Partial<IManagerChapter> = {};
+  readonly correctAnswer = [1, 2, 3, 4];
 
   constructor(
     private readonly fb: UntypedFormBuilder,
@@ -83,6 +83,7 @@ export class EditChapterComponent implements OnInit, OnDestroy {
     answer3: [undefined],
     answer4: [undefined],
     active: [undefined],
+    correctAnswer: [undefined],
   });
 
   get imgControl() {
@@ -101,9 +102,9 @@ export class EditChapterComponent implements OnInit, OnDestroy {
     return this.typeControl.value === EChapterType.question;
   }
 
-  readonly loadingFiles$ = new Subject<TuiFileLike | null>();
+  readonly loadingFiles$ = new Subject<File | null>();
   readonly loadedFiles$ = this.imgControl.valueChanges.pipe(
-    map((file: TuiFileLike | null) => {
+    map((file: File | null) => {
       if (file) {
         this.store$.dispatch(loadImage({ file }));
         this.loadingFiles$.next(file);
@@ -136,6 +137,7 @@ export class EditChapterComponent implements OnInit, OnDestroy {
           answer2: chapter?.question?.answers[1],
           answer3: chapter?.question?.answers[2],
           answer4: chapter?.question?.answers[3],
+          correctAnswer: chapter?.question?.correctAnswer,
           active: chapter.active,
         });
       });
@@ -152,7 +154,7 @@ export class EditChapterComponent implements OnInit, OnDestroy {
   convertFormIntoData(
     form: any,
     img: string | undefined,
-    chapter: IManagerChapter | null
+    chapter?: IManagerChapter | null
   ) {
     return this.isQuestionType
       ? {
@@ -160,38 +162,36 @@ export class EditChapterComponent implements OnInit, OnDestroy {
           question: {
             text: form.title,
             answers: [form.answer1, form.answer2, form.answer3, form.answer4],
-            correctAnswer: 2,
+            correctAnswer: form.correctAnswer,
             answer: form.description,
           },
+          active: form.active,
         }
       : {
           img: img || chapter?.img,
           title: form.title,
           text: form.description,
+          active: form.active,
         };
   }
 
   saveChapter(isEdit: boolean | null) {
-    // if (this.story.img) {
-    // this.store$.dispatch(
-    //   isEdit && this.story.id
-    //     ? editStory({
-    //         id: this.story.id,
-    //         title: this.storyForm.value.title,
-    //         category: this.storyForm.value.category,
-    //         active: this.storyForm.value.active,
-    //         img: this.story.img,
-    //       })
-    //     : createStory({
-    //         title: this.storyForm.value.title,
-    //         category: this.storyForm.value.category,
-    //         active: this.storyForm.value.active,
-    //         img: this.story.img,
-    //       })
-    // );
+    if (this.chapter?.img) {
+      this.store$.dispatch(
+        isEdit
+          ? editChapter({
+              id: 1,
+              chapter: { ...this.chapterForm.value, img: this.chapter.img },
+            })
+          : createChapter({
+              chapter: { ...this.chapterForm.value, img: this.chapter.img },
+            })
+      );
+    }
   }
 
   ngOnDestroy(): void {
     this.store$.dispatch(resetChapter());
+    this.store$.dispatch(resetImageName());
   }
 }

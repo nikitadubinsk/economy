@@ -1,0 +1,55 @@
+@import "@taiga-ui/core/styles/taiga-ui-local.less";
+@import "@taiga-ui/styles/taiga-ui-global";
+
+:host {
+    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: var(--tui-primary);
+    padding: 3% 0;
+}
+
+.account_section {
+    border-radius: 10px;
+    width: 50vw;
+    background: var(--tui-base-01);
+    padding: 2rem;
+    .shadow(3); 
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.tui-form__row {
+    margin-bottom: 1rem;
+}
+
+.bold {
+    font-weight: 900;
+}
+
+@media screen and (max-width: 850px) {
+    :host {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        background: var(--tui-primary);
+    }
+
+    .account_section {
+        border-radius: 10px;
+        width: 95vw;
+        background: var(--tui-base-01);
+        padding: 2rem;
+        .shadow(3);
+    }
+
+    .tui-text_h3 {
+        font-size: 1.5rem;
+    }
+}

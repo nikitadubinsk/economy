@@ -1,11 +1,14 @@
+import { ISimpleItem } from 'src/app/models';
+
 export interface ITransactionInfo {
   date: string;
   name: string;
   sum: number;
+  id: number;
 }
 
 export interface ITransaction extends ITransactionInfo {
-  category?: string;
+  category?: ISimpleItem;
 }
 
 export interface ITransactionForm extends ITransactionInfo {
@@ -14,6 +17,7 @@ export interface ITransactionForm extends ITransactionInfo {
 
 export interface ITransactionFilter {
   name: string;
-  date: string;
+  dateFrom: string;
+  dateTo: string;
   page: number;
 }

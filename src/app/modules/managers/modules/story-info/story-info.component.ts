@@ -8,10 +8,10 @@ import { Store, select } from '@ngrx/store';
 import { chapters, loader, storyId } from '../../store/managers.selector';
 import { UntypedFormBuilder } from '@angular/forms';
 import { activeChapter, deleteChapter, selectChapter } from '../../store';
-import { IManagerChapter } from 'src/app/models';
 import { navigateTo } from 'src/app/store';
 import { tuiIsPresent } from '@taiga-ui/cdk';
-import { filter } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-story-info',
@@ -33,6 +33,10 @@ export class StoryInfoComponent implements OnInit {
   index = 0;
   carouselCount = 1;
 
+  isShowStub$ = combineLatest([this.chapters$, this.loader$]).pipe(
+    map(([chapters, loader]) => !chapters.length && !loader)
+  );
+
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     this.carouselCount = Math.floor(event.target.innerWidth / 450) || 1;
@@ -48,8 +52,7 @@ export class StoryInfoComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.carouselCount = 3;
-    // this.store$.dispatch(loadChapters({id: 1}));
+    this.carouselCount = Math.floor(window.innerWidth / 450) || 1;
   }
 
   convertImg(img: string) {
@@ -72,5 +75,9 @@ export class StoryInfoComponent implements OnInit {
     this.store$.dispatch(
       navigateTo({ payload: { path: [`/managers/story/${id}/create`] } })
     );
+  }
+
+  min(num1: number, num2: number): number {
+    return Math.min(num1, num2);
   }
 }

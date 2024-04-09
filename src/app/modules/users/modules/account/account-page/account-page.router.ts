@@ -13,6 +13,13 @@ const routes: Routes = [
           import('../user-info/user-info.module').then((m) => m.UserInfoModule),
       },
       {
+        path: 'edit',
+        loadChildren: () =>
+          import('../edit-user-info/edit-user-info.module').then(
+            (m) => m.EditUserInfoModule
+          ),
+      },
+      {
         path: 'transactions',
         loadChildren: () =>
           import('../user-transactions/user-transactions.module').then(

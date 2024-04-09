@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { delay, map } from 'rxjs/operators';
-import { IAuthResponse, ILoginForm } from '../models/auth.model';
+import { IAuthResponse, ILoginForm, IRegisrtation } from '../models/auth.model';
 
 import { ApiService } from './api.service';
 import { TuiFileLike } from '@taiga-ui/kit';
@@ -16,7 +16,7 @@ export class ApiAuthService extends ApiService {
     rates: '/auth/rates',
     registration: '/auth/registration',
     info: '/auth/info',
-    photo: '/userPhoto',
+    photo: '/photo',
     resetPassword: '/auth/resetPassword',
   };
 
@@ -24,6 +24,13 @@ export class ApiAuthService extends ApiService {
     return this.post<{ token: string }, ILoginForm>(
       this.endpoints.auth,
       params
+    ).pipe(map((d) => d.data));
+  }
+
+  registrate(info: IRegisrtation): Observable<{ token: string }> {
+    return this.post<{ token: string }, IRegisrtation>(
+      this.endpoints.registration,
+      info
     ).pipe(map((d) => d.data));
   }
 
@@ -62,15 +69,11 @@ export class ApiAuthService extends ApiService {
     ).pipe(map((d) => d.data));
   }
 
-  loadImage(photo: TuiFileLike): Observable<string> {
-    // return this.sendFile<string, File>(
-    //   this.endpoints.photo,
-    //   photo
-    // ).pipe(map((d) => d.data));
-
-    return of(
-      'https://static17.tgcnt.ru/posts/_0/5b/5bf6596675cfef41d94ef1c1ed3cd22a.jpg'
-    ).pipe(delay(1000));
+  loadImage(photo: File): Observable<{ name: string }> {
+    return this.sendFile<{ name: string }, File>(
+      this.endpoints.photo,
+      photo
+    ).pipe(map((d) => d.data));
   }
 
   userInfo(): Observable<{

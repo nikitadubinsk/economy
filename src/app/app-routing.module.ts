@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
+import { PageCanLoadGuard } from './resolvers/page-can-load.guard';
+import { AuthPageComponent } from './modules/auth-page/auth-page.component';
 
 @NgModule({
   imports: [
@@ -32,6 +34,10 @@ import { AppComponent } from './app.component';
             path: 'users',
             loadChildren: () =>
               import('./modules/users/users.module').then((m) => m.UsersModule),
+            canLoad: [PageCanLoadGuard],
+            data: {
+              roles: ['Родитель', 'Ребенок'],
+            },
           },
           {
             path: 'managers',
@@ -39,13 +45,32 @@ import { AppComponent } from './app.component';
               import('./modules/managers/managers.module').then(
                 (m) => m.ManagersModule
               ),
+            canLoad: [PageCanLoadGuard],
+            data: {
+              roles: ['Оператор'],
+            },
           },
           {
             path: 'admin',
             loadChildren: () =>
               import('./modules/admin/admin.module').then((m) => m.AdminModule),
+            canLoad: [PageCanLoadGuard],
+            data: {
+              roles: ['Администратор'],
+            },
+          },
+          {
+            path: 'registration',
+            loadChildren: () =>
+              import(
+                './modules/registration-page/registration-page.module'
+              ).then((m) => m.RegistrationPageModule),
           },
         ],
+      },
+      {
+        path: '**',
+        component: AuthPageComponent,
       },
     ]),
   ],

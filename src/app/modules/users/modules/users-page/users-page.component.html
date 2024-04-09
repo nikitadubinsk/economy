@@ -1,8 +1,5 @@
 <div class="page-content tui-container_adaptive">
-  <div
-    class="selections__content"
-    *tuiLet="storiesLoader$ | async as storiesLoader"
-  >
+  <div class="selections__content" *tuiLet="storiesLoader$ | async as storiesLoader">
     <!-- СТОРИС -->
     <div class="stories tui-space_bottom-5" *ngIf="storiesLoader; else stories">
       <div class="story-skeleton story" *tuiRepeatTimes="let index of 10"></div>
@@ -10,194 +7,107 @@
 
     <ng-template #stories>
       <div class="stories tui-space_bottom-5">
-          <app-story [story]="story" (onShowStory)="showStory($event)" *ngFor="let story of stories$ | async"></app-story>
+        <app-story [story]="story" (onShowStory)="showStory($event)" *ngFor="let story of stories$ | async"></app-story>
       </div>
     </ng-template>
 
     <!-- СТАТИСТИКА -->
-    <div
-      class="users_page"
-      *tuiLet="userStatisticLoader$ | async as userStatisticLoader"
-    >
+    <div class="users_page" *tuiLet="userStatisticLoader$ | async as userStatisticLoader">
       <div *tuiLet="userStatistic$ | async as userStatistic">
-        <tui-loader
-          [showLoader]="userStatisticLoader || false"
-          size="xxl"
-          [overlay]="true"
-          [inheritColor]="true"
-        ></tui-loader>
-        <div *ngIf="!userStatisticLoader">
-          <tui-island [hoverable]="true" class="tui-space_bottom-5">
+        <tui-loader [showLoader]="userStatisticLoader || false" size="xxl" [overlay]="true"
+          [inheritColor]="true"></tui-loader>
+        <div>
+          <tui-island [hoverable]="true" class="tui-space_bottom-5" *ngIf="!userStatisticLoader">
             <h3 class="tui-space_bottom-3">Использование бюджета</h3>
-            <progress
-              tuiProgressBar
-              [value]="userStatistic?.budget?.fact"
-              [max]="userStatistic?.budget?.plan"
-            ></progress>
+            <progress tuiProgressBar [value]="userStatistic?.budget?.fact"
+              [max]="userStatistic?.budget?.plan"></progress>
             <p>
               Уже использовано {{ userStatistic?.budget?.fact }} из
               {{ userStatistic?.budget?.plan }}
             </p>
-            <button
-              tuiButton
-              class="tui-space_top-5"
-              type="button"
-              appearance="primary"
-              size="m"
-              (click)="createNewReceipt()"
-            >
+            <button tuiButton class="tui-space_top-5" type="button" appearance="primary" size="m"
+              (click)="createNewReceipt()">
               Добавить поступление
             </button>
           </tui-island>
-          <tui-island [hoverable]="true" class="tui-space_bottom-5">
+          <tui-island [hoverable]="true" class="tui-space_bottom-5" *ngIf="!userStatisticLoader">
             <div class="ring_chart-wrapper">
-              <tui-ring-chart
-                size="l"
-                class="chart tui-space_right-5"
-                [value]="getCategories(userStatistic?.categories || [])"
-              >
-                <tui-money
-                  [singleColor]="true"
-                  [value]="getSum(userStatistic?.categories || [])"
-                ></tui-money>
-                <div>Всего</div></tui-ring-chart
-              >
+              <tui-ring-chart size="l" class="chart tui-space_right-5"
+                [value]="getCategories(userStatistic?.categories || [])">
+                <tui-money [singleColor]="true" [value]="getSum(userStatistic?.categories || [])"></tui-money>
+                <div>Всего</div>
+              </tui-ring-chart>
               <div class="legend">
-                <tui-legend-item
-                  *ngFor="
+                <tui-legend-item *ngFor="
                     let label of userCategories(
                       userStatistic?.categories || []
                     );
                     let index = index
-                  "
-                  #item
-                  class="item tui-space_right-5"
-                  [color]="getColor(index)"
-                  [disabled]="!isEnabled(index)"
-                  [text]="label"
-                  (click)="onClick(index)"
-                  (keydown.delete)="toggle(index)"
-                >
-                  <tui-primitive-checkbox
-                    [value]="!item.disabled"
-                  ></tui-primitive-checkbox>
-                  <tui-money
-                    [singleColor]="true"
-                    [value]="categories(userStatistic?.categories || [])[index]"
-                  ></tui-money>
+                  " #item class="item tui-space_right-5" [color]="getColor(index)" [disabled]="!isEnabled(index)"
+                  [text]="label" (click)="onClick(index)" (keydown.delete)="toggle(index)">
+                  <tui-primitive-checkbox [value]="!item.disabled"></tui-primitive-checkbox>
+                  <tui-money [singleColor]="true"
+                    [value]="categories(userStatistic?.categories || [])[index]"></tui-money>
                 </tui-legend-item>
               </div>
             </div>
           </tui-island>
-          <tui-island class="tui-space_bottom-5" [hoverable]="true">
+          <tui-island class="tui-space_bottom-5" [hoverable]="true" *ngIf="!userStatisticLoader">
             <form [formGroup]="rangeForm" class="tui-space_top-2">
               <p class="tui-space_bottom-5">
-                <tui-input-date-range
-                  [maxLength]="maxLength"
-                  formControlName="range"
-                >
+                <tui-input-date-range [maxLength]="maxLength" formControlName="range">
                   Диапазон
                 </tui-input-date-range>
               </p>
             </form>
-            <tui-axes
-              *ngIf="computeLabels$(range) | async as labels"
-              class="axes"
-              [axisXLabels]="labels"
-              [horizontalLines]="6"
-              [verticalLines]="labels.length"
-            >
-              <tui-line-days-chart
-                class="chart fullsize"
-                [height]="getMax(userStatistic?.days || [])"
-                [value]="convertValueLineDaysChart(userStatistic?.days || [])"
-                [xStringify]="xStringify$ | async"
-                [yStringify]="yStringify"
-              ></tui-line-days-chart>
+            <tui-axes *ngIf="computeLabels$(range) | async as labels" class="axes" [axisXLabels]="labels"
+              [horizontalLines]="6" [verticalLines]="labels.length">
+              <tui-line-days-chart class="chart fullsize" [height]="getMax(userStatistic?.days || [])"
+                [value]="convertValueLineDaysChart(userStatistic?.days || [])" [xStringify]="xStringify$ | async"
+                [yStringify]="yStringify" [dots]="true"></tui-line-days-chart>
             </tui-axes>
           </tui-island>
-          <tui-loader
-            [showLoader]="(moneyBoxesLoader$ | async) || false"
-            size="xxl"
-            [overlay]="true"
-            [inheritColor]="true"
-          ></tui-loader>
-          <div
-            class="money_boxes"
-            *ngIf="!(moneyBoxesLoader$ | async) || false"
-          >
-          <div *ngFor="let moneyBox of moneyBoxes$ | async; let idx = index">
-            <tui-island
-              class="tui-space_bottom-5 money_box"
-              [hoverable]="true"
-            >
-              <h3 class="tui-island__title">
-                Копилка "{{ moneyBox.name }}"
-                <span *ngIf="moneyBox.date"
-                  >(до {{ moneyBox.date.dateEnd | date : "dd.MM.yyyy" }})</span
-                >
-              </h3>
-              <div class="money_box-chart">
-                <tui-arc-chart
-                  size="m"
-                  class="tui-space_right-4"
-                  [value]="convertMoneyBoxProgress(moneyBox)"
-                  [(activeItemIndex)]="activeItemIndex"
-                >
-                </tui-arc-chart>
-                <div class="money_box-chart-legend">
-                  <ng-container
-                    *ngFor="let label of moneyBoxLabels; let index = index"
-                  >
-                    <tui-legend-item
-                      *ngIf="convertLegendMoneyBoxesLabel(index, moneyBox)"
-                      size="s"
-                      class="tui-space_bottom-2 tui-space_right-2"
-                      [active]="isMoneyBoxItemActive(idx, index)"
-                      [color]="getColor(index)"
-                      [text]="label"
-                      >{{ convertLegendMoneyBoxesLabel(index, moneyBox) }}
-                    </tui-legend-item>
-                  </ng-container>
+          <tui-loader [showLoader]="(moneyBoxesLoader$ | async) || false" size="xxl" [overlay]="true"
+            [inheritColor]="true"></tui-loader>
+          <div class="money_boxes" *ngIf="!(moneyBoxesLoader$ | async) || false">
+            <div *ngFor="let moneyBox of moneyBoxes$ | async; let idx = index">
+              <tui-island class="tui-space_bottom-5 money_box" [hoverable]="true">
+                <h3 class="tui-island__title">
+                  Копилка "{{ moneyBox.name }}"
+                  <span *ngIf="moneyBox.date">(до {{ moneyBox.date.dateEnd | date : "dd.MM.yyyy" }})</span>
+                </h3>
+                <div class="money_box-chart">
+                  <tui-arc-chart size="m" class="tui-space_right-4" [value]="convertMoneyBoxProgress(moneyBox)"
+                    [(activeItemIndex)]="activeItemIndex">
+                  </tui-arc-chart>
+                  <div class="money_box-chart-legend">
+                    <ng-container *ngFor="let label of moneyBoxLabels; let index = index">
+                      <tui-legend-item *ngIf="convertLegendMoneyBoxesLabel(index, moneyBox)" size="s"
+                        class="tui-space_bottom-2 tui-space_right-2" [active]="isMoneyBoxItemActive(idx, index)"
+                        [color]="getColor(index)" [text]="label">{{ convertLegendMoneyBoxesLabel(index, moneyBox) }}
+                      </tui-legend-item>
+                    </ng-container>
+                  </div>
                 </div>
-              </div>
-              <div class="tui-island__footer-button">
-                <div tuiGroup class="group" [collapsed]="true">
-                  <button
-                    tuiButton
-                    type="button"
-                    appearance="flat"
-                    size="s"
-                    class="width_50"
-                    (click)="editMoneyBox(ACTIONS.ADD, moneyBox.id)"
-                  >
-                    Пополнить
-                  </button>
-                  <button
-                    tuiButton
-                    type="button"
-                    appearance="flat"
-                    size="s"
-                    class="width_50"
-                    (click)="editMoneyBox(ACTIONS.DELETE, moneyBox.id)"
-                  >
-                    Взять
-                  </button>
-                  <button
-                    tuiButton
-                    type="button"
-                    appearance="flat"
-                    size="s"
-                    class="width_50"
-                    (click)="deleteMoneyBox(moneyBox.id)"
-                  >
-                    Удалить
-                  </button>
+                <div class="tui-island__footer-button">
+                  <div tuiGroup class="group" [collapsed]="true">
+                    <button tuiButton type="button" appearance="flat" size="s" class="width_50"
+                      (click)="editMoneyBox(ACTIONS.ADD, moneyBox.id)">
+                      Пополнить
+                    </button>
+                    <button tuiButton type="button" appearance="flat" size="s" class="width_50"
+                      (click)="editMoneyBox(ACTIONS.DELETE, moneyBox.id)">
+                      Взять
+                    </button>
+                    <button tuiButton type="button" appearance="flat" size="s" class="width_50"
+                      (click)="deleteMoneyBox(moneyBox.id)">
+                      Удалить
+                    </button>
+                  </div>
                 </div>
-              </div>
-            </tui-island>
+              </tui-island>
+            </div>
           </div>
-        </div>
         </div>
       </div>
       <div>
@@ -208,33 +118,19 @@
           </form>
           <p class="tui-island__paragraph tui-island__paragraph_link">
             <a tuiLink routerLink="/users/account">
-              Перейти в личный кабинет →</a
-            >
+              Перейти в личный кабинет →</a>
           </p>
           <div>
-            <button
-              tuiButton
-              type="button"
-              appearance="flat"
-              size="m"
-              class="tui-island__footer-button"
-              (click)="createNewMoneyBox()"
-            >
+            <button tuiButton type="button" appearance="flat" size="m" class="tui-island__footer-button"
+              (click)="createNewMoneyBox()">
               Создать копилку
             </button>
           </div>
         </tui-island>
-        <tui-island
-          [hoverable]="true"
-          class="tui-space_bottom-5"
-          *tuiLet="transactionsLoader$ | async as loader"
-        >
+        <tui-island [hoverable]="true" class="tui-space_bottom-5" *tuiLet="transactionsLoader$ | async as loader">
           <h3 class="tui-space_bottom-3">Последние траты</h3>
           <div *ngIf="loader; else transactions">
-            <div
-              class="operation tui-space_bottom-1"
-              *tuiRepeatTimes="let index of 5"
-            >
+            <div class="operation tui-space_bottom-1" *tuiRepeatTimes="let index of 5">
               <div class="operation-date tui-skeleton">
                 Test
                 <div class="operation-month tui-skeleton">Test</div>
@@ -244,10 +140,7 @@
             </div>
           </div>
           <ng-template #transactions>
-            <div
-              class="operation tui-space_bottom-1"
-              *ngFor="let transaction of transactions$ | async | slice : 0 : 5"
-            >
+            <div class="operation tui-space_bottom-1" *ngFor="let transaction of transactions$ | async | slice : 0 : 5">
               <div class="operation-date">
                 {{ transaction.date | date : "dd" }}
                 <div class="operation-month">
@@ -255,51 +148,29 @@
                 </div>
               </div>
               <div class="operation-title">{{ transaction.name }}</div>
-              <div
-                class="operation-info"
-                [ngClass]="{
+              <div class="operation-info" [ngClass]="{
                   'operation-status_success': transaction.sum > 0,
                   'operation-status_error': transaction.sum < 0
-                }"
-              >
-                <tui-money
-                  class="operation-amount"
-                  [value]="transaction.sum"
-                ></tui-money>
+                }">
+                <tui-money class="operation-amount" [value]="transaction.sum"></tui-money>
               </div>
             </div>
           </ng-template>
           <p class="tui-island__paragraph tui-island__paragraph_link">
             <a tuiLink routerLink="/users/account/transactions">
-              Просмотреть все траты →</a
-            >
+              Просмотреть все траты →</a>
           </p>
-          <button
-            tuiButton
-            type="button"
-            appearance="flat"
-            size="m"
-            class="tui-island__footer-button"
-            (click)="createNewTransaction()"
-          >
+          <button tuiButton type="button" appearance="flat" size="m" class="tui-island__footer-button"
+            (click)="createNewTransaction()">
             Добавить трату
           </button>
         </tui-island>
-        <tui-island
-          [hoverable]="true"
-          class="tui-space_bottom-5"
-          *tuiLet="childrensLoader$ | async as loader"
-        >
+        <tui-island [hoverable]="true" class="tui-space_bottom-5" *ngIf="(role$ | async) == 'Родитель'">
           <h3 class="tui-space_bottom-3">Добавленные дети</h3>
-          <div *ngIf="loader; else childrens">
-            <div
-              *tuiRepeatTimes="let index of 5"
-              class="operation tui-space_bottom-2"
-            >
+          <div *ngIf="childrensLoader$ | async; else childrens">
+            <div *tuiRepeatTimes="let index of 5" class="operation tui-space_bottom-2">
               <figure class="tui-island__figure">
-                <div
-                  class="some-figure tui-skeleton_rounded tui-skeleton"
-                ></div>
+                <div class="some-figure tui-skeleton_rounded tui-skeleton"></div>
               </figure>
               <div class="tui-skeleton tui-skeleton_rounded">Test</div>
               <div>
@@ -309,17 +180,9 @@
             </div>
           </div>
           <ng-template #childrens>
-            <div
-              *ngFor="let children of childrens$ | async"
-              class="operation tui-space_bottom-2"
-            >
-              <tui-avatar
-                size="l"
-                [text]="children.name"
-                class="operation-date"
-                [rounded]="true"
-                [autoColor]="true"
-              ></tui-avatar>
+            <div *ngFor="let children of childrens$ | async" class="operation tui-space_bottom-2">
+              <tui-avatar size="l" [text]="children.name" class="operation-date" [rounded]="true"
+                [autoColor]="true"></tui-avatar>
               <div>
                 <p class="operation-title">{{ children.name }}</p>
                 <p class="operation-month">
@@ -330,8 +193,7 @@
           </ng-template>
           <p class="tui-island__paragraph tui-island__paragraph_link">
             <a tuiLink routerLink="/users/account/childrens">
-              Просмотреть полную информацию →</a
-            >
+              Просмотреть полную информацию →</a>
           </p>
         </tui-island>
       </div>

@@ -1,0 +1,62 @@
+<div class="account_section">
+    <h1 class="tui-space_bottom-6 tui-text_h4">Зарегистрироваться в системе</h1>
+    <form [formGroup]="registrationForm" class="tui-space_top-4">
+        <div class="tui-form__row tui-space_bottom-6">
+            <tui-input formControlName="name" tuiTextfieldCleaner="true">
+                ФИО<span class="tui-required"></span>
+            </tui-input>
+            <tui-error [error]="[] | tuiFieldError | async" formControlName="name"></tui-error>
+        </div>
+        <div class="tui-form__row tui-space_bottom-6">
+            <tui-input-date formControlName="birthday" tuiTextfieldCleaner="true">
+                Дата рождения<span class="tui-required"></span>
+            </tui-input-date>
+            <tui-error [error]="[] | tuiFieldError | async" formControlName="birthday"></tui-error>
+        </div>
+        <div class="tui-form__row tui-space_bottom-6">
+            <tui-input formControlName="email" tuiTextfieldCleaner="true">
+                Email<span class="tui-required"></span>
+            </tui-input>
+            <tui-error [error]="[] | tuiFieldError | async" formControlName="email"></tui-error>
+        </div>
+        <div class="tui-form__row tui-space_bottom-6">
+            <tui-input-password formControlName="password1" tuiTextfieldCleaner="true">
+                Пароль<span class="tui-required"></span>
+            </tui-input-password>
+            <tui-error [error]="[] | tuiFieldError | async" formControlName="password1"></tui-error>
+        </div>
+        <div class="tui-form__row tui-space_bottom-6">
+            <tui-input-password formControlName="password2" tuiTextfieldCleaner="true">
+                Повторите пароль<span class="tui-required"></span>
+            </tui-input-password>
+            <tui-error [error]="[] | tuiFieldError | async" formControlName="password2"></tui-error>
+        </div>
+        <div class="tui-form__row tui-form__row_multi-fields">
+            <tui-toggle size="l" [showIcons]="true" formControlName="specifyParent"
+              >Указать родителя</tui-toggle
+            >
+            <p class="tui-text_body-m tui-space_left-3">Указать родителя</p>
+          </div>
+          <div class="tui-form__row tui-space_bottom-6" *ngIf="isShowParentEmail">
+            <tui-input formControlName="parentEmail" tuiTextfieldCleaner="true">
+                Email родителя<span class="tui-required"></span>
+            </tui-input>
+            <tui-error [error]="[] | tuiFieldError | async" formControlName="parentEmail"></tui-error>
+        </div>
+        <div class="tui-form__row">
+            <button
+                class="max-width"
+                type="submit"
+                tuiButton
+                [disabled]="registrationForm.invalid"
+                automation-id="save-button"
+                (click)="registration()"
+                [showLoader]="(loading$ | async) || false"
+            >
+                Зарегистрироваться
+            </button>
+        </div>
+    </form>
+    <br />
+    <a tuiLink routerLink="/auth" class="tui-space_top-8">← Уже зарегистрированы? Давайте авторизовываться!</a>
+</div>

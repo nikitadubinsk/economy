@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { loadUser, loaderUserInfo, userInfo } from '../../../store';
-import { name } from 'src/app/store';
+import { logout, name, navigateTo } from 'src/app/store';
 
 @Component({
   selector: 'app-user-info',
@@ -18,5 +18,15 @@ export class UserInfoComponent implements OnInit {
 
   ngOnInit(): void {
     this.store$.dispatch(loadUser());
+  }
+
+  logout() {
+    this.store$.dispatch(logout());
+  }
+
+  editUserInfo() {
+    this.store$.dispatch(
+      navigateTo({ payload: { path: ['users/account/edit'] } })
+    );
   }
 }

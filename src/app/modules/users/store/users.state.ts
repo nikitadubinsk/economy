@@ -15,10 +15,14 @@ export interface UsersState {
   storiesLoader: boolean;
   userStatisticLoader: boolean;
   userStatistic: IUserStatistics | null;
+  userStatisticFilters: {
+    from: string;
+    to: string;
+  };
   categoriesLoader: boolean;
   transactionsInfo: {
     transactions: ITransaction[];
-    page: number;
+    totalPages: number;
     filter: Partial<ITransactionFilter>;
     loader: boolean;
   };
@@ -42,6 +46,8 @@ export interface UsersState {
     awards: IAward[];
     loader: boolean;
   };
+  loader: boolean;
+  storyId: number | null;
 }
 
 export const initialState: UsersState = {
@@ -52,9 +58,13 @@ export const initialState: UsersState = {
   userStatisticLoader: false,
   categoriesLoader: false,
   userStatistic: null,
+  userStatisticFilters: {
+    from: '',
+    to: '',
+  },
   transactionsInfo: {
     transactions: [],
-    page: 0,
+    totalPages: 0,
     filter: {},
     loader: false,
   },
@@ -78,4 +88,6 @@ export const initialState: UsersState = {
     awards: [],
     loader: false,
   },
+  loader: false,
+  storyId: null,
 };

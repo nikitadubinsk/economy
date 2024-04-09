@@ -7,9 +7,11 @@ import {
   activeChapter,
   changeWeightStories,
   changeWeightStoriesSuccess,
+  createChapter,
   createStory,
   deleteChapter,
   deleteStory,
+  editChapter,
   editStory,
   loadChapterById,
   loadChapters,
@@ -23,7 +25,7 @@ import {
   turnOffLoaderButton,
 } from './managers.actions';
 import { EMPTY, forkJoin, of } from 'rxjs';
-import { stories, storyFilters, storyId } from './managers.selector';
+import { stories, story, storyFilters, storyId } from './managers.selector';
 import { tuiIsPresent } from '@taiga-ui/cdk';
 import { IStoryManagerInfo } from 'src/app/models';
 import { getChangedWeightsList } from '../utils/get-changed-weights-list';
@@ -188,7 +190,7 @@ export class ManagersEffects {
       switchMap(([flag, id]) =>
         flag
           ? this.apiManagerService
-              .deleteStory(id)
+              .deleteChapter(id)
               .pipe(
                 switchMap(() => [
                   loadChapters({ id: 1 }),
@@ -223,6 +225,54 @@ export class ManagersEffects {
             turnOffLoaderButton(),
             navigateTo({ payload: { path: ['/managers'] } }),
           ])
+        )
+      )
+    )
+  );
+
+  createChapter$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(createChapter),
+      switchMap((data) =>
+        forkJoin([
+          this.store$.pipe(select(storyId), take(1), filter(tuiIsPresent)),
+          of(data),
+        ])
+      ),
+      switchMap(([storyId, { chapter }]) =>
+        this.apiManagerService.createChapter(chapter, storyId).pipe(
+          switchMap(() => [
+            showSuccessMessage({
+              message: 'Вы успешно создали новую историю',
+            }),
+            turnOffLoaderButton(),
+            navigateTo({ payload: { path: [`/managers/story/${storyId}`] } }),
+          ]),
+          catchError(() => [turnOffLoaderButton()])
+        )
+      )
+    )
+  );
+
+  editChapter$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(editChapter),
+      switchMap((data) =>
+        forkJoin([
+          this.store$.pipe(select(storyId), take(1), filter(tuiIsPresent)),
+          of(data),
+        ])
+      ),
+      switchMap(([storyId, { chapter, id }]) =>
+        this.apiManagerService.editChapter(chapter, id).pipe(
+          switchMap(() => [
+            showSuccessMessage({
+              message: 'Вы успешно обновили историю',
+            }),
+            turnOffLoaderButton(),
+            navigateTo({ payload: { path: [`/managers/story/${storyId}`] } }),
+          ]),
+          catchError(() => [turnOffLoaderButton()])
         )
       )
     )

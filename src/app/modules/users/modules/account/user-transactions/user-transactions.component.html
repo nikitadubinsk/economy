@@ -9,9 +9,7 @@
           <tui-input formControlName="name">Название</tui-input>
         </div>
         <div class="tui-form__multi-field">
-          <tui-input-date-range formControlName="date"
-            >Дата траты</tui-input-date-range
-          >
+          <tui-input-date-range formControlName="date">Дата траты</tui-input-date-range>
         </div>
       </div>
     </div>
@@ -33,10 +31,7 @@
   </div>
 
   <ng-template #transactions>
-    <div
-      class="operation tui-space_bottom-1"
-      *ngFor="let transaction of transactions$ | async"
-    >
+    <div class="operation tui-space_bottom-1" *ngFor="let transaction of transactions$ | async">
       <div class="operation-date">
         {{ transaction.date | date : "dd" }}
         <div class="operation-month">
@@ -48,37 +43,23 @@
       </div>
       <div class="operation-title">
         <p class="operation-text">{{ transaction.name }}</p>
-        <p class="operation-category">{{ transaction.category }}</p>
+        <p class="operation-category">{{ transaction?.category?.name }}</p>
       </div>
-      <div
-        class="operation-info"
-        [ngClass]="{
+      <div class="operation-info" [ngClass]="{
           'operation-status_success': transaction.sum > 0,
           'operation-status_error': transaction.sum < 0
-        }"
-      >
-        <tui-money
-          class="operation-amount"
-          [value]="transaction.sum"
-        ></tui-money>
+        }">
+        <tui-money class="operation-amount" [value]="transaction.sum"></tui-money>
       </div>
-      <button
-        class="operation-remove"
-        tuiIconButton
-        appearance="icon"
-        icon="tuiIconTrash2Large"
-        title="Удалить операцию"
-        shape="rounded"
-        automation-id="delete-transaction-button"
-        size="s"
-      ></button>
+      <button (click)="delete(transaction.id)" class="operation-remove" tuiIconButton appearance="icon" icon="tuiIconTrash2Large"
+        title="Удалить операцию" shape="rounded" automation-id="delete-transaction-button" size="s"
+        ></button>
     </div>
 
-    <tui-pagination
-      class="tui-space_top-5"
-      [length]="10"
-      [index]="0"
-      (indexChange)="goToPage($event)"
-    ></tui-pagination>
+    <app-stub *ngIf="isShowStub$ | async" header="Нет трат"></app-stub>
+
+    <tui-pagination *ngIf="transactionsTotalPages$ | async" class="tui-space_top-5"
+      [length]="(transactionsTotalPages$ | async) || 0" [index]="(transactionsPage$ | async) || 0"
+      (indexChange)="goToPage($event)"></tui-pagination>
   </ng-template>
 </div>

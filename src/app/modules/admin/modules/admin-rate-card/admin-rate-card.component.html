@@ -1,0 +1,37 @@
+<tui-island [hoverable]="true">
+        <div class="tui-island__content">
+        <div class="tui-island__figure">
+            <form [formGroup]="rateForm" class="rates">
+                <tui-toggle
+                    size="l"
+                    formControlName="active"
+                ></tui-toggle>
+            </form>
+        </div>
+        <div>
+        <h3 class="tui-island__title">
+            {{rate.name}}
+        </h3>
+        <p class="tui-island__paragraph">
+            {{rate.description}}
+        </p>
+        <p class="tui-island__paragraph">
+            Стоимость: {{rate.price}} ₽
+        </p>
+        <p class="tui-island__paragraph">
+            Количество участников: {{rate.maxUsers}}
+        </p>
+            </div>
+        </div>
+        <button
+                    tuiButton
+                    type="button"
+                    appearance="flat"
+                    size="m"
+                    class="tui-island__footer-button"
+                    (click)="editRate()"
+                >
+                    Редактировать
+                </button>
+    </tui-island>
+

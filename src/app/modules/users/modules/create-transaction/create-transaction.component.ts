@@ -36,7 +36,6 @@ export class CreateTransactionComponent implements OnInit {
     sum: [0, [Validators.required, Validators.min(1)]],
     category: [undefined, [Validators.required]],
     date: [undefined, [Validators.required]],
-    description: [''],
   });
 
   ngOnInit(): void {

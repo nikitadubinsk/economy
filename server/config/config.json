@@ -1,9 +1,9 @@
 {
   "development": {
-    "username": "a0936510_finliteracy",
-    "password": "admin123",
-    "database": "a0936510_finliteracy",
-    "host": "141.8.194.149",
-    "dialect": "postgres"
+    "username": "a0936510_economy",
+    "password": "Qq123456",
+    "database": "a0936510_economy",
+    "host": "localhost",
+    "dialect": "mysql"
   }
 }

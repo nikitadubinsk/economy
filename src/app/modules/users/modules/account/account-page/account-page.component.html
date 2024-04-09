@@ -1,7 +1,7 @@
 <div class="account_section">
   <div class="account_section-menu">
     <tui-tabs class="tabs">
-      <ng-container *ngFor="let item of items">
+      <ng-container *ngFor="let item of role$ | async">
         <a
           tuiTab
           [routerLink]="item.route"

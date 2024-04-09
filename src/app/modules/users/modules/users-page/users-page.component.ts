@@ -19,7 +19,14 @@ import {
 import { TUI_MONTHS } from '@taiga-ui/core';
 import { Observable, Subject } from 'rxjs';
 import { filter, map, take, takeUntil } from 'rxjs/operators';
-import { isDarkMode, name, navigateTo, switchTheme } from 'src/app/store';
+import {
+  isDarkMode,
+  loadUserInfo,
+  name,
+  navigateTo,
+  role,
+  switchTheme,
+} from 'src/app/store';
 import {
   addReceipt,
   childrens,
@@ -68,6 +75,7 @@ export class UsersPageComponent implements OnInit {
   childrens$ = this.store$.pipe(select(childrens));
   childrensLoader$ = this.store$.pipe(select(childrensLoader));
   name$ = this.store$.pipe(select(name));
+  role$ = this.store$.pipe(select(role));
 
   private destroy$ = new Subject<void>();
   ACTIONS = ACTIONS;
@@ -189,9 +197,9 @@ export class UsersPageComponent implements OnInit {
   }
 
   readonly yStringify: TuiStringHandler<number> = (y) => {
-    return `${(10 * y).toLocaleString('en-US', {
+    return `${(10 * y).toLocaleString('ru-RU', {
       maximumFractionDigits: 0,
-    })} $`;
+    })} руб`;
   };
 
   isEnabled(index: number): boolean {
@@ -221,6 +229,7 @@ export class UsersPageComponent implements OnInit {
   }
 
   showStory(id: number) {
+    console.log(id);
     this.store$.dispatch(openStory({ id }));
   }
 
@@ -280,11 +289,14 @@ export class UsersPageComponent implements OnInit {
   }
 
   editMoneyBox(action: ACTIONS, id: number) {
+    console.log(action);
     this.store$.dispatch(editMoneyBox({ id, action }));
   }
 
   createNewMoneyBox() {
-    this.store$.dispatch(createMoneyBox());
+    this.store$.dispatch(
+      navigateTo({ payload: { path: ['users/money-box'] } })
+    );
   }
 
   createNewReceipt() {

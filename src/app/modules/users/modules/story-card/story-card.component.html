@@ -1,29 +1,14 @@
 <div class="loader" *ngIf="storyLoader$ | async">
-  <tui-loader
-    [showLoader]="(storyLoader$ | async) || false"
-    size="xxl"
-    [overlay]="true"
-  ></tui-loader>
+  <tui-loader [showLoader]="(storyLoader$ | async) || false" size="xxl" [overlay]="true"></tui-loader>
 </div>
 <div *tuiLet="story$ | async as story" class="story">
-  <tui-progress-segmented
-    [max]="story?.count || 0"
-    [value]="chapterIndex + 1"
-    class="story_progress"
-    size="s"
-  ></tui-progress-segmented>
+  <tui-progress-segmented [max]="story?.count || 0" [value]="chapterIndex + 1" class="story_progress"
+    size="s"></tui-progress-segmented>
   <div *ngFor="let chapter of story?.chapter; let i = index">
-    <div
-      *ngIf="i === chapterIndex"
-      [ngStyle]="{ background: convertImg(chapter?.img || '') }"
-      class="story_chapter"
-    >
+    <div *ngIf="i === chapterIndex" [ngStyle]="{ background: convertImg(chapter?.img || '') }" class="story_chapter">
       <div class="manage_chapter">
         <div class="manage_chapter-left" (click)="prev()"></div>
-        <div
-          class="manage_chapter-right"
-          (click)="next(story?.count || 0)"
-        ></div>
+        <div class="manage_chapter-right" (click)="next(story?.count || 0)"></div>
       </div>
       <div class="story_chapter_text">
         <div class="story_chapter_text_body">
@@ -36,15 +21,16 @@
               <p class="tui-text_h3 tui-space_bottom-4">
                 {{ chapter?.question?.text }}
               </p>
-              <div
-                *ngFor="
+              <div *ngFor="
                   let answer of chapter?.question?.answers;
                   let idx = index
-                "
-              >
-                <p class="answer tui-text_body-l" (click)="selectAnswer(chapter.question, idx)">
+                ">
+                <!-- <p class="answer tui-text_body-l" (click)="selectAnswer(chapter.question, idx)">
                   {{ answer }}
-                </p>
+                </p> -->
+                <button tuiButton (click)="selectAnswer(chapter.question, idx)" size="s" class="max_width tui-space_bottom-2" appearance="whiteblock-active">
+                  {{ answer }}
+                </button>
               </div>
             </div>
             <ng-template #correctAnswer>

@@ -5,7 +5,7 @@ import {
   IChildrenStatistics,
   IUserStatistics,
 } from '../models/statistics.model';
-import { IMoneyBox } from '../models/moneyBox.model';
+import { IMoneyBox, IMoneyBoxCreate } from '../models/moneyBox.model';
 import {
   ITransaction,
   ITransactionFilter,
@@ -52,8 +52,8 @@ export const clearStory = createAction(`[${usersFeatureKey}] CLEAR_STORY`);
 export const loadUserStatistic = createAction(
   `[${usersFeatureKey}] LOAD_USER_STATISTIC`,
   props<{
-    from?: string;
-    to?: string;
+    from: string;
+    to: string;
   }>()
 );
 export const loadedUserStatistic = createAction(
@@ -117,10 +117,14 @@ export const loadedTransactions = createAction(
   `[${usersFeatureKey}] LOADED_TRANSACTIONS`,
   props<{
     transactions: ITransaction[];
+    totalPages: number;
   }>()
 );
 export const createMoneyBox = createAction(
-  `[${usersFeatureKey}] CREATE_MONEY_BOX`
+  `[${usersFeatureKey}] CREATE_MONEY_BOX`,
+  props<{
+    moneyBox: IMoneyBoxCreate;
+  }>()
 );
 export const addReceipt = createAction(`[${usersFeatureKey}] ADD_RECEIPT`);
 export const loadChildrens = createAction(
@@ -165,5 +169,11 @@ export const loadedAwards = createAction(
   `[${usersFeatureKey}] LOADED_AWARDS`,
   props<{
     awards: IAward[];
+  }>()
+);
+export const deleteTransaction = createAction(
+  `[${usersFeatureKey}] DELETE_TRANSACTION`,
+  props<{
+    id: number;
   }>()
 );

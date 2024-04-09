@@ -7,9 +7,14 @@ import { UsersEffects, usersFeatureKey, usersReducer } from '../../store';
 import { TuiProgressModule } from '@taiga-ui/kit';
 import { TuiLetModule } from '@taiga-ui/cdk';
 import { StoryCardComponent } from './story-card.component';
-import { TuiLoaderModule } from '@taiga-ui/core';
+import { TuiButtonModule, TuiLoaderModule } from '@taiga-ui/core';
 
-export const TUI_MODULES = [TuiProgressModule, TuiLetModule, TuiLoaderModule];
+export const TUI_MODULES = [
+  TuiProgressModule,
+  TuiLetModule,
+  TuiLoaderModule,
+  TuiButtonModule,
+];
 
 @NgModule({
   declarations: [StoryCardComponent],

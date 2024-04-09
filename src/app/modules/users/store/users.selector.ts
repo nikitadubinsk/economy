@@ -38,6 +38,18 @@ export const transactionsLoader = createSelector(
   state,
   (state) => state.transactionsInfo.loader
 );
+export const transactionsTotalPages = createSelector(
+  state,
+  (state) => state.transactionsInfo.totalPages
+);
+export const transactionsPage = createSelector(
+  state,
+  (state) => state.transactionsInfo.filter?.page
+);
+export const transactionsFilter = createSelector(
+  state,
+  (state) => state.transactionsInfo.filter
+);
 export const childrens = createSelector(
   state,
   (state) => state.childrensInfo.childrens
@@ -64,3 +76,9 @@ export const awardsLoader = createSelector(
   state,
   (state) => state.awardsInfo.loader
 );
+export const loader = createSelector(state, (state) => state.loader);
+export const userStatisticsFilters = createSelector(
+  state,
+  (state) => state.userStatisticFilters
+);
+export const storyId = createSelector(state, (state) => state.storyId);

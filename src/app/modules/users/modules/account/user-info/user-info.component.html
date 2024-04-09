@@ -1,23 +1,29 @@
 <div *tuiLet="name$ | async as name">
 
 
-<tui-loader [showLoader]="true" size="xxl" *ngIf="loader$ | async; else userInfo"></tui-loader>
+  <tui-loader [showLoader]="true" size="xxl" *ngIf="loader$ | async; else userInfo"></tui-loader>
 
-<ng-template #userInfo>
-  <div *tuiLet="info$ | async as info" class="user_account">
-    <div class="user_account-photo">
-      <tui-avatar
-        [rounded]="true"
-        [text]="name || ''"
-        size="xxl"
-      ></tui-avatar>
-    </div>
-    <div class="user_account-text">
+  <ng-template #userInfo>
+    <div *tuiLet="info$ | async as info" class="user_account">
+      <div class="user_account-photo">
+        <tui-avatar [rounded]="true" [text]="name || ''" size="xxl"></tui-avatar>
+      </div>
+      <div class="user_account-text">
         <h2 class="tui-text_h3 tui-space_bottom-4">{{ name }}</h2>
-            <p class="tui-text_body-xl">Адрес электронной почты: {{ info?.email }}</p>
-            <p class="tui-text_body-xl">
-                Дата рождения: {{ info?.date | date: 'dd.MM.yyyy' }}
-            </p>
-    </div></div
-></ng-template>
+        <p class="tui-text_body-xl">Адрес электронной почты: {{ info?.email }}</p>
+        <p class="tui-text_body-xl">
+          Дата рождения: {{ info?.date | date: 'dd.MM.yyyy' }}
+        </p>
+        <div class="tui-space_top-3">
+          <button appearance="primary" tuiButton type="button" class="tui-space_right-3 tui-space_bottom-3"
+            size="m" (click)="editUserInfo()">Изменить
+            личные данные</button>
+          <button appearance="primary" tuiButton type="button" size="m"
+            class="tui-space_right-3 tui-space_bottom-3">Сбросить пароль</button>
+          <button (click)="logout()" appearance="secondary" tuiButton type="button" size="m"
+            class="tui-space_right-3 tui-space_bottom-3">Выйти</button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
 </div>

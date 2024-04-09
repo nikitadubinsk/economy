@@ -4,7 +4,7 @@
       Добавленные дети
     </h3>
 
-    <div>
+    <div *ngIf="loader">
       <div class="child tui-space_bottom-2" *tuiRepeatTimes="let index of 5">
         <div class="child_info">
           <div class="child-avatar tui-skeleton tui-skeleton_rounded">Test</div>

@@ -7,6 +7,7 @@ import {
 } from 'src/app/models';
 import { IStoryFilters } from '../models/filters.model';
 import { TuiFileLike } from '@taiga-ui/kit';
+import { IChapterCreate } from '../models/chapter.model';
 
 export const loadStories = createAction(
   `[${managersFeatureKey}] LOAD_STORIES`,
@@ -134,5 +135,18 @@ export const saveStoryId = createAction(
   `[${managersFeatureKey}] SAVE_STORY_ID`,
   props<{
     id: number;
+  }>()
+);
+export const editChapter = createAction(
+  `[${managersFeatureKey}] EDIT_CHAPTER`,
+  props<{
+    id: number;
+    chapter: IChapterCreate;
+  }>()
+);
+export const createChapter = createAction(
+  `[${managersFeatureKey}] CREATE_CHAPTER`,
+  props<{
+    chapter: IChapterCreate;
   }>()
 );

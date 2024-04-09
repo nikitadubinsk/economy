@@ -6,17 +6,20 @@ import {
 } from '@angular/core';
 import { UntypedFormBuilder } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
-import { loadTransactions } from '../../../store';
+import { deleteTransaction, loadTransactions } from '../../../store';
 import {
   transactionsLoader,
   transactions,
+  transactionsPage,
+  transactionsTotalPages,
 } from '../../../store/users.selector';
-import { Subject } from 'rxjs';
+import { Subject, combineLatest } from 'rxjs';
 import {
   takeUntil,
   filter,
   debounceTime,
   distinctUntilChanged,
+  map,
 } from 'rxjs/operators';
 import { isEqual } from 'src/app/utils/is-equal.util';
 
@@ -29,6 +32,13 @@ import { isEqual } from 'src/app/utils/is-equal.util';
 export class UserTransactionsComponent implements OnInit, OnDestroy {
   transactionsLoader$ = this.store$.pipe(select(transactionsLoader));
   transactions$ = this.store$.pipe(select(transactions));
+  transactionsTotalPages$ = this.store$.pipe(select(transactionsTotalPages));
+  transactionsPage$ = this.store$.pipe(select(transactionsPage));
+
+  isShowStub$ = combineLatest([
+    this.transactions$,
+    this.transactionsLoader$,
+  ]).pipe(map(([transactions, loader]) => !transactions.length && !loader));
 
   private destroy$ = new Subject<void>();
 
@@ -48,20 +58,21 @@ export class UserTransactionsComponent implements OnInit, OnDestroy {
     this.filterForm.valueChanges
       .pipe(
         distinctUntilChanged(isEqual),
-        debounceTime(500),
+        debounceTime(1000),
         takeUntil(this.destroy$)
       )
-      .subscribe((filter) =>
+      .subscribe((filter) => {
         this.store$.dispatch(
           loadTransactions({
             filter: {
-              ...filter,
-              date: filter.date.toString(),
+              name: filter?.name,
+              dateFrom: filter?.date?.from.toString(),
+              dateTo: filter?.date?.to.toString(),
               page: 0,
             },
           })
-        )
-      );
+        );
+      });
   }
 
   goToPage(page: number) {
@@ -73,6 +84,10 @@ export class UserTransactionsComponent implements OnInit, OnDestroy {
         },
       })
     );
+  }
+
+  delete(id: number) {
+    this.store$.dispatch(deleteTransaction({ id }));
   }
 
   ngOnDestroy(): void {}

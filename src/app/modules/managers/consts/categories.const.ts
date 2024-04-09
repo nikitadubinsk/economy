@@ -11,6 +11,6 @@ export const STORY_CATEGORIES: ISimpleItem[] = [
   },
   {
     id: 3,
-    name: 'Взрослые',
+    name: 'Родитель',
   },
 ];

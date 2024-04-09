@@ -8,12 +8,14 @@ import {
   OnDestroy,
   OnChanges,
   SimpleChanges,
+  Inject,
 } from '@angular/core';
 import { UntypedFormBuilder } from '@angular/forms';
-import { Store } from '@ngrx/store';
 import { IManagerChapter } from 'src/app/models';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { DomSanitizer } from '@angular/platform-browser';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-chapter-card',
@@ -37,8 +39,8 @@ export class ChapterCardComponent implements OnChanges, OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
   constructor(
-    private readonly store$: Store,
-    private readonly fb: UntypedFormBuilder
+    private readonly fb: UntypedFormBuilder,
+    @Inject(DomSanitizer) private readonly sanitizer: DomSanitizer
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -70,7 +72,7 @@ export class ChapterCardComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   convertImg(img: string) {
-    return `url(${img}) no-repeat center top / cover`;
+    return `url(${environment.BASE_URL}/file/${img}) no-repeat center top / cover`;
   }
 
   ngOnDestroy(): void {

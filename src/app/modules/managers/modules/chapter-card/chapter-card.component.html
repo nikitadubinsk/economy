@@ -30,9 +30,9 @@
                     let idx = index
                   "
                 >
-                  <p class="answer tui-text_body-l">
+                  <button tuiButton size="s" class="max_width tui-space_bottom-2" [appearance]="(chapter.question?.correctAnswer === (idx+1)) ? 'primary' : 'whiteblock-active'">
                     {{ answer }}
-                  </p>
+                  </button>
                 </div>
               </div>
             </ng-template>

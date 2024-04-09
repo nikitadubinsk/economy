@@ -10,6 +10,9 @@ import {
 import { AccountPageComponent } from './account-page.component';
 import { AccountPageRoutingModule } from './account-page.router';
 import { RouterModule } from '@angular/router';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
+import { UsersEffects, usersFeatureKey, usersReducer } from '../../../store';
 
 export const TUI_MODULES = [
   TuiTabsModule,
@@ -27,6 +30,8 @@ export const TUI_MODULES = [
     RouterModule,
     AccountPageRoutingModule,
     ...TUI_MODULES,
+    StoreModule.forFeature(usersFeatureKey, usersReducer),
+    EffectsModule.forFeature([UsersEffects]),
   ],
 })
 export class AccountPageModule {}

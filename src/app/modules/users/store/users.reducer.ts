@@ -21,6 +21,7 @@ import {
   loadedTransactions,
   loadedUser,
   loadedUserStatistic,
+  openStory,
 } from './users.actions';
 import { initialState, UsersState } from './users.state';
 
@@ -35,18 +36,20 @@ const reducer = createReducer(
     stories,
     storiesLoader: false,
   })),
-  on(loadTransactions, (state) => ({
+  on(loadTransactions, (state, { filter }) => ({
     ...state,
     transactionsInfo: {
       ...state.transactionsInfo,
       loader: true,
+      filter,
     },
   })),
-  on(loadedTransactions, (state, { transactions }) => ({
+  on(loadedTransactions, (state, { transactions, totalPages }) => ({
     ...state,
     transactionsInfo: {
       ...state.transactionsInfo,
       transactions,
+      totalPages,
       loader: false,
     },
   })),
@@ -63,8 +66,12 @@ const reducer = createReducer(
     ...state,
     story: null,
   })),
-  on(loadUserStatistic, (state) => ({
+  on(loadUserStatistic, (state, { from, to }) => ({
     ...state,
+    userStatisticFilters: {
+      from,
+      to,
+    },
     userStatisticLoader: true,
   })),
   on(loadedUserStatistic, (state, { statistic }) => ({
@@ -96,6 +103,10 @@ const reducer = createReducer(
       ...state.childrensInfo,
       loader: true,
     },
+  })),
+  on(openStory, (state, { id }) => ({
+    ...state,
+    storyId: id,
   })),
   on(loadedChildrens, (state, { childrens }) => ({
     ...state,

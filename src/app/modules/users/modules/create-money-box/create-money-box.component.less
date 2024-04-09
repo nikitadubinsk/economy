@@ -2,5 +2,29 @@
 @import "@taiga-ui/styles/taiga-ui-global";
 
 :host {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: var(--tui-primary);
+    padding: 2% 0;
+    @media screen and (max-width: 800px) {
+        padding: 10% 0;
+    }
+    width: 100vw;
+    overflow: hidden;
+}
+
+.account_section {
+    border-radius: 10px;
+    min-height: 90vh;
+    width: 80vw;
+    background: var(--tui-base-01);
+    padding: 2rem;
+    .shadow(3);
+    box-sizing: border-box;
+
+    @media screen and (max-width: 800px) {
+        width: 96vw;
+    }
 }

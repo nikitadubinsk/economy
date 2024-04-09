@@ -1,12 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  TuiArcChartModule,
-  TuiAxesModule,
-  TuiBarChartModule,
-  TuiLegendItemModule,
-  TuiRingChartModule,
-} from '@taiga-ui/addon-charts';
 
 import { TetriaryMenuModule } from 'src/app/modules/shared/components/tetriary-menu/tetriary-menu.module';
 import { StoreModule } from '@ngrx/store';
@@ -17,7 +10,6 @@ import {
   TuiButtonModule,
   TuiGroupModule,
   TuiLoaderModule,
-  TuiTextfieldControllerModule,
 } from '@taiga-ui/core';
 import { StoryModule } from 'src/app/modules/shared/components/story/story.module';
 import {
@@ -38,6 +30,7 @@ import { EditStoryModule } from '../edit-story/edit-story.module';
 import { StoryInfoComponent } from './story-info.component';
 import { StoryInfoRoutingModule } from './story-info.router';
 import { ChapterCardModule } from '../chapter-card/chapter-card.module';
+import { StubModule } from 'src/app/modules/shared/components/stub/stub.module';
 
 export const TUI_MODULES = [
   TuiLoaderModule,
@@ -58,6 +51,7 @@ export const TUI_MODULES = [
     TetriaryMenuModule,
     StoryModule,
     FormsModule,
+    StubModule,
     ReactiveFormsModule,
     StoryCardModule,
     DragDropModule,

@@ -15,6 +15,7 @@ import { UserTransactionsRoutingModule } from './user-transactions.router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TuiRepeatTimesModule } from '@taiga-ui/cdk';
 import { TuiMoneyModule } from '@taiga-ui/addon-commerce';
+import { StubModule } from 'src/app/modules/shared/components/stub/stub.module';
 
 export const TUI_MODULES = [
   TuiLoaderModule,
@@ -33,6 +34,7 @@ export const TUI_MODULES = [
     CommonModule,
     UserTransactionsRoutingModule,
     FormsModule,
+    StubModule,
     ReactiveFormsModule,
     ...TUI_MODULES,
     StoreModule.forFeature(usersFeatureKey, usersReducer),

@@ -1,0 +1,12 @@
+<app-tetriary-menu title="Тарифы системы">
+    <button tuiButton type="button" size="s" (click)="createRate()">Добавить новый тариф</button>
+</app-tetriary-menu>
+
+<tui-loader [showLoader]="true" *ngIf="loadingRates$ | async; else rates" size="xxl"></tui-loader>
+
+<ng-template #rates>
+    <div class="rates">
+        <app-admin-rate-card *ngFor="let rate of rates$ | async" [rate]="rate"></app-admin-rate-card>
+    </div>
+</ng-template>
+

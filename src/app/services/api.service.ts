@@ -8,6 +8,7 @@ import { IDictionary } from '../models/dictionary.model';
 import { IParams } from '../models/type.model';
 import { IApiResponse, IHttpMetaData } from '../models/api.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { TuiFileLike } from '@taiga-ui/kit';
 
 export interface IHttpParams {
   [key: string]: string | string[];

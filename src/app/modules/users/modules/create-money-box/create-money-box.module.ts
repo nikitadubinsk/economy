@@ -24,6 +24,7 @@ import {
 } from '@taiga-ui/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CreateMoneyBoxComponent } from './create-money-box.component';
+import { CreateMoneyBoxRoutingModule } from './create-money-box.router';
 
 export const TUI_MODULES = [
   TuiProgressModule,
@@ -48,6 +49,7 @@ export const TUI_MODULES = [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    CreateMoneyBoxRoutingModule,
     ...TUI_MODULES,
     StoreModule.forFeature(usersFeatureKey, usersReducer),
     EffectsModule.forFeature([UsersEffects]),

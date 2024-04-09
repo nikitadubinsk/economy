@@ -2,7 +2,9 @@ import { Action, createReducer, on } from '@ngrx/store';
 import { ManagersState, initialState } from './managers.state';
 import {
   changeWeightStoriesSuccess,
+  createChapter,
   createStory,
+  editChapter,
   editStory,
   loadChapterById,
   loadChapters,
@@ -16,7 +18,6 @@ import {
   resetStory,
   saveNewWeight,
   saveStoryId,
-  selectChapter,
   turnOffLoaderButton,
 } from './managers.actions';
 
@@ -78,6 +79,14 @@ const reducer = createReducer(
     story: null,
   })),
   on(createStory, (state) => ({
+    ...state,
+    loaderButton: true,
+  })),
+  on(createChapter, (state) => ({
+    ...state,
+    loaderButton: true,
+  })),
+  on(editChapter, (state) => ({
     ...state,
     loaderButton: true,
   })),

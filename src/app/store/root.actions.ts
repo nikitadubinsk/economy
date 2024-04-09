@@ -3,6 +3,7 @@ import { NavigationPayload } from '../models';
 import { rootFeatureKey } from './root.selector';
 import { TuiAlertOptions } from '@taiga-ui/core';
 import { TuiFileLike } from '@taiga-ui/kit';
+import { IRegisrtation } from '../models/auth.model';
 
 export const navigateTo = createAction(
   `[${rootFeatureKey}] NAVIGATE_TO`,
@@ -26,13 +27,19 @@ export const showInfoMessage = createAction(
 );
 
 export const loadRates = createAction(`[${rootFeatureKey}] LOAD_RATES`);
-// export const registrateUser = createAction(`[${rootFeatureKey}] REGISTRATION_USER`, props<{info: IRegisrtation}>());
+export const registrateUser = createAction(
+  `[${rootFeatureKey}] REGISTRATION_USER`,
+  props<{ info: IRegisrtation }>()
+);
 export const loadUserInfo = createAction(
   `[${rootFeatureKey}] LOAD_ROOT_USER_INFO`
 );
+export const loadPeopleInfo = createAction(
+  `[${rootFeatureKey}] LOAD_PEOPLE_INFO`
+);
 export const loadedUserInfo = createAction(
   `[${rootFeatureKey}] LOADED_ROOT_USER_INFO`,
-  props<{ name: string; role: string; operatorRoles: string[] }>()
+  props<{ name: string; role: string; operatorRoles?: string[] }>()
 );
 export const auth = createAction(
   `[${rootFeatureKey}] AUTH_USER`,
@@ -72,7 +79,7 @@ export const resetPassword = createAction(
 export const loadImage = createAction(
   `[${rootFeatureKey}] LOAD_IMAGE`,
   props<{
-    file: TuiFileLike;
+    file: File;
   }>()
 );
 export const loadedImage = createAction(
@@ -80,4 +87,7 @@ export const loadedImage = createAction(
   props<{
     name: string;
   }>()
+);
+export const resetImageName = createAction(
+  `[${rootFeatureKey}] RESET_IMAGE_NAME`
 );

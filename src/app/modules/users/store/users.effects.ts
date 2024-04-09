@@ -1,5 +1,5 @@
 import { Inject, Injectable, Injector } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { TuiDialogService } from '@taiga-ui/core';
 import {
@@ -9,6 +9,7 @@ import {
   createTransaction,
   deleteChildren,
   deleteMoneyBox,
+  deleteTransaction,
   editMoneyBox,
   loadAwards,
   loadChildrenStatistics,
@@ -33,7 +34,7 @@ import {
   openCreateNewTransactionPopup,
   openStory,
 } from './users.actions';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, filter, map, switchMap, take } from 'rxjs/operators';
 import { ApiUsersService } from '../services/api-users.service';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { StoryCardComponent } from '../modules/story-card/story-card.component';
@@ -49,6 +50,8 @@ import { EditMoneyBoxComponent } from '../modules/edit-money-box/edit-money-box.
 import { ACTIONS } from '../consts/action.const';
 import { CreateMoneyBoxComponent } from '../modules/create-money-box/create-money-box.component';
 import { AddChildrenComponent } from '../modules/add-children/add-children.component';
+import { transactionsFilter, userStatisticsFilters } from './users.selector';
+import { tuiIsPresent } from '@taiga-ui/cdk';
 
 @Injectable()
 export class UsersEffects {
@@ -69,8 +72,15 @@ export class UsersEffects {
       ofType(loadTransactions),
       switchMap(({ filter }) =>
         this.apiUsersService.getTransaction(filter).pipe(
-          map((transactions) => loadedTransactions({ transactions })),
-          catchError(() => [loadedTransactions({ transactions: [] })])
+          map(({ data, meta }) =>
+            loadedTransactions({
+              transactions: data,
+              totalPages: meta?.pageable?.totalPages || 0,
+            })
+          ),
+          catchError(() => [
+            loadedTransactions({ transactions: [], totalPages: 0 }),
+          ])
         )
       )
     )
@@ -158,13 +168,23 @@ export class UsersEffects {
             size: 'm',
           }),
           of(id),
+          this.store$.pipe(
+            select(userStatisticsFilters),
+            take(1),
+            filter(tuiIsPresent)
+          ),
         ])
       ),
-      switchMap(([flag, id]) =>
-        flag ? this.apiUsersService.deleteMoneyBox(id) : EMPTY
+      switchMap(([flag, id, filters]) =>
+        forkJoin([
+          of(filters),
+          flag ? this.apiUsersService.deleteMoneyBox(id) : EMPTY,
+        ])
       ),
-      switchMap(() => [
+      switchMap(([{ from, to }]) => [
         loadMoneyBoxes(),
+        loadTransactions({ filter: {} }),
+        loadUserStatistic({ from, to }),
         showSuccessMessage({ message: 'Вы успешно удалили копилку' }),
       ])
     )
@@ -190,20 +210,29 @@ export class UsersEffects {
     this.actions$.pipe(
       ofType(editMoneyBox),
       switchMap(({ id, action }) =>
-        this.dialogService.open<{ action: ACTIONS; id: number; sum: number }>(
-          new PolymorpheusComponent(EditMoneyBoxComponent, this.injector),
-          {
-            data: {
-              id,
-              action,
-            },
-          }
-        )
+        forkJoin([
+          this.dialogService.open<{ action: ACTIONS; id: number; sum: number }>(
+            new PolymorpheusComponent(EditMoneyBoxComponent, this.injector),
+            {
+              data: {
+                id,
+                action,
+              },
+            }
+          ),
+          this.store$.pipe(
+            select(userStatisticsFilters),
+            take(1),
+            filter(tuiIsPresent)
+          ),
+        ])
       ),
-      switchMap(({ action, id, sum }) =>
+      switchMap(([{ action, id, sum }, { from, to }]) =>
         this.apiUsersService.editMoneyBox(action, id, sum).pipe(
           switchMap(() => [
             loadMoneyBoxes(),
+            loadUserStatistic({ from, to }),
+            loadTransactions({ filter: {} }),
             showSuccessMessage({
               message: `Вы успешно ${
                 action === ACTIONS.ADD ? 'положили' : 'взяли'
@@ -219,18 +248,25 @@ export class UsersEffects {
     this.actions$.pipe(
       ofType(addReceipt),
       switchMap(() =>
-        this.dialogService.open<{ sum: number }>(
-          new PolymorpheusComponent(EditMoneyBoxComponent, this.injector),
-          {}
-        )
+        forkJoin([
+          this.dialogService.open<{ sum: number }>(
+            new PolymorpheusComponent(EditMoneyBoxComponent, this.injector),
+            {}
+          ),
+          this.store$.pipe(
+            select(userStatisticsFilters),
+            take(1),
+            filter(tuiIsPresent)
+          ),
+        ])
       ),
-      switchMap(({ sum }) =>
+      switchMap(([{ sum }, { from, to }]) =>
         this.apiUsersService
           .addReceipt(sum)
           .pipe(
             switchMap(() => [
               loadTransactions({ filter: {} }),
-              loadUserStatistic({}),
+              loadUserStatistic({ from, to }),
               showSuccessMessage({ message: `Вы успешно добавили ${sum}₽` }),
             ])
           )
@@ -241,22 +277,15 @@ export class UsersEffects {
   createMoneyBox$ = createEffect(() =>
     this.actions$.pipe(
       ofType(createMoneyBox),
-      switchMap(() =>
-        this.dialogService.open<{ action: ACTIONS; id: number; sum: number }>(
-          new PolymorpheusComponent(CreateMoneyBoxComponent, this.injector)
-        )
-      ),
-      switchMap(({ action, id, sum }) =>
-        this.apiUsersService.editMoneyBox(action, id, sum).pipe(
-          switchMap(() => [
-            loadMoneyBoxes(),
-            showSuccessMessage({
-              message: `Вы успешно ${
-                action === ACTIONS.ADD ? 'положили' : 'взяли'
-              } ${sum}₽`,
-            }),
-          ])
-        )
+      switchMap(({ moneyBox }) =>
+        this.apiUsersService
+          .createMoneyBox(moneyBox)
+          .pipe(
+            switchMap(() => [
+              navigateTo({ payload: { path: ['users'] } }),
+              showSuccessMessage({ message: 'Вы успешно создали копилку' }),
+            ])
+          )
       )
     )
   );
@@ -366,6 +395,32 @@ export class UsersEffects {
             }),
           ])
         )
+      )
+    )
+  );
+
+  deleteTransaction$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(deleteTransaction),
+      switchMap((data) =>
+        forkJoin([
+          this.store$.pipe(
+            select(transactionsFilter),
+            take(1),
+            filter(tuiIsPresent)
+          ),
+          of(data),
+        ])
+      ),
+      switchMap(([filter, { id }]) =>
+        this.apiUsersService
+          .deleteTransaction(id)
+          .pipe(
+            switchMap(() => [
+              showSuccessMessage({ message: 'Вы успешно удалили транзакцию' }),
+              loadTransactions({ filter }),
+            ])
+          )
       )
     )
   );

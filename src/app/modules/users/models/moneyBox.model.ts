@@ -11,3 +11,9 @@ export interface IMoneyBoxDate {
   dateStart: string;
   dateEnd: string;
 }
+
+export interface IMoneyBoxCreate {
+  name: string;
+  sum: number;
+  date?: string;
+}

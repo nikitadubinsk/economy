@@ -10,8 +10,8 @@
 ></tui-loader>
 
 <ng-template #chaptersInfo>
-  <div *tuiLet="chapters$ | async as chapters">
-    <div tuiCarouselButtons class="wrapper">
+  <div *tuiLet="chapters$ | async as chapters" class="a">
+    <div tuiCarouselButtons class="wrapper" *ngIf="chapters?.length; else stub">
       <button
         icon="tuiIconChevronLeftLarge"
         title="Previous"
@@ -22,7 +22,7 @@
       ></button>
       <tui-carousel
         [draggable]="true"
-        [itemsCount]="carouselCount"
+        [itemsCount]="min(carouselCount, chapters?.length || 0)"
         [(index)]="index"
         #carousel
         class="carousel"
@@ -49,6 +49,9 @@
         [disabled]="index === (chapters?.length || 0) - carouselCount"
       ></button>
     </div>
+    <ng-template #stub>
+      <app-stub *ngIf="isShowStub$ | async" header="Нет добавленных историй" description="Добавьте новую"></app-stub>
+    </ng-template>
     <tui-pagination
       size="s"
       class="pagination tui-space_top-6"

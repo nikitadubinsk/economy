@@ -4,13 +4,13 @@ const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Users extends Model {
     static associate(models) {
-      Users.hasOne(models.Finances, {
-        foreignKey: "userId",
-        as: "user",
-      });
       Users.belongsTo(models.Roles, {
         foreignKey: "roleId",
         as: "roles",
+      });
+      Users.hasOne(models.Clients, {
+        foreignKey: "userId",
+        as: "user",
       });
     }
   }
@@ -32,11 +32,15 @@ module.exports = (sequelize, DataTypes) => {
       },
       roleId: {
         type: DataTypes.INTEGER,
-        allowNull: true
+        allowNull: false
       },
       password: {
         type: DataTypes.STRING,
         allowNull: false
+      },
+      photo: {
+        type: DataTypes.STRING,
+        allowNull: true
       },
     },
     {
