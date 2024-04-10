@@ -1,8 +1,8 @@
 {
   "development": {
-    "username": "a0936510_economy",
+    "username": "a0942858_economy",
     "password": "Qq123456",
-    "database": "a0936510_economy",
+    "database": "a0942858_economy",
     "host": "localhost",
     "dialect": "mysql"
   }

@@ -19,8 +19,8 @@ const userRouter = require("./routers/userRouter");
 const operatorRouter = require("./routers/operatorRouter");
 
 const CONFIG = {
-  DB: "a0936510_economy",
-  USERNAME: "a0936510_economy",
+  DB: "a0942858_economy",
+  USERNAME: "a0942858_economy",
   PASSWORD: "Qq123456",
   DIALECT: "mysql",
   HOST: "localhost",
