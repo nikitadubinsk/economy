@@ -1,5 +1,5 @@
 const express = require("express");
-const PORT = 3500;
+const PORT = 80;
 const app = express();
 const history = require("connect-history-api-fallback");
 const serveStatic = require("serve-static");
